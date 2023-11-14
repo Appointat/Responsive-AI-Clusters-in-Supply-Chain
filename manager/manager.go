@@ -1,6 +1,9 @@
 package manager
 
 import (
+	"fmt"
+	"sync"
+
 	"github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/product"
 )
 
@@ -10,13 +13,28 @@ type Manager struct {
 	resources map[string]product.Product
 }
 
+var (
+	instance *Manager
+	once     sync.Once
+)
+
+// Singleton Pattern
+func GetManagerInstanceDefault() *Manager {
+	once.Do(func() {
+		instance = &Manager{}
+	})
+	return instance
+}
+
 // Initialize with Values
-func NewManager(managerID string, location string) *Manager {
-	instance := &Manager{
-		managerID: managerID,
-		location:  location,
-		resources: make(map[string]product.Product),
-	}
+func GetManagerInstance(managerID string, location string) *Manager {
+	once.Do(func() {
+		instance = &Manager{
+			managerID: managerID,
+			location:  location,
+			resources: make(map[string]product.Product),
+		}
+	})
 	return instance
 }
 
@@ -39,3 +57,8 @@ func (m Manager) GetNumebrOfProducts(NameofProduct string) int {
 }
 
 //TODO: Add a method to accept the request of the replenishment from the shop
+
+// With *, because we want to modify the value of the product
+func (m *Manager) HandleEventNotification(event string) {
+	fmt.Println("Manager " + m.managerID + " at " + m.location + " received notification of event " + event)
+}
