@@ -5,16 +5,16 @@ package product
 
 type Product struct {
 	productName        string
-	Number             int
+	number             int
 	replenishment_rate int //the number of products that can be replenished per day
 	max_stock          int //the maximum number of products that can be stored
 }
 
 // Initialize with Values
-func NewProduct(productName string, Number int, replenishment_rate int, max_stock int) *Product {
+func NewProduct(productName string, number int, replenishment_rate int, max_stock int) *Product {
 	instance := &Product{
 		productName:        productName,
-		Number:             Number,
+		number:             number,
 		replenishment_rate: replenishment_rate,
 		max_stock:          max_stock,
 	}
@@ -27,7 +27,7 @@ func (p Product) GetProductName() string {
 }
 
 func (p Product) GetNumber() int {
-	return p.Number
+	return p.number
 }
 
 func (p Product) GetReplenishment_rate() int {
@@ -44,7 +44,7 @@ func (p *Product) SetProductName(productName string) {
 }
 
 func (p *Product) SetNumber(Number int) {
-	p.Number = Number
+	p.number = Number
 }
 
 func (p *Product) SetReplenishment_rate(replenishment_rate int) {

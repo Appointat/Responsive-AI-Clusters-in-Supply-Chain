@@ -22,43 +22,18 @@ var HolidayEvents = map[string]time.Time{
 	"New Year's Eve":       time.Date(2023, 12, 31, 0, 0, 0, 0, time.UTC),
 	"Chinese National Day": time.Date(2023, 10, 1, 0, 0, 0, 0, time.UTC),
 	"Test1":                time.Date(2023, 11, 15, 0, 0, 0, 0, time.UTC),
-	"Test2":                time.Date(2023, 11, 16, 0, 0, 0, 0, time.UTC),
-	"Test3":                time.Date(2023, 11, 17, 0, 0, 0, 0, time.UTC),
-	"Test4":                time.Date(2023, 11, 18, 0, 0, 0, 0, time.UTC),
-	"Test5":                time.Date(2023, 11, 19, 0, 0, 0, 0, time.UTC),
-	"Test6":                time.Date(2023, 11, 20, 0, 0, 0, 0, time.UTC),
-	"Test7":                time.Date(2023, 11, 21, 0, 0, 0, 0, time.UTC),
-	"Test8":                time.Date(2023, 11, 22, 0, 0, 0, 0, time.UTC),
-	"Test9":                time.Date(2023, 11, 23, 0, 0, 0, 0, time.UTC),
-	"Test10":               time.Date(2023, 11, 24, 0, 0, 0, 0, time.UTC),
-	"Test11":               time.Date(2023, 11, 25, 0, 0, 0, 0, time.UTC),
-	"Test12":               time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),
-	"Test13":               time.Date(2023, 11, 27, 0, 0, 0, 0, time.UTC),
-	"Test14":               time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
-	"Test15":               time.Date(2023, 11, 29, 0, 0, 0, 0, time.UTC),
-	"Test16":               time.Date(2023, 11, 30, 0, 0, 0, 0, time.UTC),
-	"Test17":               time.Date(2023, 12, 1, 0, 0, 0, 0, time.UTC),
-	"Test18":               time.Date(2023, 12, 2, 0, 0, 0, 0, time.UTC),
-	"Test19":               time.Date(2023, 12, 3, 0, 0, 0, 0, time.UTC),
-	"Test20":               time.Date(2023, 12, 4, 0, 0, 0, 0, time.UTC),
-	"Test21":               time.Date(2023, 12, 5, 0, 0, 0, 0, time.UTC),
-	"Test22":               time.Date(2023, 12, 6, 0, 0, 0, 0, time.UTC),
-	"Test23":               time.Date(2023, 12, 7, 0, 0, 0, 0, time.UTC),
-	"Test24":               time.Date(2023, 12, 8, 0, 0, 0, 0, time.UTC),
-	"Test25":               time.Date(2023, 12, 9, 0, 0, 0, 0, time.UTC),
-	"Test26":               time.Date(2023, 12, 10, 0, 0, 0, 0, time.UTC),
 }
 
 type Shop struct {
 	shopID   string
 	location string
 
-	inventory map[string]product.Product
+	inventory map[string]*product.Product
 
 	numberofEvents int      //the number of events that the shop is observing
 	observedEvents []string //the events that the shop is observing
 
-	notifyManager func(string)
+	notifyManager func(string, map[string]*product.Product) *manager.Response
 }
 
 var (
@@ -131,7 +106,7 @@ func NewShop(shopID string, location string, numberofEvents int) *Shop {
 	instance := &Shop{
 		shopID:         shopID,
 		location:       location,
-		inventory:      make(map[string]product.Product),
+		inventory:      make(map[string]*product.Product),
 		numberofEvents: numberofEvents,
 		observedEvents: observedEvents,
 		notifyManager:  notifyFunc,
@@ -170,12 +145,30 @@ func (s *Shop) AddEvent(event string) {
 
 func (s *Shop) CheckAndNotify(date time.Time) {
 	defer wg.Done()
-
+	eventOccurred := false
+	var eventToNotify string
 	for _, event := range s.observedEvents {
 		if eventDate, ok := HolidayEvents[event]; ok {
 			if eventDate.Month() == date.Month() && eventDate.Day() == date.Day() {
-				s.notifyManager(event)
+				//if the matching event appears
+				eventOccurred = true
+				eventToNotify = event
+				break
 			}
+		}
+	}
+	//Events check terminated
+
+	var response *manager.Response
+	if eventOccurred {
+		response = s.notifyManager(eventToNotify, s.inventory)
+	} else {
+		response = s.notifyManager("", s.inventory)
+	}
+
+	if response != nil && response.Error == nil {
+		for name, quantity := range response.Replenishments {
+			s.inventory[name].SetNumber(s.inventory[name].GetNumber() + quantity)
 		}
 	}
 }
