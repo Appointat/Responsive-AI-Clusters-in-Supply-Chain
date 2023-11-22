@@ -4,34 +4,40 @@ package product
 //And it's included by outlet.go and central_hub.go
 
 type Product struct {
-	productName        string
-	number             int
-	replenishment_rate int //the number of products that can be replenished per day
-	max_stock          int //the maximum number of products that can be stored
+	productID         string
+	productName       string
+	quantity          int
+	replenishmentRate int //the number of products that can be replenished per day
+	max_stock         int //the maximum number of products that can be stored
 }
 
 // Initialize with Values
-func NewProduct(productName string, number int, replenishment_rate int, max_stock int) *Product {
+func NewProduct(productID string, productName string, quantity int, replenishmentRate int, max_stock int) *Product {
 	instance := &Product{
-		productName:        productName,
-		number:             number,
-		replenishment_rate: replenishment_rate,
-		max_stock:          max_stock,
+		productID:         productID,
+		productName:       productName,
+		quantity:          quantity,
+		replenishmentRate: replenishmentRate,
+		max_stock:         max_stock,
 	}
 	return instance
 }
 
 // Getters
+func (p Product) GetProductID() string {
+	return p.productID
+}
+
 func (p Product) GetProductName() string {
 	return p.productName
 }
 
 func (p Product) GetNumber() int {
-	return p.number
+	return p.quantity
 }
 
 func (p Product) GetReplenishmentRate() int {
-	return p.replenishment_rate
+	return p.replenishmentRate
 }
 
 func (p Product) GetMax_stock() int {
@@ -39,16 +45,20 @@ func (p Product) GetMax_stock() int {
 }
 
 // Setters
+func (p *Product) SetProductID(productID string) {
+	p.productID = productID
+}
+
 func (p *Product) SetProductName(productName string) {
 	p.productName = productName
 }
 
-func (p *Product) SetNumber(Number int) {
-	p.number = Number
+func (p *Product) SetNumber(Quantity int) {
+	p.quantity = Quantity
 }
 
 func (p *Product) SetReplenishmentRate(replenishment_rate int) {
-	p.replenishment_rate = replenishment_rate
+	p.replenishmentRate = replenishment_rate
 }
 
 func (p *Product) SetMaxStock(max_stock int) {
