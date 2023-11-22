@@ -1,7 +1,7 @@
 package outlet
 
 import (
-	"math/rand"
+	"fmt"
 	"sync"
 	"time"
 
@@ -9,56 +9,53 @@ import (
 	"github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/product"
 )
 
-// HolidayEvents maps event names to their dates.
-var HolidayEvents = map[string]time.Time{
-	"New Year's Day":    time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	"Valentine's Day":   time.Date(2023, 2, 14, 0, 0, 0, 0, time.UTC),
-	"St. Patrick's Day": time.Date(2023, 3, 17, 0, 0, 0, 0, time.UTC),
-	// ... (other events) ...
-	"Chinese National Day": time.Date(2023, 10, 1, 0, 0, 0, 0, time.UTC),
-	"Test2":                time.Date(2023, 11, 30, 0, 0, 0, 0, time.UTC),
-}
-
 type Outlet struct {
 	outletID         string
 	location         string
 	inventory        map[string]*product.Product
 	numberOfEvents   int
-	observedEvents   []string
+	events           map[string]time.Time
 	notifyCentralHub func(string, map[string]*product.Product) *centralhub.Response
 }
 
 var (
+	initDate    time.Time
 	currentDate time.Time
 	dateMutex   sync.Mutex
 	once        sync.Once
-	wg          sync.WaitGroup
 	ticker      *time.Ticker
 	allOutlets  []*Outlet
 )
 
-func init() {
-	// Initialize the HolidayEvents with the current year.
-	currentYear := time.Now().Year()
-	for k, v := range HolidayEvents {
-		HolidayEvents[k] = time.Date(currentYear, v.Month(), v.Day(), 0, 0, 0, 0, time.UTC)
-	}
-
+func init() { // Single Agent
 	once.Do(func() {
-		currentDate = time.Now()
+		initDate = time.Now()
 		ticker = time.NewTicker(time.Second * 1)
+
 		go func() {
+			defer ticker.Stop()
 			for range ticker.C {
-				dateMutex.Lock()
-				currentDate = currentDate.AddDate(0, 0, 1)
-				dateMutex.Unlock()
+				_allOutlets := make([]*Outlet, len(allOutlets))
+				copy(_allOutlets, allOutlets)
 
-				wg.Add(len(allOutlets))
-				for _, o := range allOutlets {
-					go o.CheckAndNotify(currentDate)
+				localWg := new(sync.WaitGroup)
+				localWg.Add(len(_allOutlets))
+
+				for _, outlet := range _allOutlets {
+					go func(outlet *Outlet) {
+						defer localWg.Done()
+
+						// Get the virtual current date
+						diff := time.Since(initDate)
+						seconds := int(diff.Seconds())
+						factor := 3600 * 24 // 1 day
+						virtualSeconds := seconds * factor
+						currentDate := initDate.Add(time.Second * time.Duration(virtualSeconds))
+
+						outlet.CheckAndNotify(currentDate)
+					}(outlet)
 				}
-
-				wg.Wait()
+				localWg.Wait()
 			}
 		}()
 	})
@@ -70,27 +67,21 @@ func GetCurrentDate() time.Time {
 	return currentDate
 }
 
-func NewOutlet(outletID, location string, numberOfEvents int) *Outlet {
+func NewOutlet(outletID, location string, numberOfEvents int, holidayEvents map[string]time.Time) *Outlet {
 	centralHubInstance := centralhub.GetHubInstanceDefault()
 	notifyFunc := centralHubInstance.HandleEventNotification
 
-	events := make([]string, 0, len(HolidayEvents))
-	for k := range HolidayEvents {
-		events = append(events, k)
-	}
-
-	rand.Seed(time.Now().UnixNano())
-	observedEvents := make([]string, numberOfEvents)
-	for i := 0; i < numberOfEvents; i++ {
-		observedEvents[i] = events[rand.Intn(len(events))]
+	events := make(map[string]time.Time)
+	for event, eventDate := range holidayEvents {
+		events[event] = eventDate
 	}
 
 	o := &Outlet{
 		outletID:         outletID,
 		location:         location,
-		inventory:        make(map[string]*product.Product),
+		inventory:        make(map[string]*product.Product), // TODO: initialize with products
 		numberOfEvents:   numberOfEvents,
-		observedEvents:   observedEvents,
+		events:           events,
 		notifyCentralHub: notifyFunc,
 	}
 
@@ -113,24 +104,17 @@ func (o *Outlet) GetNumberOfProducts(productName string) int {
 	return -1
 }
 
-func (o *Outlet) AddEvent(event string) {
-	o.observedEvents = append(o.observedEvents, event)
-}
-
 func (o *Outlet) CheckAndNotify(date time.Time) {
-	defer wg.Done()
-
 	eventOccurred := false
 	var eventToNotify string
 
-	for _, event := range o.observedEvents {
-		if eventDate, ok := HolidayEvents[event]; ok {
-			if eventDate.Month() == date.Month() && eventDate.Day() == date.Day() {
-				//if the matching event appears
-				eventOccurred = true
-				eventToNotify = event
-				break
-			}
+	for event, eventDate := range o.events {
+		if eventDate.Year() == date.Year() && eventDate.Month() == date.Month() && eventDate.Day() == date.Day() {
+			//if the matching event appears
+			eventOccurred = true
+			eventToNotify = event
+			fmt.Println("Event occurred:", event)
+			break
 		}
 	}
 

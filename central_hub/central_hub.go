@@ -78,7 +78,9 @@ func (h *CentralHub) HandleEventNotification(event string, shopInventory map[str
 		}
 	}
 
-	fmt.Printf("Central Hub %s at %s received notification of event %s\n", h.hubID, h.location, event)
+	if event != "" {
+		fmt.Printf("Central Hub %s at %s received notification of event %s\n", h.hubID, h.location, event)
+	}
 
 	return &Response{
 		Replenishments: replenishments,
