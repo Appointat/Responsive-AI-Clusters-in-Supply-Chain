@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -14,13 +14,13 @@ data = {
 def get_events():
     return jsonify(data)
 
-@app.route('/events/<int:event_id>', methods=['GET'])
-def get_event(event_id):
-    event = next((event for event in data['events'] if event['id'] == event_id), None)
-    if event is not None:
-        return jsonify(event)
-    else:
-        return jsonify({"message": "Event not found"}), 404
+@app.route('/events', methods=['POST'])
+def create_event():
+    event_data = request.json
+    if event_data is None:
+        return jsonify({"message": "No input data provided"}), 400
+    data['events'].append(event_data)
+    return jsonify(event_data), 201
 
 if __name__ == '__main__':
     app.run(debug=True)

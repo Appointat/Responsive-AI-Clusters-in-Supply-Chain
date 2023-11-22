@@ -1,7 +1,6 @@
 package outlet
 
 import (
-	"fmt"
 	"sync"
 	"time"
 
@@ -113,7 +112,6 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 			//if the matching event appears
 			eventOccurred = true
 			eventToNotify = event
-			fmt.Println("Event occurred:", event)
 			break
 		}
 	}
@@ -132,4 +130,6 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 			}
 		}
 	}
+
+	// TODO: http.Post
 }

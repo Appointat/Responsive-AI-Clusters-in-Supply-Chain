@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -9,10 +10,20 @@ import (
 
 const baseURL = "http://127.0.0.1:5000"
 
-func getEvents() {
-	resp, err := http.Get(baseURL + "/events")
+func createEvent(name, date string) {
+	event := map[string]string{
+		"name": name,
+		"date": date,
+	}
+	jsonData, err := json.Marshal(event)
 	if err != nil {
-		fmt.Println("Error fetching events:", err)
+		fmt.Println("Error encoding event:", err)
+		return
+	}
+
+	resp, err := http.Post(baseURL+"/events", "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		fmt.Println("Error creating event:", err)
 		return
 	}
 	defer resp.Body.Close()
@@ -23,35 +34,10 @@ func getEvents() {
 		return
 	}
 
-	fmt.Println("Events List:")
+	fmt.Println("Create Event Response:")
 	fmt.Println(string(body))
 }
 
-func getEvent(eventID int) {
-	resp, err := http.Get(fmt.Sprintf("%s/events/%d", baseURL, eventID))
-	if err != nil {
-		fmt.Println("Error fetching event:", err)
-		return
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode == http.StatusNotFound {
-		fmt.Println("Event not found")
-		return
-	}
-
-	var event map[string]interface{}
-	err = json.NewDecoder(resp.Body).Decode(&event)
-	if err != nil {
-		fmt.Println("Error decoding event:", err)
-		return
-	}
-
-	fmt.Printf("Event Details: %+v\n", event)
-}
-
 func main() {
-	getEvents()
-
-	getEvent(1) // 假设您想获取ID为1的事件
+	createEvent("Go Conference", "2023-07-01")
 }
