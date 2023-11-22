@@ -10,10 +10,6 @@ data = {
     ]
 }
 
-@app.route('/events', methods=['GET'])
-def get_events():
-    return jsonify(data)
-
 @app.route('/events', methods=['POST'])
 def create_event():
     event_data = request.json
