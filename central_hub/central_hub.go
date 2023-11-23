@@ -40,10 +40,11 @@ type Response struct {
 }
 
 type CentralHub struct {
-	hubID      string
-	location   string
-	resources  map[string]*product.Product
-	accessLock sync.Mutex
+	hubID       string
+	location    string
+	resources   map[string]*product.Product
+	accessLock  sync.Mutex
+	aiServerURL string
 }
 
 var (
@@ -54,7 +55,9 @@ var (
 // Singleton Pattern
 func GetHubInstanceDefault() *CentralHub {
 	once.Do(func() {
-		instance = &CentralHub{}
+		instance = &CentralHub{
+			aiServerURL: "http://localhost:5000/ai",
+		}
 	})
 	return instance
 }
@@ -63,9 +66,10 @@ func GetHubInstanceDefault() *CentralHub {
 func GetHubInstance(hubID string, location string) *CentralHub {
 	once.Do(func() {
 		instance = &CentralHub{
-			hubID:     hubID,
-			location:  location,
-			resources: make(map[string]*product.Product),
+			hubID:       hubID,
+			location:    location,
+			resources:   make(map[string]*product.Product),
+			aiServerURL: "http://localhost:5000/ai",
 		}
 	})
 	return instance
@@ -95,7 +99,7 @@ func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error)
 	}
 
 	// Send Post Request to Python AI
-	resp, err := http.Post("http://localhost:5000/ai", "application/json", bytes.NewBuffer(jsonData))
+	resp, err := http.Post(h.aiServerURL, "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		return nil, err
 	}
