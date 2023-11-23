@@ -1,43 +1,35 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
+	"log"
+
+	centralhub "github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/central_hub" // 替换为您的包名
 )
 
-const baseURL = "http://127.0.0.1:5000"
-
-func createEvent(name, date string) {
-	event := map[string]string{
-		"name": name,
-		"date": date,
-	}
-	jsonData, err := json.Marshal(event)
-	if err != nil {
-		fmt.Println("Error encoding event:", err)
-		return
-	}
-
-	resp, err := http.Post(baseURL+"/events", "application/json", bytes.NewBuffer(jsonData))
-	if err != nil {
-		fmt.Println("Error creating event:", err)
-		return
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("Error reading response body:", err)
-		return
-	}
-
-	fmt.Println("Create Event Response:")
-	fmt.Println(string(body))
-}
-
 func main() {
-	createEvent("Go Conference", "2023-07-01")
+	// 创建 CentralHub 实例
+	hub := centralhub.GetHubInstance("Central_Hub1", "Location1")
+
+	// 构造 AIRequest
+	requestData := centralhub.AIRequest{
+		Event: "test event",
+		ShopInventory: map[string]centralhub.ProductInfo{
+			"Product1": centralhub.ProductInfo{
+				ProductID:         "P123",
+				ProductName:       "Widget",
+				Quantity:          10,
+				ReplenishmentRate: 5,
+				MaxStock:          100,
+			},
+		},
+	}
+
+	// 调用 SendRequestToAI 并打印结果
+	response, err := hub.SendRequestToAI(requestData)
+	if err != nil {
+		log.Fatalf("SendRequestToAI returned an error: %v", err)
+	}
+
+	fmt.Printf("Response from AI: %+v\n", response)
 }
