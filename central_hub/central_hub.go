@@ -26,6 +26,7 @@ type AIRequest struct {
 
 type AIResponse struct {
 	Reply             string                 `json:"reply"`
+	DelayDays         int                    `json:"delayDays"`
 	ReplenishmentData map[string]ProductInfo `json:"replenishmentDates"`
 }
 
