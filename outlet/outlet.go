@@ -41,18 +41,20 @@ func init() { // Single Agent
 				localWg.Add(len(_allOutlets))
 
 				for _, outlet := range _allOutlets {
-					go func(outlet *Outlet) {
+					// Get the virtual current date
+					diff := time.Since(initDate)
+					seconds := int(diff.Seconds())
+					factor := 3600 * 24 // 1 day
+					virtualSeconds := seconds * factor
+					currentDate := initDate.Add(time.Second * time.Duration(virtualSeconds))
+					//send CURRENTDATE to front
+					go func(outlet *Outlet, currentDate time.Time) {
 						defer localWg.Done()
-
-						// Get the virtual current date
-						diff := time.Since(initDate)
-						seconds := int(diff.Seconds())
-						factor := 3600 * 24 // 1 day
-						virtualSeconds := seconds * factor
-						currentDate := initDate.Add(time.Second * time.Duration(virtualSeconds))
-
+						/************************
+						SEND CURRENTDATE TO FRONT
+						************************/
 						outlet.CheckAndNotify(currentDate)
-					}(outlet)
+					}(outlet, currentDate)
 				}
 				localWg.Wait()
 			}
