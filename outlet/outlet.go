@@ -14,7 +14,7 @@ type Outlet struct {
 	inventory        map[string]*product.Product
 	numberOfEvents   int
 	events           map[string]time.Time
-	notifyCentralHub func(string, map[string]*product.Product) *centralhub.Response
+	notifyCentralHub func(string, time.Time, map[string]*product.Product) *centralhub.Response
 }
 
 var (
@@ -50,9 +50,6 @@ func init() { // Single Agent
 					//send CURRENTDATE to front
 					go func(outlet *Outlet, currentDate time.Time) {
 						defer localWg.Done()
-						/************************
-						SEND CURRENTDATE TO FRONT
-						************************/
 						outlet.CheckAndNotify(currentDate)
 					}(outlet, currentDate)
 				}
@@ -120,9 +117,9 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 
 	var response *centralhub.Response
 	if eventOccurred {
-		response = o.notifyCentralHub(eventToNotify, o.inventory)
+		response = o.notifyCentralHub(eventToNotify, date, o.inventory)
 	} else {
-		response = o.notifyCentralHub("", o.inventory)
+		response = o.notifyCentralHub("", date, o.inventory)
 	}
 
 	if response != nil && response.Error == nil {
@@ -132,6 +129,14 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 			}
 		}
 	}
+	//call the method to package the json pack SupermarketInfo!!!
+	//Replenish the shop
+	for ProdName, ProdNum := range response.Replenishments {
+		if p, ok := o.inventory[ProdName]; ok {
+			p.SetNumber(p.GetNumber() + ProdNum)
+		}
+	}
 
-	// TODO: http.Post
+	//Send the json pack SupermarketInfo to front
+
 }
