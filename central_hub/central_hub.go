@@ -227,7 +227,7 @@ func (h *CentralHub) HandleEventNotification(event string, date time.Time, shopI
 			if quantityNeeded != 0 {
 				replenishments[name] = quantityNeeded
 				//decrease the stock of the product in the central hub
-				h.resources[name].SetNumber(h.resources[name].GetNumber() - quantityNeeded)
+				h.resources[name].SetNumber(h.resources[name].GetNumber() + quantityNeeded)
 			} else {
 				replenishments[name] = 0
 			}
