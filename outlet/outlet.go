@@ -6,15 +6,17 @@ import (
 
 	centralhub "github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/central_hub"
 	"github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/product"
+	"github.com/gorilla/websocket"
 )
 
 type Outlet struct {
-	outletID         string
-	location         string
-	inventory        map[string]*product.Product
-	numberOfEvents   int
-	events           map[string]time.Time
-	notifyCentralHub func(string, time.Time, map[string]*product.Product) *centralhub.Response
+	outletID            string
+	location            string
+	inventory           map[string]*product.Product
+	numberOfEvents      int
+	events              map[string]time.Time
+	notifyCentralHub    func(string, time.Time, map[string]*product.Product) *centralhub.Response
+	scheduledDeliveries map[time.Time]map[string]int
 }
 
 var (
@@ -24,6 +26,10 @@ var (
 	once        sync.Once
 	ticker      *time.Ticker
 	allOutlets  []*Outlet
+
+	//websocket connection shared by all outlets
+	wsupgrader websocket.Upgrader
+	client     *websocket.Conn
 )
 
 func init() { // Single Agent
