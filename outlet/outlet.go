@@ -1,6 +1,9 @@
 package outlet
 
 import (
+	"fmt"
+	"log"
+	"net/http"
 	"sync"
 	"time"
 
@@ -17,6 +20,21 @@ type Outlet struct {
 	events              map[string]time.Time
 	notifyCentralHub    func(string, time.Time, map[string]*product.Product) *centralhub.Response
 	scheduledDeliveries map[time.Time]map[string]int
+	//websocket connection
+	wsupgrader websocket.Upgrader
+	client     *websocket.Conn
+}
+
+func (o *Outlet) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
+	// Upgrade the HTTP connection to a websocket connection
+	conn, err := o.wsupgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println("Failed to set websocket upgrade: %+v", err)
+		return
+	}
+	o.client = conn
+	defer conn.Close()
+	// Need to hangup the connection in the main function "/centralhub"
 }
 
 var (
@@ -26,10 +44,6 @@ var (
 	once        sync.Once
 	ticker      *time.Ticker
 	allOutlets  []*Outlet
-
-	//websocket connection shared by all outlets
-	wsupgrader websocket.Upgrader
-	client     *websocket.Conn
 )
 
 func init() { // Single Agent
@@ -71,7 +85,7 @@ func GetCurrentDate() time.Time {
 	return currentDate
 }
 
-func NewOutlet(outletID, location string, numberOfEvents int, holidayEvents map[string]time.Time) *Outlet {
+func NewOutlet(outletID string, location string, numberOfEvents int, holidayEvents map[string]time.Time) *Outlet {
 	centralHubInstance := centralhub.GetHubInstanceDefault()
 	notifyFunc := centralHubInstance.HandleEventNotification
 
@@ -81,15 +95,20 @@ func NewOutlet(outletID, location string, numberOfEvents int, holidayEvents map[
 	}
 
 	o := &Outlet{
-		outletID:         outletID,
-		location:         location,
-		inventory:        make(map[string]*product.Product), // TODO: initialize with products
-		numberOfEvents:   numberOfEvents,
-		events:           events,
-		notifyCentralHub: notifyFunc,
+		outletID:            outletID,
+		location:            location,
+		inventory:           make(map[string]*product.Product), // TODO: initialize with products
+		numberOfEvents:      numberOfEvents,
+		events:              events,
+		notifyCentralHub:    notifyFunc,
+		scheduledDeliveries: make(map[time.Time]map[string]int),
 	}
 
 	allOutlets = append(allOutlets, o)
+
+	//attach the websocket connection to the outlet
+	route := fmt.Sprintf("/outlet%d", len(allOutlets))
+	http.HandleFunc(route, o.HandleWebSocket)
 	return o
 }
 
