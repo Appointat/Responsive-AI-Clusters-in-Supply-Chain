@@ -183,7 +183,7 @@ func (h *CentralHub) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	}
 	h.client = conn
 	defer conn.Close()
-	// Need to hangup the connection in the main function
+	// Need to hangup the connection in the main function "/outlet+number"
 }
 
 // HandleEventNotification responds to an event by determining necessary product replenishments
