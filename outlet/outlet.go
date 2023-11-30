@@ -67,7 +67,6 @@ func init() { // Single Agent
 					factor := 3600 * 24 // 1 day
 					virtualSeconds := seconds * factor
 					currentDate := initDate.Add(time.Second * time.Duration(virtualSeconds))
-					//send CURRENTDATE to front
 					go func(outlet *Outlet, currentDate time.Time) {
 						defer localWg.Done()
 						outlet.CheckAndNotify(currentDate)
@@ -127,6 +126,32 @@ func (o *Outlet) GetNumberOfProducts(productName string) int {
 	return -1
 }
 
+func (o *Outlet) IntegrateResponseToSupermarketInfo(Response *centralhub.Response) *centralhub.SupermarketInfo {
+	//Extract the replenishment information from the response into the supermarketInfo
+	var supermarketInfo centralhub.SupermarketInfo
+	supermarketInfo.ProductAdd = make(map[string]int)
+	for name, quantity := range Response.Replenishments {
+		supermarketInfo.ProductAdd[name] = quantity
+	}
+	supermarketInfo.DeliveryTime = Response.DeliveryTime
+	supermarketInfo.ID = o.outletID
+
+	//Extract the inventory information from the outlet into the supermarketInfo
+	supermarketInfo.ProductLeft = make(map[string]int)
+	for name, product := range o.inventory {
+		supermarketInfo.ProductLeft[name] = product.GetNumber()
+	}
+	return &supermarketInfo
+}
+
+func (o *Outlet) SendSupermarketInfoToFrontend(supermarketInfo *centralhub.SupermarketInfo) {
+	//Send the json pack SupermarketInfo to frontend
+	err := o.client.WriteJSON(supermarketInfo)
+	if err != nil {
+		log.Println("Failed to write json to frontend: %+v", err)
+	}
+}
+
 func (o *Outlet) CheckAndNotify(date time.Time) {
 	eventOccurred := false
 	var eventToNotify string
@@ -139,29 +164,57 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 			break
 		}
 	}
-
 	var response *centralhub.Response
 	if eventOccurred {
 		response = o.notifyCentralHub(eventToNotify, date, o.inventory)
 	} else {
 		response = o.notifyCentralHub("", date, o.inventory)
 	}
+	//Send the json pack SupermarketInfo to frontend
+	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(response))
+	//Process the scheduled deliveries
+	o.ProcessScheduledDeliveries(date)
+	o.scheduleDeliveries(response, date)
 
-	if response != nil && response.Error == nil {
-		for name, quantity := range response.Replenishments {
+}
+
+// Various methods to deal with delayed delivery
+func (o *Outlet) scheduleDeliveries(response *centralhub.Response, currentDate time.Time) {
+	for name, quantity := range response.Replenishments {
+		deliveryDate := currentDate.Add(time.Duration(response.DeliveryTime) * time.Hour * 24)
+
+		// if today is the delivery date or the delivery time is 0, then deliver immediately
+		if deliveryDate.Equal(currentDate) || response.DeliveryTime == 0 {
 			if prod, ok := o.inventory[name]; ok {
 				prod.SetNumber(prod.GetNumber() + quantity)
 			}
+		} else {
+			// else schedule the delivery
+			if _, exists := o.scheduledDeliveries[deliveryDate]; !exists {
+				o.scheduledDeliveries[deliveryDate] = make(map[string]int)
+			}
+			o.scheduledDeliveries[deliveryDate][name] = quantity
 		}
 	}
-	//call the method to package the json pack SupermarketInfo!!!
-	//Replenish the shop
-	for ProdName, ProdNum := range response.Replenishments {
-		if p, ok := o.inventory[ProdName]; ok {
-			p.SetNumber(p.GetNumber() + ProdNum)
-		}
-	}
-
-	//Send the json pack SupermarketInfo to front
-
 }
+
+func (o *Outlet) ProcessScheduledDeliveries(currentDate time.Time) {
+	if deliveries, exists := o.scheduledDeliveries[currentDate]; exists {
+		for name, quantity := range deliveries {
+			if p, ok := o.inventory[name]; ok {
+				p.SetNumber(p.GetNumber() + quantity)
+			}
+		}
+		delete(o.scheduledDeliveries, currentDate)
+	}
+}
+
+func (o *Outlet) updateInventory(replenishments map[string]int) {
+	for name, quantity := range replenishments {
+		if prod, ok := o.inventory[name]; ok {
+			prod.SetNumber(prod.GetNumber() + quantity)
+		}
+	}
+}
+
+//End of Various methods to deal with delayed delivery
