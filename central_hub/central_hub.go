@@ -55,6 +55,7 @@ type SupermarketInfo struct {
 // End of the part to integrate with Frontend
 type Response struct {
 	Replenishments map[string]int // Key is the name of the product, value is the number of products to replenish
+	DeliveryTime   int
 	Error          error
 }
 
@@ -212,6 +213,7 @@ func (h *CentralHub) HandleEventNotification(event string, date time.Time, shopI
 	if err != nil {
 		return &Response{
 			Replenishments: nil,
+			DeliveryTime:   0,
 			Error:          err,
 		}
 	}
@@ -243,6 +245,7 @@ func (h *CentralHub) HandleEventNotification(event string, date time.Time, shopI
 
 	return &Response{
 		Replenishments: replenishments,
+		DeliveryTime:   aiResponse.DelayDays,
 		Error:          nil,
 	}
 }
