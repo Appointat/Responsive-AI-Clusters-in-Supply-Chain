@@ -1,0 +1,62 @@
+{
+    "productID": "A",
+    "productName": "Olive Oil",
+    "quantity": 100,
+    "replenishmentRate": 30,
+    "max_stock": 500
+},
+{
+    "productID": "B",
+    "productName": "Baguette",
+    "quantity": 200,
+    "replenishmentRate": 50,
+    "max_stock": 300
+},
+{
+    "productID": "C",
+    "productName": "Manchego Cheese",
+    "quantity": 150,
+    "replenishmentRate": 40,
+    "max_stock": 400
+},
+{
+    "productID": "D",
+    "productName": "Black Tea",
+    "quantity": 80,
+    "replenishmentRate": 20,
+    "max_stock": 250
+}
+
+
+The request sent to AI Ex:
+type AIRequest struct {
+	Event         string                 `json:"event"`
+	ShopInventory map[string]ProductInfo `json:"shopInventory"`
+}
+
+{
+    "event": "Christmas",
+    "shopInventory": {
+        "A": {
+            "productID": "A",
+            "productName": "Olive Oil",
+            "quantity": 100,
+            "replenishmentRate": 30,
+            "maxStock": 500
+        },
+        "B": {
+            "productID": "B",
+            "productName": "Baguette",
+            "quantity": 200,
+            "replenishmentRate": 50,
+            "maxStock": 300
+        },
+        "C": {
+            "productID": "C",
+            "productName": "Manchego Cheese",
+            "quantity": 150,
+            "replenishmentRate": 40,
+            "maxStock": 400
+        }
+    }
+}
