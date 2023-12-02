@@ -13,12 +13,12 @@ func main() {
 	centralHub := centralhub.GetHubInstance("Central_Hub1", "Location1")
 
 	// Create an outlet
-	numberOutlets := 5
+	numberOutlets := 4
 	outlets := make([]*outlet.Outlet, numberOutlets)
-	for i := 0; i < numberOutlets; i++ {
+	for i := 'A'; i <= 'D'; i++ {
 		location := fmt.Sprintf("Location %d", i)
 		outletID := fmt.Sprintf("Outlet %d", i)
-		outlets[i] = outlet.NewOutlet(outletID, location, 3, holidayMaps[i])
+		outlets[i] = outlet.NewOutlet(outletID, location, 5, holidayMaps[i])
 		fmt.Println("Created outlet:", outlets[i].GetOutletID())
 	}
 
