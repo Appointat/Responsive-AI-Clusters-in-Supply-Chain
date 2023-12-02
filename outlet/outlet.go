@@ -25,6 +25,41 @@ type Outlet struct {
 	client     *websocket.Conn
 }
 
+func InstanceOutlets() {
+	// Define the unique combination of product indices for each outlet.
+	outletProductIndices := [][]int{
+		{0, 1, 2},
+		{0, 1, 3},
+		{0, 2, 3},
+		{1, 2, 3},
+	}
+
+	// Define the locations for each outlet.
+	outletLocations := []string{"Paris", "Lyon", "Marseille", "Nice"}
+
+	//clear the allOutlets
+	allOutlets = []*Outlet{}
+	// Loop through the defined configurations and create outlets.
+	for i, indices := range outletProductIndices {
+		inventory := make(map[string]*product.Product)
+
+		// Use the indices to add products to the outlet's inventory.
+		for _, idx := range indices {
+			product := product.GlobalProducts[idx]
+			productCopy := product
+			//because the Product type holds no reference type, so we can just copy the product
+			inventory[productCopy.GetProductID()] = &productCopy
+		}
+
+		// Create a new outlet with the defined ID, location, and inventory.
+		allOutlets = append(allOutlets, &Outlet{
+			outletID:  fmt.Sprintf("%d", i+1), // Outlet IDs are "1", "2", "3", "4".
+			location:  outletLocations[i],
+			inventory: inventory,
+		})
+	}
+}
+
 func (o *Outlet) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	// Upgrade the HTTP connection to a websocket connection
 	conn, err := o.wsupgrader.Upgrade(w, r, nil)
@@ -50,6 +85,7 @@ func init() { // Single Agent
 	once.Do(func() {
 		initDate = time.Now()
 		ticker = time.NewTicker(time.Second * 1)
+		product.InstanceProducts() //Initialize the products
 
 		go func() {
 			defer ticker.Stop()
@@ -150,6 +186,12 @@ func (o *Outlet) SendSupermarketInfoToFrontend(supermarketInfo *centralhub.Super
 	if err != nil {
 		log.Println("Failed to write json to frontend: %+v", err)
 	}
+}
+
+func (o *Outlet) AddProduct(p *product.Product) {
+	// deepcopy
+	newProduct := *p
+	o.inventory[newProduct.GetProductID()] = &newProduct
 }
 
 func (o *Outlet) CheckAndNotify(date time.Time) {
