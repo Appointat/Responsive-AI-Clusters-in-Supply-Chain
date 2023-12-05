@@ -96,6 +96,23 @@ func GetHubInstance(hubID string, location string) *CentralHub {
 	})
 	return instance
 }
+func (h *CentralHub) SetInventory(inventory map[string]*product.Product) {
+	// 将传入的库存映射赋值给中心仓库实例的Inventory属性
+	h.resources = inventory
+}
+func InitializeHub() {
+	GetHubInstance("Central Hub", "Paris")
+	inventory := make(map[string]*product.Product)
+
+	// Initialize the inventory
+	inventory["P001"] = product.NewProduct("A", "Olive Oil", 1000, 30, 500)
+	inventory["P002"] = product.NewProduct("B", "Baguette", 2000, 50, 300)
+	inventory["P003"] = product.NewProduct("C", "Manchego Cheese", 1500, 40, 400)
+	inventory["P004"] = product.NewProduct("D", "Black Tea", 800, 20, 250)
+
+	// Add the inventory to the central hub
+	instance.SetInventory(inventory)
+}
 
 // Getters
 func (h *CentralHub) GetHubID() string {
