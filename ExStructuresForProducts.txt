@@ -30,33 +30,47 @@
 
 The request sent to AI Ex:
 type AIRequest struct {
-	Event         string                 `json:"event"`
-	ShopInventory map[string]ProductInfo `json:"shopInventory"`
+	Event               string                 `json:"event"`
+	date                time.Time              `json:"date"`
+	CentralHubInventory map[string]ProductInfo `json:"centralHubInventory"` //仓库库存
+	ShopInventory       map[string]ProductInfo `json:"shopInventory"`       //商店库存
 }
+
 
 {
     "event": "Christmas",
+    "date" : "2023-12-07T15:04:05Z",
+    "centralHubInventory" : {
+        "Olive Oil": 5000
+        "Baguette": 6000
+        "Manchego Cheese": 10000 
+        "Black Tea": 90000
+    }
     "shopInventory": {
-        "A": {
-            "productID": "A",
-            "productName": "Olive Oil",
+        "Olive Oil": {
+            "productID": "Olive Oil",
             "quantity": 100,
             "replenishmentRate": 30,
             "maxStock": 500
         },
-        "B": {
-            "productID": "B",
-            "productName": "Baguette",
+        "Baguette": {
+            "productID": "Baguette",
             "quantity": 200,
             "replenishmentRate": 50,
             "maxStock": 300
         },
-        "C": {
+        "Manchego Cheese": {
             "productID": "C",
             "productName": "Manchego Cheese",
             "quantity": 150,
             "replenishmentRate": 40,
             "maxStock": 400
+        }
+        "Black Tea": {
+            "productID": "Black Tea",
+            "quantity": 150,
+            "replenishmentRate": 40,
+            "maxStock": 500
         }
     }
 }
