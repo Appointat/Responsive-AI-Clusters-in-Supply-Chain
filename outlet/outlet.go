@@ -88,7 +88,7 @@ func INIT() { // Single Agent
 	InstanceOutlets()
 	once.Do(func() {
 		initDate = time.Now()
-		ticker = time.NewTicker(time.Second * 1)
+		ticker = time.NewTicker(time.Second * 60)
 		product.InstanceProducts() //Initialize the products
 
 		go func() {
@@ -198,7 +198,7 @@ func (o *Outlet) SendSupermarketInfoToFrontend(supermarketInfo *centralhub.Super
 	}
 	//check the o.client is nil or not
 	if o.client == nil {
-		log.Println("Failed to send supermarket info to frontend: h.client is nil")
+		log.Println("Failed to send supermarket info to frontend: o.client is nil")
 		return
 	}
 	// Send the json data to frontend via WebSocket
