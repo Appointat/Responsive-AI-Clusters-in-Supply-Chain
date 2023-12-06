@@ -232,12 +232,29 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	} else {
 		response = o.notifyCentralHub("", date, o.inventory)
 	}
-	//Send the json pack SupermarketInfo to frontend
-	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(response))
-	//Process the scheduled deliveries
-	o.ProcessScheduledDeliveries(date)
-	o.scheduleDeliveries(response, date)
+	/*
+		Create a test template for the supermarketInfo
+	*/
+	_ = response
+	ProductLeft := make(map[string]int)
+	ProductLeft["Olive Oil"] = 10
+	ProductLeft["Baguette"] = 20
+	ProductLeft["Manchego Cheese"] = 30
+	ProductLeft["Black Tea"] = 40
 
+	supermarketInfo := centralhub.SupermarketInfo{
+		ID:           o.outletID,
+		ProductLeft:  make(map[string]int),
+		ProductAdd:   make(map[string]int),
+		DeliveryTime: 0,
+	}
+
+	//Send the json pack SupermarketInfo to frontend
+	// o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(response))
+	o.SendSupermarketInfoToFrontend(&supermarketInfo)
+	//Process the scheduled deliveries
+	// o.ProcessScheduledDeliveries(date)
+	// o.scheduleDeliveries(response, date)
 }
 
 // Various methods to deal with delayed delivery

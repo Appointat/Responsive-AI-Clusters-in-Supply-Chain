@@ -221,39 +221,58 @@ func (h *CentralHub) HandleEventNotification(event string, date time.Time, shopI
 		}
 	}
 
-	//Create Request
-	requestData := AIRequest{
-		Event:         event,
-		ShopInventory: inventoryInfo,
+	// //Create Request
+	// requestData := AIRequest{
+	// 	Event:         event,
+	// 	ShopInventory: inventoryInfo,
+	// }
+
+	// //Send Request to AI
+	// aiResponse, err := h.SendRequestToAI(requestData)
+	// if err != nil {
+	// 	return &Response{
+	// 		Replenishments: nil,
+	// 		DeliveryTime:   0,
+	// 		Error:          err,
+	// 	}
+	// }
+	//暂时注释AI部分
+	//Got Response from AI, send the general information to the frontend
+
+	/*
+		Test part
+		We need to declare a template of GeneralInfo without AIResponse
+	*/
+	//Randomly generate the number of products in the warehouse
+	WarehouseProduct := make(map[string]int)
+	WarehouseProduct["Olive Oil"] = 1000
+	WarehouseProduct["Baguette"] = 2000
+	WarehouseProduct["Manchego Cheese"] = 1500
+	WarehouseProduct["Black Tea"] = 800
+	//Create a template of GeneralInfo
+	generalInfo := GeneralInfo{
+		Date:             date,
+		Event:            event,
+		WarehouseProduct: WarehouseProduct,
 	}
 
-	//Send Request to AI
-	aiResponse, err := h.SendRequestToAI(requestData)
-	if err != nil {
-		return &Response{
-			Replenishments: nil,
-			DeliveryTime:   0,
-			Error:          err,
-		}
-	}
-	//Got Response from AI, send the general information to the frontend
-	h.sendGeneralInfoToFrontEnd(h.IntegrateAIResponseToGeneralInfo(event, date, aiResponse))
+	h.sendGeneralInfoToFrontEnd(&generalInfo)
 	//Extract the info from aiResponse
 	replenishments := make(map[string]int)
 
 	// Calculate the number of products that need to be replenished
-	for name, _ := range shopInventory {
-		if ReplenishmentData, exists := aiResponse.ReplenishmentData[name]; exists {
-			quantityNeeded := ReplenishmentData
-			if quantityNeeded != 0 {
-				replenishments[name] = quantityNeeded
-				//decrease the stock of the product in the central hub
-				h.resources[name].SetNumber(h.resources[name].GetNumber() + quantityNeeded)
-			} else {
-				replenishments[name] = 0
-			}
-		}
-	}
+	// for name, _ := range shopInventory {
+	// 	if ReplenishmentData, exists := aiResponse.ReplenishmentData[name]; exists {
+	// 		quantityNeeded := ReplenishmentData
+	// 		if quantityNeeded != 0 {
+	// 			replenishments[name] = quantityNeeded
+	// 			//decrease the stock of the product in the central hub
+	// 			h.resources[name].SetNumber(h.resources[name].GetNumber() + quantityNeeded)
+	// 		} else {
+	// 			replenishments[name] = 0
+	// 		}
+	// 	}
+	// }
 
 	/*********************************************************************************************************************
 	To be deleted after integration with AI
@@ -264,7 +283,7 @@ func (h *CentralHub) HandleEventNotification(event string, date time.Time, shopI
 
 	return &Response{
 		Replenishments: replenishments,
-		DeliveryTime:   aiResponse.DelayDays,
+		DeliveryTime:   0, //aiResponse.DelayDays
 		Error:          nil,
 	}
 }
