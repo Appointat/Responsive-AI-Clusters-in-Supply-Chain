@@ -1,6 +1,7 @@
 package outlet
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -43,20 +44,20 @@ func InstanceOutlets() {
 	for i, indices := range outletProductIndices {
 		inventory := make(map[string]*product.Product)
 
+		//Initialize the items in the inventory to 0
+		for _, prod := range product.GlobalProducts {
+			inventory[prod.GetProductID()] = product.NewProduct(prod.GetProductID(), 0, prod.GetReplenishmentRate(), prod.GetMax_stock())
+		}
+
 		// Use the indices to add products to the outlet's inventory.
 		for _, idx := range indices {
-			product := product.GlobalProducts[idx]
-			productCopy := product
+			productCopy := product.GlobalProducts[idx]
 			//because the Product type holds no reference type, so we can just copy the product
-			inventory[productCopy.GetProductID()] = &productCopy
+			inventory[productCopy.GetProductID()].SetNumber(productCopy.GetNumber())
 		}
 
 		// Create a new outlet with the defined ID, location, and inventory.
-		allOutlets = append(allOutlets, &Outlet{
-			outletID:  fmt.Sprintf("%d", i+1), // Outlet IDs are "1", "2", "3", "4".
-			location:  outletLocations[i],
-			inventory: inventory,
-		})
+		NewOutlet(fmt.Sprintf("%d", i+1), outletLocations[i], 6, product.HolidayMaps[i])
 	}
 }
 
@@ -183,8 +184,15 @@ func (o *Outlet) IntegrateResponseToSupermarketInfo(Response *centralhub.Respons
 }
 
 func (o *Outlet) SendSupermarketInfoToFrontend(supermarketInfo *centralhub.SupermarketInfo) {
-	//Send the json pack SupermarketInfo to frontend
-	err := o.client.WriteJSON(supermarketInfo)
+	// Package the SupermarketInfo into json
+	jsonData, err := json.Marshal(supermarketInfo)
+	if err != nil {
+		log.Println("Failed to marshal supermarket info to JSON: %+v", err)
+		return
+	}
+
+	// Send the json data to frontend via WebSocket
+	err = o.client.WriteMessage(websocket.TextMessage, jsonData)
 	if err != nil {
 		log.Println("Failed to write json to frontend: %+v", err)
 	}
