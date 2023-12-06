@@ -244,8 +244,8 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 
 	supermarketInfo := centralhub.SupermarketInfo{
 		ID:           o.outletID,
-		ProductLeft:  make(map[string]int),
-		ProductAdd:   make(map[string]int),
+		ProductLeft:  ProductLeft,
+		ProductAdd:   ProductLeft,
 		DeliveryTime: 0,
 	}
 
