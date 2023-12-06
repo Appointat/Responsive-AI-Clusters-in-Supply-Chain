@@ -97,7 +97,6 @@ func GetHubInstance(hubID string, location string) *CentralHub {
 	return instance
 }
 func (h *CentralHub) SetInventory(inventory map[string]*product.Product) {
-	// 将传入的库存映射赋值给中心仓库实例的Inventory属性
 	h.resources = inventory
 }
 func InitializeHub() {
