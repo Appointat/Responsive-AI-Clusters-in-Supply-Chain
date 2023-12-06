@@ -1,7 +1,6 @@
 package outlet
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -196,19 +195,14 @@ func (o *Outlet) IntegrateResponseToSupermarketInfo(Response *centralhub.Respons
 }
 
 func (o *Outlet) SendSupermarketInfoToFrontend(supermarketInfo *centralhub.SupermarketInfo) {
-	// Package the SupermarketInfo into json
-	jsonData, err := json.Marshal(supermarketInfo)
-	if err != nil {
-		log.Println("Failed to marshal supermarket info to JSON: %+v", err)
-		return
-	}
+
 	//check the o.client is nil or not
 	if o.client == nil {
 		log.Println("Failed to send supermarket info to frontend: o.client is nil")
 		return
 	}
 	// Send the json data to frontend via WebSocket
-	err = o.client.WriteMessage(websocket.TextMessage, jsonData)
+	err := o.client.WriteJSON(supermarketInfo)
 	if err != nil {
 		log.Println("Failed to write json to frontend: %+v", err)
 	}

@@ -178,19 +178,13 @@ func (h *CentralHub) IntegrateAIResponseToGeneralInfo(event string, date time.Ti
 func (h *CentralHub) sendGeneralInfoToFrontEnd(info *GeneralInfo) {
 	// Send the general information to the frontend
 
-	// Code as JSON
-	jsonData, err := json.Marshal(info)
-	if err != nil {
-		fmt.Println("Error in sending general info to front end:", err)
-		return
-	}
 	//check the h.client is nil or not
 	if h.client == nil {
 		fmt.Println("Error in sending general info to front end: h.client is nil")
 		return
 	}
 	// Send Post Request to Frontend
-	err = h.client.WriteMessage(websocket.TextMessage, jsonData)
+	err := h.client.WriteJSON(info)
 	if err != nil {
 		log.Printf("Error sending message to WebSocket: %v\n", err)
 	}
