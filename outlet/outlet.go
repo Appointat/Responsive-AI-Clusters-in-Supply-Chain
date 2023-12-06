@@ -81,18 +81,20 @@ var (
 	allOutlets  []*Outlet
 )
 
-func init() { // Single Agent
+func INIT() { // Single Agent
 	once.Do(func() {
 		initDate = time.Now()
 		ticker = time.NewTicker(time.Second * 1)
 		product.InstanceProducts() //Initialize the products
 
+		centralhub.InitializeHub()
+		product.InstanceProducts()
+		InstanceOutlets()
 		go func() {
 			defer ticker.Stop()
 			for range ticker.C {
 				_allOutlets := make([]*Outlet, len(allOutlets))
 				copy(_allOutlets, allOutlets)
-
 				localWg := new(sync.WaitGroup)
 				localWg.Add(len(_allOutlets))
 
