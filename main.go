@@ -1,32 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"time"
 
-	centralhub "github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/central_hub"
 	"github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/outlet"
 )
 
 func main() {
-	// Create a central hub instance
-	centralHub := centralhub.GetHubInstance("Central_Hub1", "Location1")
-
-	// Create an outlet
-	numberOutlets := 4
-	outlets := make([]*outlet.Outlet, numberOutlets)
-	for i := 'A'; i <= 'D'; i++ {
-		location := fmt.Sprintf("Location %d", i)
-		outletID := fmt.Sprintf("Outlet %d", i)
-		outlets[i] = outlet.NewOutlet(outletID, location, 5, holidayMaps[i])
-		fmt.Println("Created outlet:", outlets[i].GetOutletID())
-	}
-
-	// Sleep to allow for background processes to run
+	outlet.INIT()
 	time.Sleep(10 * time.Second) // TODO: Keep main function running
-
-	// Assuming there might be additional functionality to print or check the status
-	fmt.Printf("Central Hub: %+v\n", centralHub)
 }
 
 // HolidayEvents maps event names to their dates.
