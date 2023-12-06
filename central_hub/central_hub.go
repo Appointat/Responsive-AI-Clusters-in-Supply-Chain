@@ -16,15 +16,16 @@ import (
 
 type ProductInfo struct {
 	ProductID         string `json:"productID"`
-	ProductName       string `json:"productName"`
 	Quantity          int    `json:"quantity"`
 	ReplenishmentRate int    `json:"replenishmentRate"`
 	MaxStock          int    `json:"maxStock"`
 }
 
 type AIRequest struct {
-	Event         string                 `json:"event"`
-	ShopInventory map[string]ProductInfo `json:"shopInventory"`
+	Event               string                 `json:"event"`
+	date                time.Time              `json:"date"`
+	CentralHubInventory map[string]int         `json:"centralHubInventory"` //仓库库存
+	ShopInventory       map[string]ProductInfo `json:"shopInventory"`       //商店库存
 }
 
 /*
@@ -204,7 +205,7 @@ func (h *CentralHub) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	h.client = conn
-	defer conn.Close()
+	// defer conn.Close()
 	// Need to hangup the connection in the main function "/outlet+number"
 }
 
