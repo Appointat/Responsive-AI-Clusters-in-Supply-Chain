@@ -197,6 +197,12 @@ func (h *CentralHub) sendGeneralInfoToFrontEnd(info *GeneralInfo) {
 }
 
 func (h *CentralHub) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
+	h.wsupgrader.CheckOrigin = func(r *http.Request) bool {
+		// Here you should implement a more robust check to ensure that the
+		// request is coming from allowed origins.
+		return true // Be cautious with this, it allows all origins!
+	}
+
 	// Upgrade the HTTP connection to a websocket connection
 	conn, err := h.wsupgrader.Upgrade(w, r, nil)
 	if err != nil {

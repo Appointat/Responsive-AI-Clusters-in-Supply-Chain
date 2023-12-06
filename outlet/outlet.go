@@ -63,6 +63,12 @@ func InstanceOutlets() {
 
 func (o *Outlet) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	// Upgrade the HTTP connection to a websocket connection
+	o.wsupgrader.CheckOrigin = func(r *http.Request) bool {
+		// Here you should implement a more robust check to ensure that the
+		// request is coming from allowed origins.
+		return true // Be cautious with this, it allows all origins!
+	}
+
 	conn, err := o.wsupgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("Failed to set websocket upgrade: %+v", err)
