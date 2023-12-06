@@ -57,7 +57,7 @@ func InstanceOutlets() {
 		}
 
 		// Create a new outlet with the defined ID, location, and inventory.
-		NewOutlet(fmt.Sprintf("%d", i+1), outletLocations[i], 6, product.HolidayMaps[i])
+		NewOutlet(fmt.Sprintf("%d", i+1), outletLocations[i], 6, product.HolidayMaps[i], &inventory)
 	}
 }
 
@@ -83,14 +83,17 @@ var (
 )
 
 func INIT() { // Single Agent
+	centralhub.InitializeHub()
+	product.InstanceProducts()
+	InstanceOutlets()
 	once.Do(func() {
 		initDate = time.Now()
 		ticker = time.NewTicker(time.Second * 1)
 		product.InstanceProducts() //Initialize the products
 
-		centralhub.InitializeHub()
-		product.InstanceProducts()
-		InstanceOutlets()
+		go func() {
+			http.ListenAndServe(":8080", nil)
+		}()
 		go func() {
 			defer ticker.Stop()
 			for range ticker.C {
@@ -123,7 +126,7 @@ func GetCurrentDate() time.Time {
 	return currentDate
 }
 
-func NewOutlet(outletID string, location string, numberOfEvents int, holidayEvents map[string]time.Time) *Outlet {
+func NewOutlet(outletID string, location string, numberOfEvents int, holidayEvents map[string]time.Time, inventory *map[string]*product.Product) *Outlet {
 	centralHubInstance := centralhub.GetHubInstanceDefault()
 	notifyFunc := centralHubInstance.HandleEventNotification
 
@@ -141,7 +144,10 @@ func NewOutlet(outletID string, location string, numberOfEvents int, holidayEven
 		notifyCentralHub:    notifyFunc,
 		scheduledDeliveries: make(map[time.Time]map[string]int),
 	}
-
+	//copy the inventory
+	for name, prod := range *inventory {
+		o.inventory[name] = prod
+	}
 	allOutlets = append(allOutlets, o)
 
 	//attach the websocket connection to the outlet
@@ -190,7 +196,11 @@ func (o *Outlet) SendSupermarketInfoToFrontend(supermarketInfo *centralhub.Super
 		log.Println("Failed to marshal supermarket info to JSON: %+v", err)
 		return
 	}
-
+	//check the o.client is nil or not
+	if o.client == nil {
+		log.Println("Failed to send supermarket info to frontend: h.client is nil")
+		return
+	}
 	// Send the json data to frontend via WebSocket
 	err = o.client.WriteMessage(websocket.TextMessage, jsonData)
 	if err != nil {
