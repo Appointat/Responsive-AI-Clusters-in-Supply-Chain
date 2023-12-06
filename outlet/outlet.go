@@ -93,7 +93,7 @@ func INIT() { // Single Agent
 	InstanceOutlets()
 	once.Do(func() {
 		initDate = time.Now()
-		ticker = time.NewTicker(time.Second * 60)
+		ticker = time.NewTicker(time.Second * 1)
 		product.InstanceProducts() //Initialize the products
 
 		go func() {
