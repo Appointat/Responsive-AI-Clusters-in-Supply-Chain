@@ -105,10 +105,10 @@ func InitializeHub() {
 	inventory := make(map[string]*product.Product)
 
 	// Initialize the inventory
-	inventory["P001"] = product.NewProduct("A", "Olive Oil", 1000, 30, 500)
-	inventory["P002"] = product.NewProduct("B", "Baguette", 2000, 50, 300)
-	inventory["P003"] = product.NewProduct("C", "Manchego Cheese", 1500, 40, 400)
-	inventory["P004"] = product.NewProduct("D", "Black Tea", 800, 20, 250)
+	inventory["Olive Oil"] = product.NewProduct("Olive Oil", 1000, 30, 500)
+	inventory["Baguette"] = product.NewProduct("Baguette", 2000, 50, 300)
+	inventory["Manchego Cheese"] = product.NewProduct("Manchego Cheese", 1500, 40, 400)
+	inventory["Black Tea"] = product.NewProduct("Black Tea", 800, 20, 250)
 
 	// Add the inventory to the central hub
 	instance.SetInventory(inventory)
@@ -210,9 +210,8 @@ func (h *CentralHub) HandleEventNotification(event string, date time.Time, shopI
 	defer h.accessLock.Unlock()
 	inventoryInfo := make(map[string]ProductInfo)
 	for _, prod := range shopInventory {
-		inventoryInfo[prod.GetProductName()] = ProductInfo{
+		inventoryInfo[prod.GetProductID()] = ProductInfo{
 			ProductID:         prod.GetProductID(),
-			ProductName:       prod.GetProductName(),
 			Quantity:          prod.GetNumber(),
 			ReplenishmentRate: prod.GetReplenishmentRate(),
 			MaxStock:          prod.GetMax_stock(),
