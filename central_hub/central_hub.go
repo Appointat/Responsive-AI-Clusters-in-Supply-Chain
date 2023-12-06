@@ -183,7 +183,11 @@ func (h *CentralHub) sendGeneralInfoToFrontEnd(info *GeneralInfo) {
 		fmt.Println("Error in sending general info to front end:", err)
 		return
 	}
-
+	//check the h.client is nil or not
+	if h.client == nil {
+		fmt.Println("Error in sending general info to front end: h.client is nil")
+		return
+	}
 	// Send Post Request to Frontend
 	err = h.client.WriteMessage(websocket.TextMessage, jsonData)
 	if err != nil {
