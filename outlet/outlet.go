@@ -8,6 +8,7 @@ import (
 	"time"
 
 	centralhub "github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/central_hub"
+	"github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/event"
 	"github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/product"
 	"github.com/gorilla/websocket"
 )
@@ -17,7 +18,7 @@ type Outlet struct {
 	location            string
 	inventory           map[string]*product.Product
 	numberOfEvents      int
-	events              map[string]time.Time
+	events              map[string]event.Event
 	notifyCentralHub    func(string, time.Time, map[string]*product.Product) *centralhub.Response
 	scheduledDeliveries map[time.Time]map[string]int
 	//websocket connection
