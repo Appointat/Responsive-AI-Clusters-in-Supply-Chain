@@ -22,11 +22,27 @@ type ProductInfo struct {
 }
 
 type AIRequest struct {
-	Event               string                 `json:"event"`
+	outletID            string                 `json:"outletID"`
+	outletlocation      string                 `json:"location"`
+	centralhublocation  string                 `json:"centralHubLocation"`
 	date                time.Time              `json:"date"`
+	Event               string                 `json:"event"`
+	EventDescription    string                 `json:"eventDescription"`
+	clientPreferences   string                 `json:"clientPreferences"`
 	CentralHubInventory map[string]int         `json:"centralHubInventory"` //仓库库存
 	ShopInventory       map[string]ProductInfo `json:"shopInventory"`       //商店库存
 }
+
+/*
+clientPreferences: str
+	The client's preferences for the products. This is a string of the form
+	"product1:quantity1,product2:quantity2,...". The client's preferences
+	are used to determine which products to replenish first.
+
+centralHubInventory: dict
+	A dictionary mapping product names to the number of products in the
+	central hub's inventory.
+*/
 
 /*
 ***************************************************
@@ -34,8 +50,8 @@ To be combined with type Response in central_hub.go
 ***************************************************
 */
 type AIResponse struct {
-	Reply             string         `json:"reply"`
 	DelayDays         int            `json:"delayDays"`
+	CentralhubStock   map[string]int `json:"centralhubStock"`
 	ReplenishmentData map[string]int `json:"replenishmentDates"`
 }
 

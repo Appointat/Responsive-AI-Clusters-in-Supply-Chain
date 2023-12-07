@@ -93,7 +93,7 @@ func INIT() { // Single Agent
 	InstanceOutlets()
 	once.Do(func() {
 		initDate = time.Now()
-		ticker = time.NewTicker(time.Second * 1)
+		ticker = time.NewTicker(time.Second * 60)
 		product.InstanceProducts() //Initialize the products
 
 		go func() {
@@ -111,7 +111,7 @@ func INIT() { // Single Agent
 					// Get the virtual current date
 					diff := time.Since(initDate)
 					seconds := int(diff.Seconds())
-					factor := 3600 * 24 // 1 day
+					factor := 3600 * 24 / 60 // 1 day
 					virtualSeconds := seconds * factor
 					currentDate := initDate.Add(time.Second * time.Duration(virtualSeconds))
 					go func(outlet *Outlet, currentDate time.Time) {
