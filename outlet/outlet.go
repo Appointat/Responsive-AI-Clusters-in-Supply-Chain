@@ -19,7 +19,8 @@ type Outlet struct {
 	inventory           map[string]*product.Product
 	numberOfEvents      int
 	events              map[string]*event.Event
-	notifyCentralHub    func(string, time.Time, map[string]*product.Product) *centralhub.Response
+	notifyCentralHub    func(string, string, string, string, *event.Event, map[string]*product.Product) *centralhub.Response
+	clientPreferences   string
 	scheduledDeliveries map[time.Time]map[string]int
 	//websocket connection
 	wsupgrader websocket.Upgrader
@@ -151,6 +152,17 @@ func NewOutlet(outletID string, location string, numberOfEvents int, holidayEven
 		notifyCentralHub:    notifyFunc,
 		scheduledDeliveries: make(map[time.Time]map[string]int),
 	}
+	// Set the client preferences
+	switch location {
+	case "Paris":
+		o.clientPreferences = "Strong preference for Manchego Cheese and Olive Oil, moderate demand for Baguette, minimal interest in Black Tea."
+	case "Lyon":
+		o.clientPreferences = "Strong preference for Manchego Cheese and Olive Oil, moderate demand for Baguette, minimal interest in Black Tea."
+	case "Marseille":
+		o.clientPreferences = "High interest in Olive Oil and Black Tea, moderate preference for Baguette, low demand for Manchego Cheese."
+	case "Nice":
+		o.clientPreferences = "Strong demand for Olive Oil and Baguette, moderate interest in Black Tea, minimal preference for Manchego Cheese."
+	}
 	//copy the inventory
 	for name, prod := range *inventory {
 		o.inventory[name] = prod
@@ -218,21 +230,23 @@ func (o *Outlet) AddProduct(p *product.Product) {
 
 func (o *Outlet) CheckAndNotify(date time.Time) {
 	eventOccurred := false
-	var eventToNotify string
-
-	for event, eventDetails := range o.events {
+	var eventToNotify event.Event
+	var eventName string
+	var eventDetails *event.Event
+	for eventName, eventDetails = range o.events {
 		if eventDetails.EventDate.Year() == date.Year() && eventDetails.EventDate.Month() == date.Month() && eventDetails.EventDate.Day() == date.Day() {
 			//if the matching event appears
 			eventOccurred = true
-			eventToNotify = event
+			eventToNotify = *eventDetails
 			break
 		}
 	}
+
 	var response *centralhub.Response
 	if eventOccurred {
-		response = o.notifyCentralHub(eventToNotify, date, o.inventory)
+		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, &eventToNotify, o.inventory)
 	} else {
-		response = o.notifyCentralHub("", date, o.inventory)
+		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, nil, o.inventory)
 	}
 	/*
 		Create a test template for the supermarketInfo
