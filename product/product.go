@@ -10,8 +10,6 @@ type Product struct {
 	max_stock         int //the maximum number of products that can be stored
 }
 
-// HolidayEvents maps event names to their dates.
-
 var GlobalProducts []Product
 
 func InstanceProducts() {
