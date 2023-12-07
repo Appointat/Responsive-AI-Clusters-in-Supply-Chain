@@ -22,15 +22,14 @@ type ProductInfo struct {
 }
 
 type AIRequest struct {
-	outletID            string                 `json:"outletID"`
-	outletlocation      string                 `json:"location"`
-	centralhublocation  string                 `json:"centralHubLocation"`
-	date                time.Time              `json:"date"`
-	Event               string                 `json:"event"`
-	EventDescription    string                 `json:"eventDescription"`
-	clientPreferences   string                 `json:"clientPreferences"`
-	CentralHubInventory map[string]int         `json:"centralHubInventory"` //仓库库存
-	ShopInventory       map[string]ProductInfo `json:"shopInventory"`       //商店库存
+	outletID           string                 `json:"outletID"`
+	outletlocation     string                 `json:"location"`
+	centralhublocation string                 `json:"centralHubLocation"`
+	date               time.Time              `json:"date"`
+	Event              string                 `json:"event"`
+	EventDescription   string                 `json:"eventDescription"`
+	clientPreferences  string                 `json:"clientPreferences"`
+	ShopInventory      map[string]ProductInfo `json:"shopInventory"` //商店库存
 }
 
 /*
