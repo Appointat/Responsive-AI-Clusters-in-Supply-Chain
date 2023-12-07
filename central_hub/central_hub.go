@@ -10,6 +10,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/event"
 	"github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/product"
 	"github.com/gorilla/websocket"
 )
@@ -225,7 +226,7 @@ func (h *CentralHub) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 }
 
 // HandleEventNotification responds to an event by determining necessary product replenishments
-func (h *CentralHub) HandleEventNotification(event string, date time.Time, shopInventory map[string]*product.Product) *Response {
+func (h *CentralHub) HandleEventNotification(outletID string, outletlocation string, clientPreferences string, eventName string, event *event.Event, shopInventory map[string]*product.Product) *Response {
 	h.accessLock.Lock()
 	defer h.accessLock.Unlock()
 	inventoryInfo := make(map[string]ProductInfo)
@@ -240,8 +241,14 @@ func (h *CentralHub) HandleEventNotification(event string, date time.Time, shopI
 
 	// //Create Request
 	requestData := AIRequest{
-		Event:         event,
-		ShopInventory: inventoryInfo,
+		outletID:           outletID,
+		outletlocation:     outletlocation,
+		centralhublocation: h.location,
+		date:               event.EventDate,
+		Event:              eventName,
+		EventDescription:   event.EventDescription,
+		clientPreferences:  clientPreferences,
+		ShopInventory:      inventoryInfo,
 	}
 
 	// //Send Request to AI
@@ -254,7 +261,7 @@ func (h *CentralHub) HandleEventNotification(event string, date time.Time, shopI
 		}
 	}
 
-	h.sendGeneralInfoToFrontEnd(h.IntegrateAIResponseToGeneralInfo(event, date, aiResponse))
+	h.sendGeneralInfoToFrontEnd(h.IntegrateAIResponseToGeneralInfo(eventName, event.EventDate, aiResponse))
 	//Extract the info from aiResponse
 	replenishments := make(map[string]int)
 
@@ -275,7 +282,7 @@ func (h *CentralHub) HandleEventNotification(event string, date time.Time, shopI
 	/*********************************************************************************************************************
 	To be deleted after integration with AI
 	*********************************************************************************************************************/
-	if event != "" {
+	if event != nil {
 		fmt.Printf("Central Hub %s at %s received notification of event %s\n", h.hubID, h.location, event)
 	}
 
