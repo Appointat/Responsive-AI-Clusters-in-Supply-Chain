@@ -18,7 +18,7 @@ type Outlet struct {
 	location            string
 	inventory           map[string]*product.Product
 	numberOfEvents      int
-	events              map[string]event.Event
+	events              map[string]*event.Event
 	notifyCentralHub    func(string, time.Time, map[string]*product.Product) *centralhub.Response
 	scheduledDeliveries map[time.Time]map[string]int
 	//websocket connection
@@ -57,7 +57,7 @@ func InstanceOutlets() {
 		}
 
 		// Create a new outlet with the defined ID, location, and inventory.
-		NewOutlet(fmt.Sprintf("%d", i+1), outletLocations[i], 6, product.HolidayMaps[i], &inventory)
+		NewOutlet(fmt.Sprintf("%d", i+1), outletLocations[i], 6, event.HolidayMaps[i], &inventory)
 	}
 }
 
@@ -132,13 +132,14 @@ func GetCurrentDate() time.Time {
 	return currentDate
 }
 
-func NewOutlet(outletID string, location string, numberOfEvents int, holidayEvents map[string]time.Time, inventory *map[string]*product.Product) *Outlet {
+func NewOutlet(outletID string, location string, numberOfEvents int, holidayEvents map[string]*event.Event, inventory *map[string]*product.Product) *Outlet {
 	centralHubInstance := centralhub.GetHubInstanceDefault()
 	notifyFunc := centralHubInstance.HandleEventNotification
 
-	events := make(map[string]time.Time)
-	for event, eventDate := range holidayEvents {
-		events[event] = eventDate
+	events := make(map[string]*event.Event)
+	for eventname, eventdetails := range holidayEvents {
+		events[eventname].EventDate = eventdetails.EventDate
+		events[eventname].EventDescription = eventdetails.EventDescription
 	}
 
 	o := &Outlet{
@@ -219,8 +220,8 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	eventOccurred := false
 	var eventToNotify string
 
-	for event, eventDate := range o.events {
-		if eventDate.Year() == date.Year() && eventDate.Month() == date.Month() && eventDate.Day() == date.Day() {
+	for event, eventDetails := range o.events {
+		if eventDetails.EventDate.Year() == date.Year() && eventDetails.EventDate.Month() == date.Month() && eventDetails.EventDate.Day() == date.Day() {
 			//if the matching event appears
 			eventOccurred = true
 			eventToNotify = event
@@ -251,11 +252,11 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	}
 
 	//Send the json pack SupermarketInfo to frontend
-	// o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(response))
+	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(response))
 	o.SendSupermarketInfoToFrontend(&supermarketInfo)
 	//Process the scheduled deliveries
-	// o.ProcessScheduledDeliveries(date)
-	// o.scheduleDeliveries(response, date)
+	o.ProcessScheduledDeliveries(date)
+	o.scheduleDeliveries(response, date)
 }
 
 // Various methods to deal with delayed delivery
