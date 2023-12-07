@@ -42,30 +42,30 @@ type AIRequest struct {
     "outletlocation": "Lyon",
     "centralhublocation": "Paris",
     "date": "2023-12-07T15:04:05Z",
-    "Event": "Lavender Festival",
-    "EventDescription": "The upcoming Lavender Festival in the region is expected to significantly increase the demand for local specialties. We anticipate a higher demand for Olive Oil and Baguette as tourists prefer local culinary experiences. Preparing additional stock of these items is advised to meet the increased customer flow.",
+    "event": "Lavender Festival",
+    "eventDescription": "The upcoming Lavender Festival in the region is expected to significantly increase the demand for local specialties. We anticipate a higher demand for Olive Oil and Baguette as tourists prefer local culinary experiences. Preparing additional stock of these items is advised to meet the increased customer flow.",
     "clientPreferences": "Customers in Marseille show a strong preference for locally sourced products, with an emphasis on organic and artisanal options. Olive Oil and Baguettes are particularly popular, aligning with regional culinary traditions."
     "weather": "rainy",
     "shopInventory": {
-        "Olive Oil": {
+        "olive_oil": {
             "productID": "Olive Oil",
             "quantity": 100,
             "replenishmentRate": 30,
             "maxStock": 500
         },
-        "Baguette": {
+        "baguette": {
             "productID": "Baguette",
             "quantity": 200,
             "replenishmentRate": 50,
             "maxStock": 300
         },
-        "Manchego Cheese": {
+        "manchego_Cheese": {
             "productID": "Manchego Cheese",
             "quantity": 150,
             "replenishmentRate": 40,
             "maxStock": 400
         }
-        "Black Tea": {
+        "black_tea": {
             "productID": "Black Tea",
             "quantity": 150,
             "replenishmentRate": 40,
