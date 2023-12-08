@@ -23,32 +23,16 @@ type ProductInfo struct {
 }
 
 type AIRequest struct {
-	outletID           string                 `json:"outletID"`
-	outletlocation     string                 `json:"location"`
-	centralhublocation string                 `json:"centralHubLocation"`
-	date               time.Time              `json:"date"`
+	OutletID           string                 `json:"outletID"`
+	Outletlocation     string                 `json:"location"`
+	Centralhublocation string                 `json:"centralHubLocation"`
+	Date               time.Time              `json:"date"`
 	Event              string                 `json:"event"`
 	EventDescription   string                 `json:"eventDescription"`
-	clientPreferences  string                 `json:"clientPreferences"`
+	ClientPreferences  string                 `json:"clientPreferences"`
 	ShopInventory      map[string]ProductInfo `json:"shopInventory"` //商店库存
 }
 
-/*
-clientPreferences: str
-	The client's preferences for the products. This is a string of the form
-	"product1:quantity1,product2:quantity2,...". The client's preferences
-	are used to determine which products to replenish first.
-
-centralHubInventory: dict
-	A dictionary mapping product names to the number of products in the
-	central hub's inventory.
-*/
-
-/*
-***************************************************
-To be combined with type Response in central_hub.go
-***************************************************
-*/
 type AIResponse struct {
 	DelayDays         int            `json:"delayDays"`
 	CentralhubStock   map[string]int `json:"centralhubStock"`
@@ -241,13 +225,13 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 
 	// //Create Request
 	requestData := AIRequest{
-		outletID:           outletID,
-		outletlocation:     outletlocation,
-		centralhublocation: h.location,
-		date:               event.EventDate,
+		OutletID:           outletID,
+		Outletlocation:     outletlocation,
+		Centralhublocation: h.location,
+		Date:               event.EventDate,
 		Event:              eventName,
 		EventDescription:   event.EventDescription,
-		clientPreferences:  clientPreferences,
+		ClientPreferences:  clientPreferences,
 		ShopInventory:      inventoryInfo,
 	}
 
