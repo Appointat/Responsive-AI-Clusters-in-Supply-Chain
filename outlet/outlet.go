@@ -230,21 +230,19 @@ func (o *Outlet) AddProduct(p *product.Product) {
 
 func (o *Outlet) CheckAndNotify(date time.Time) {
 	eventOccurred := false
-	var eventToNotify event.Event
 	var eventName string
 	var eventDetails *event.Event
 	for eventName, eventDetails = range o.events {
 		if eventDetails.EventDate.Year() == date.Year() && eventDetails.EventDate.Month() == date.Month() && eventDetails.EventDate.Day() == date.Day() {
 			//if the matching event appears
 			eventOccurred = true
-			eventToNotify = *eventDetails
 			break
 		}
 	}
 
 	var response *centralhub.Response
 	if eventOccurred {
-		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, &eventToNotify, o.inventory)
+		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, eventDetails, o.inventory)
 	} else {
 		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, nil, o.inventory)
 	}
