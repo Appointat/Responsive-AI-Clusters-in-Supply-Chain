@@ -246,26 +246,9 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	} else {
 		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, nil, o.inventory)
 	}
-	/*
-		Create a test template for the supermarketInfo
-	*/
-	_ = response
-	ProductLeft := make(map[string]int)
-	ProductLeft["Olive Oil"] = 10
-	ProductLeft["Baguette"] = 20
-	ProductLeft["Manchego Cheese"] = 30
-	ProductLeft["Black Tea"] = 40
-
-	supermarketInfo := centralhub.SupermarketInfo{
-		ID:           o.outletID,
-		ProductLeft:  ProductLeft,
-		ProductAdd:   ProductLeft,
-		DeliveryTime: 0,
-	}
 
 	//Send the json pack SupermarketInfo to frontend
 	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(response))
-	o.SendSupermarketInfoToFrontend(&supermarketInfo)
 	//Process the scheduled deliveries
 	o.ProcessScheduledDeliveries(date)
 	o.scheduleDeliveries(response, date)
