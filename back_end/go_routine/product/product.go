@@ -5,17 +5,27 @@ package product
 
 type Product struct {
 	productID         string
-	productName       string
 	quantity          int
 	replenishmentRate int //the number of products that can be replenished per day
 	max_stock         int //the maximum number of products that can be stored
 }
 
+var GlobalProducts []Product
+
+func InstanceProducts() {
+	GlobalProducts = []Product{
+		{productID: "Olive Oil", quantity: 100, replenishmentRate: 30, max_stock: 500},
+		{productID: "Baguette", quantity: 200, replenishmentRate: 50, max_stock: 300},
+		{productID: "Manchego Cheese", quantity: 150, replenishmentRate: 40, max_stock: 400},
+		{productID: "Black Tea", quantity: 80, replenishmentRate: 20, max_stock: 250},
+	}
+	// Add any additional logic if required
+}
+
 // Initialize with Values
-func NewProduct(productID string, productName string, quantity int, replenishmentRate int, max_stock int) *Product {
+func NewProduct(productID string, quantity int, replenishmentRate int, max_stock int) *Product {
 	instance := &Product{
 		productID:         productID,
-		productName:       productName,
 		quantity:          quantity,
 		replenishmentRate: replenishmentRate,
 		max_stock:         max_stock,
@@ -26,10 +36,6 @@ func NewProduct(productID string, productName string, quantity int, replenishmen
 // Getters
 func (p Product) GetProductID() string {
 	return p.productID
-}
-
-func (p Product) GetProductName() string {
-	return p.productName
 }
 
 func (p Product) GetNumber() int {
@@ -47,10 +53,6 @@ func (p Product) GetMax_stock() int {
 // Setters
 func (p *Product) SetProductID(productID string) {
 	p.productID = productID
-}
-
-func (p *Product) SetProductName(productName string) {
-	p.productName = productName
 }
 
 func (p *Product) SetNumber(Quantity int) {
