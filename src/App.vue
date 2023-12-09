@@ -14,7 +14,7 @@
         <table>
           <thead>
             <tr>
-              <th>Warehouse</th>
+              <th colspan="2">Warehouse</th>
             </tr>
           </thead>
           <tbody>
@@ -29,7 +29,7 @@
         <table>
           <thead>
             <tr>
-              <th>Auchan</th>
+              <th colspan="2">Auchan</th>
             </tr>
           </thead>
           <tbody>
@@ -44,7 +44,7 @@
         <table>
           <thead>
             <tr>
-              <th>Carrefour</th>
+              <th colspan="2">Carrefour</th>
             </tr>
           </thead>
           <tbody>
@@ -59,7 +59,7 @@
         <table>
           <thead>
             <tr>
-              <th>Monoprix</th>
+              <th colspan="2">Monoprix</th>
             </tr>
           </thead>
           <tbody>
@@ -74,7 +74,7 @@
         <table>
           <thead>
             <tr>
-              <th>Normal</th>
+              <th colspan="2">Normal</th>
             </tr>
           </thead>
           <tbody>
@@ -87,10 +87,18 @@
       </div>
     </div>
     <div class="communication">
-      <button @click="toggleMessages1(1)" class="toggle-button show1">Auchan Messages</button>
-      <button @click="toggleMessages2(1)" class="toggle-button show2">Carrefour Messages</button>
-      <button @click="toggleMessages3(1)" class="toggle-button show3">Monoprix Messages</button>
-      <button @click="toggleMessages4(1)" class="toggle-button show4">Normal Messages</button>
+      <button @click="toggleMessages1(1)" class="toggle-button show1">
+        Auchan Messages
+      </button>
+      <button @click="toggleMessages2(1)" class="toggle-button show2">
+        Carrefour Messages
+      </button>
+      <button @click="toggleMessages3(1)" class="toggle-button show3">
+        Monoprix Messages
+      </button>
+      <button @click="toggleMessages4(1)" class="toggle-button show4">
+        Normal Messages
+      </button>
       <!-- <button @click="centralMessages1(1)" class="central-button centralshow1">Central to Auchan</button>
       <button @click="centralMessages2(1)" class="central-button centralshow2">Central to Carrefour</button>
       <button @click="centralMessages3(1)" class="central-button centralshow3">Central to Monoprix</button>
@@ -104,24 +112,52 @@
         <p class="event4">{{ event4 }}</p>
       </div>
 
-      <div ref="messages1" class="message-container1" v-if="(message1 || message5) && showMessages1">
-        <span v-for="msg in messages1_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
-        }}
+      <div
+        ref="messages1"
+        class="message-container1"
+        v-if="(message1 || message5) && showMessages1"
+      >
+        <span
+          v-for="msg in messages1_text"
+          :key="msg.id"
+          :class="['message', getMessageClass(msg.speakerid)]"
+          >{{ msg.text }}
         </span>
       </div>
-      <div ref="messages2" class="message-container2" v-if="(message2 || message6) && showMessages2">
-        <span v-for="msg in messages2_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
-        }}
+      <div
+        ref="messages2"
+        class="message-container2"
+        v-if="(message2 || message6) && showMessages2"
+      >
+        <span
+          v-for="msg in messages2_text"
+          :key="msg.id"
+          :class="['message', getMessageClass(msg.speakerid)]"
+          >{{ msg.text }}
         </span>
       </div>
-      <div ref="messages3" class="message-container3" v-if="(message3 || message7) && showMessages3">
-        <span v-for="msg in messages3_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
-        }}
+      <div
+        ref="messages3"
+        class="message-container3"
+        v-if="(message3 || message7) && showMessages3"
+      >
+        <span
+          v-for="msg in messages3_text"
+          :key="msg.id"
+          :class="['message', getMessageClass(msg.speakerid)]"
+          >{{ msg.text }}
         </span>
       </div>
-      <div ref="messages4" class="message-container4" v-if="(message4 || message8) && showMessages4">
-        <span v-for="msg in messages4_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
-        }}
+      <div
+        ref="messages4"
+        class="message-container4"
+        v-if="(message4 || message8) && showMessages4"
+      >
+        <span
+          v-for="msg in messages4_text"
+          :key="msg.id"
+          :class="['message', getMessageClass(msg.speakerid)]"
+          >{{ msg.text }}
         </span>
       </div>
       <!-- warehouse messages -->
@@ -140,7 +176,7 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 import * as d3 from "d3";
 
@@ -149,40 +185,40 @@ export default {
   data() {
     return {
       stock0: new Map([
-        ["A", 0],
-        ["B", 0],
-        ["C", 0],
-        ["D", 0],
+        ["Olive Oil", 0],
+        ["Baguette", 0],
+        ["Manchego Cheese", 0],
+        ["Black Tea", 0],
       ]),
       stock1: new Map([
-        ["A", 0],
-        ["B", 0],
-        ["C", 0],
-        ["D", 0],
+        ["Olive Oil", 0],
+        ["Baguette", 0],
+        ["Manchego Cheese", 0],
+        ["Black Tea", 0],
       ]),
       stock2: new Map([
-        ["A", 0],
-        ["B", 0],
-        ["C", 0],
-        ["D", 0],
+        ["Olive Oil", 0],
+        ["Baguette", 0],
+        ["Manchego Cheese", 0],
+        ["Black Tea", 0],
       ]),
       stock3: new Map([
-        ["A", 0],
-        ["B", 0],
-        ["C", 0],
-        ["D", 0],
+        ["Olive Oil", 0],
+        ["Baguette", 0],
+        ["Manchego Cheese", 0],
+        ["Black Tea", 0],
       ]),
       stock4: new Map([
-        ["A", 0],
-        ["B", 0],
-        ["C", 0],
-        ["D", 0],
+        ["Olive Oil", 0],
+        ["Baguette", 0],
+        ["Manchego Cheese", 0],
+        ["Black Tea", 0],
       ]),
       onedaytime: 60000, // 60s/day
       date: null,
       event1: "No event",
       event2: "No event",
-      event3: "No event",
+      event3: "No event No event",
       event4: "No event",
       outlet1: null,
       supermarketInfo1: null,
@@ -250,17 +286,16 @@ export default {
 
       // 先定义一个道路图案
       this.svg
-        .append('defs')
-        .append('pattern')
-        .attr('id', 'roadPattern')
-        .attr('width', 20) // 图案宽度，可以根据需要调整
-        .attr('height', 20) // 图案高度，同上
-        .attr('patternUnits', 'userSpaceOnUse')
-        .append('path')
-        .attr('d', 'M 10 0 L 10 20') // 创建线性图案
-        .attr('stroke', '#666') // 道路颜色
-        .attr('stroke-width', 6); // 道路宽度
-
+        .append("defs")
+        .append("pattern")
+        .attr("id", "roadPattern")
+        .attr("width", 20) // 图案宽度，可以根据需要调整
+        .attr("height", 20) // 图案高度，同上
+        .attr("patternUnits", "userSpaceOnUse")
+        .append("path")
+        .attr("d", "M 10 0 L 10 20") // 创建线性图案
+        .attr("stroke", "#666") // 道路颜色
+        .attr("stroke-width", 6); // 道路宽度
 
       // Drawing the line between warehouse and supermarket
       this.supermarkets.forEach((s) => {
@@ -391,7 +426,6 @@ export default {
             this.event4 = value;
             break;
         }
-
       });
       this.stock0 = new Map(Object.entries(generalInfo.warehouseProduct));
     },
@@ -422,69 +456,70 @@ export default {
           this.stock4 = new Map(Object.entries(supermarketInfo.productLeft));
           break;
       }
-      //////////
+      //////////红蓝绿橙
       Object.entries(supermarketInfo.productAdd).forEach((table) => {
         let key = table[0];
         let value = table[1];
+        let size = 5;
         if (value != 0) {
-          if (key == "A") {
+          if (key == "Olive Oil") {
             const boxa = this.svg
               .append("rect")
-              .attr("x", this.warehouse.x + 5)
-              .attr("y", this.warehouse.y + 5)
-              .attr("width", 10)
-              .attr("height", 10)
+              .attr("x", this.warehouse.x + size)
+              .attr("y", this.warehouse.y + size)
+              .attr("width", size * 2)
+              .attr("height", size * 2)
               .style("fill", "red");
             boxa
               .transition()
               .duration(duration)
-              .attr("x", target.x + 5)
-              .attr("y", target.y + 5)
+              .attr("x", target.x + size)
+              .attr("y", target.y + size)
               .on("end", () => boxa.remove());
           }
-          if (key == "B") {
+          if (key == "Baguette") {
             const boxb = this.svg
               .append("rect")
-              .attr("x", this.warehouse.x + 5)
-              .attr("y", this.warehouse.y - 5)
-              .attr("width", 10)
-              .attr("height", 10)
+              .attr("x", this.warehouse.x + size)
+              .attr("y", this.warehouse.y - size)
+              .attr("width", size * 2)
+              .attr("height", size * 2)
               .style("fill", "blue");
             boxb
               .transition()
               .duration(duration)
-              .attr("x", target.x + 5)
-              .attr("y", target.y - 5)
+              .attr("x", target.x + size)
+              .attr("y", target.y - size)
               .on("end", () => boxb.remove());
           }
-          if (key == "C") {
+          if (key == "Manchego Cheese") {
             const boxc = this.svg
               .append("rect")
-              .attr("x", this.warehouse.x - 5)
-              .attr("y", this.warehouse.y - 5)
-              .attr("width", 10)
-              .attr("height", 10)
+              .attr("x", this.warehouse.x - size)
+              .attr("y", this.warehouse.y - size)
+              .attr("width", size * 2)
+              .attr("height", size * 2)
               .style("fill", "green");
             boxc
               .transition()
               .duration(duration)
-              .attr("x", target.x - 5)
-              .attr("y", target.y - 5)
+              .attr("x", target.x - size)
+              .attr("y", target.y - size)
               .on("end", () => boxc.remove());
           }
-          if (key == "D") {
+          if (key == "Black Tea") {
             const boxd = this.svg
               .append("rect")
-              .attr("x", this.warehouse.x - 5)
-              .attr("y", this.warehouse.y + 5)
-              .attr("width", 10)
-              .attr("height", 10)
+              .attr("x", this.warehouse.x - size)
+              .attr("y", this.warehouse.y + size)
+              .attr("width", size * 2)
+              .attr("height", size * 2)
               .style("fill", "orange");
             boxd
               .transition()
               .duration(duration)
-              .attr("x", target.x - 5)
-              .attr("y", target.y + 5)
+              .attr("x", target.x - size)
+              .attr("y", target.y + size)
               .on("end", () => boxd.remove());
           }
         }
@@ -569,7 +604,6 @@ export default {
       }
     },
 
-
     centralMessages1(messageBox) {
       if (messageBox === 1) {
         this.showMessages5 = !this.showMessages5;
@@ -594,23 +628,27 @@ export default {
     getMessageClass(speakerid) {
       // 根据speakerid返回不同的CSS类名
       if (speakerid == "1") {
-        return 'speaker1-class'
+        return "speaker1-class";
       } else if (speakerid == "2") {
-        return 'speaker2-class'
+        return "speaker2-class";
       } else if (speakerid == "3") {
-        return 'speaker3-class'
+        return "speaker3-class";
       } else if (speakerid == "4") {
-        return 'speaker4-class'
+        return "speaker4-class";
       } else if (speakerid == "0") {
-        return 'speaker0-class'  // warehouse
+        return "speaker0-class"; // warehouse
       }
     },
     message1start() {
-      this.message1 = new WebSocket('ws://localhost:8080/message1');
+      this.message1 = new WebSocket("ws://localhost:8080/message1");
       this.message1.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "1") {
-          this.messages1_text.push({ id: this.nextMsgId1++, text: data.text, speakerid: data.SpeakerID });
+          this.messages1_text.push({
+            id: this.nextMsgId1++,
+            text: data.text,
+            speakerid: data.SpeakerID,
+          });
           //this.scrollToBottom();
           if (this.showMessages1) {
             const container1 = this.$refs.messages1;
@@ -632,11 +670,15 @@ export default {
       };
     },
     message2start() {
-      this.message2 = new WebSocket('ws://localhost:8080/message2');
+      this.message2 = new WebSocket("ws://localhost:8080/message2");
       this.message2.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "2") {
-          this.messages2_text.push({ id: this.nextMsgId2++, text: data.text, speakerid: data.SpeakerID });
+          this.messages2_text.push({
+            id: this.nextMsgId2++,
+            text: data.text,
+            speakerid: data.SpeakerID,
+          });
           //this.scrollToBottom();
           if (this.showMessages2) {
             const container2 = this.$refs.messages2;
@@ -658,11 +700,15 @@ export default {
       };
     },
     message3start() {
-      this.message3 = new WebSocket('ws://localhost:8080/message3');
+      this.message3 = new WebSocket("ws://localhost:8080/message3");
       this.message3.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "3") {
-          this.messages3_text.push({ id: this.nextMsgId3++, text: data.text, speakerid: data.SpeakerID });
+          this.messages3_text.push({
+            id: this.nextMsgId3++,
+            text: data.text,
+            speakerid: data.SpeakerID,
+          });
           if (this.showMessages3) {
             const container3 = this.$refs.messages3;
             container3.scrollTop = container3.scrollHeight;
@@ -683,11 +729,15 @@ export default {
       };
     },
     message4start() {
-      this.message4 = new WebSocket('ws://localhost:8080/message4');
+      this.message4 = new WebSocket("ws://localhost:8080/message4");
       this.message4.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "4") {
-          this.messages4_text.push({ id: this.nextMsgId4++, text: data.text, speakerid: data.SpeakerID });
+          this.messages4_text.push({
+            id: this.nextMsgId4++,
+            text: data.text,
+            speakerid: data.SpeakerID,
+          });
           if (this.showMessages4) {
             const container4 = this.$refs.messages4;
             container4.scrollTop = container4.scrollHeight;
@@ -708,11 +758,15 @@ export default {
       };
     },
     message5start() {
-      this.message5 = new WebSocket('ws://localhost:8080/message5');
+      this.message5 = new WebSocket("ws://localhost:8080/message5");
       this.message5.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "1") {
-          this.messages1_text.push({ id: this.nextMsgId1++, text: data.text, speakerid: data.SpeakerID });
+          this.messages1_text.push({
+            id: this.nextMsgId1++,
+            text: data.text,
+            speakerid: data.SpeakerID,
+          });
           //this.scrollToBottom();
           if (this.showMessages1) {
             const container1 = this.$refs.messages1;
@@ -734,11 +788,15 @@ export default {
       };
     },
     message6start() {
-      this.message6 = new WebSocket('ws://localhost:8080/message6');
+      this.message6 = new WebSocket("ws://localhost:8080/message6");
       this.message6.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "2") {
-          this.messages2_text.push({ id: this.nextMsgId2++, text: data.text, speakerid: data.SpeakerID });
+          this.messages2_text.push({
+            id: this.nextMsgId2++,
+            text: data.text,
+            speakerid: data.SpeakerID,
+          });
           //this.scrollToBottom();
           if (this.showMessages2) {
             const container2 = this.$refs.messages2;
@@ -760,11 +818,15 @@ export default {
       };
     },
     message7start() {
-      this.message7 = new WebSocket('ws://localhost:8080/message7');
+      this.message7 = new WebSocket("ws://localhost:8080/message7");
       this.message7.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "3") {
-          this.messages3_text.push({ id: this.nextMsgId3++, text: data.text, speakerid: data.SpeakerID });
+          this.messages3_text.push({
+            id: this.nextMsgId3++,
+            text: data.text,
+            speakerid: data.SpeakerID,
+          });
           if (this.showMessages3) {
             const container3 = this.$refs.messages3;
             container3.scrollTop = container3.scrollHeight;
@@ -785,11 +847,15 @@ export default {
       };
     },
     message8start() {
-      this.message8 = new WebSocket('ws://localhost:8080/message8');
+      this.message8 = new WebSocket("ws://localhost:8080/message8");
       this.message8.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "4") {
-          this.messages4_text.push({ id: this.nextMsgId4++, text: data.text, speakerid: data.SpeakerID });
+          this.messages4_text.push({
+            id: this.nextMsgId4++,
+            text: data.text,
+            speakerid: data.SpeakerID,
+          });
           if (this.showMessages4) {
             const container4 = this.$refs.messages4;
             container4.scrollTop = container4.scrollHeight;
@@ -812,17 +878,13 @@ export default {
   },
 };
 </script>
-  
+
 <style>
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
-/* text-align: center; */
-/* color: #2c3e50;
-} */
+/* background #def6f6 */
+/* table border #dc3636 */
+
 #app {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333;
@@ -831,17 +893,12 @@ export default {
   padding: 0;
 }
 
-/* header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-} */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: rgb(255, 255, 255);
-  color: rgb(226, 41, 41);
+  color: black;
   padding: 10px;
 }
 
@@ -854,6 +911,8 @@ header {
   text-align: center;
   font-size: 48px;
 }
+
+/* /////////////////////////////////////////////////// */
 
 .btn,
 .bth:link,
@@ -879,132 +938,107 @@ header {
   color: red;
 }
 
+/* /////////////////////////////////////////////////// */
+
 .information {
-  display: flex;
-  justify-content: flex-start;
+  padding: 20px;
+  background: linear-gradient(to bottom, white, #def6f6);
 }
 
 .date {
-  flex: 1;
+  margin: 0 20px;
+  font-size: 42px;
+  color: #2e75c2;
+  padding-bottom: 20px;
 }
+
+/* /////////////////////////////////////////////////// */
 
 .event {
   font-size: 36px;
   color: #b35a00;
   font-weight: 600;
-
 }
 
 .event1 {
   position: absolute;
   top: 25px;
-  left: 550px;
+  left: 475px;
   width: 800px;
 }
 
 .event2 {
   position: absolute;
   top: 900px;
-  left: 550px;
+  left: 475px;
   width: 800px;
 }
 
 .event3 {
   position: absolute;
   top: 25px;
-  left: 1150px;
+  left: 850px;
   width: 800px;
+  text-align: right;
 }
 
 .event4 {
   position: absolute;
   top: 900px;
-  left: 1150px;
+  left: 850px;
   width: 800px;
+  text-align: right;
 }
 
-.information {
-  padding: 20px;
-}
-
-.date {
-  margin: 0 20px;
-  font-size: 30px;
-  color: #0056b3;
-}
-
-/*
-.table {
-  grid-template-columns: repeat(5, 1fr);
-  display: grid;
-  justify-content: space-between;
-}*/
+/* ///////////////////////////////////////////// */
 
 .table {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  justify-content: space-between;
-  border-collapse: collapse;
-  /* 合并单元格边框 */
-  width: 100%;
 }
 
 .table th,
 .table td {
-  padding: 10px;
-  /* 设置单元格内边距 */
-  text-align: center;
-  /* 文本居中对齐 */
   border: 1px solid #dc3636;
-  /* 单元格边框 */
+  color: black;
 }
 
 .table th {
-  background-color: rgb(216, 142, 58);
-  /* 表头背景颜色 */
-  font-weight: bold;
-  /* 粗体字体 */
+  padding: 12px;
+  background-color: #f2f2f2;
+  font-size: 20px;
 }
 
-/* 隔行变色 */
-.table tr:nth-child(even) {
-  background-color: #ff2222;
-}
-
-/* 鼠标悬停效果 */
-.table tr:hover {
-  background-color: #aab440;
-}
-
-
-
-.supermarkettable {
-  justify-self: center;
-}
-
-.warehousetable {
-  justify-self: center;
+.table td {
+  padding: 8px;
+  font-weight: 500;
+  text-align: left;
 }
 
 .warehousetable,
 .supermarkettable {
-  border-collapse: collapse;
-  border: 2px solid #ddd;
-  font-size: 18px;
+  justify-self: center;
 }
 
-.warehousetable th,
-.supermarkettable th {
-  background-color: #f2f2f2;
-  color: black;
-  padding: 12px;
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  min-width: 50px;
 }
 
-.warehousetable td,
-.supermarkettable td {
-  padding: 8px;
-  text-align: left;
+.table tr:nth-child(1) td:nth-child(2) {
+  background: linear-gradient(to right, #def6f6, 70%, red);
 }
+.table tr:nth-child(2) td:nth-child(2) {
+  background: linear-gradient(to right, #def6f6, 70%, blue);
+}
+.table tr:nth-child(3) td:nth-child(2) {
+  background: linear-gradient(to right, #def6f6, 70%, green);
+}
+.table tr:nth-child(4) td:nth-child(2) {
+  background: linear-gradient(to right, #def6f6, 70%, orange);
+}
+
+/* ///////////////////////////////////////////// */
 
 .communication {
   position: relative;
@@ -1037,12 +1071,12 @@ header {
   font-family: inherit;
   width: 250px;
   height: 60px;
-  background-color: rgb(222, 211, 0);
+  background-color: rgb(241, 163, 18);
   color: white;
 }
 
 .toggle-button:hover {
-  background-color: white;
+  background-color: #def6f6;
   color: red;
 }
 
@@ -1069,7 +1103,6 @@ header {
   background-color: white;
   color: red;
 }
-
 
 .show1 {
   position: absolute;
@@ -1261,8 +1294,6 @@ header {
   color: #333;
 }
 
-
-
 .message-container5,
 .message-container6,
 .message-container7,
@@ -1276,7 +1307,6 @@ header {
   /* 允许长单词或无间断的文本换行 */
   white-space: pre-wrap;
 }
-
 
 .message-container1 span,
 .message-container2 span,
@@ -1310,23 +1340,22 @@ header {
   color: rgb(255, 136, 0);
 } */
 .speaker1-class {
-  color: #E91E63;
+  color: #e91e63;
 }
 
 .speaker2-class {
-  color: #03A9F4;
+  color: #03a9f4;
 }
 
 .speaker3-class {
-  color: #4CAF50;
+  color: #4caf50;
 }
 
 .speaker4-class {
-  color: #FFC107;
+  color: #ffc107;
 }
 
 .speaker0-class {
-  color: #9C27B0;
+  color: #9c27b0;
 }
 </style>
-  
