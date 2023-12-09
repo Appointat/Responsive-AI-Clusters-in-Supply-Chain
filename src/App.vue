@@ -936,6 +936,9 @@ header {
 .btn:hover {
   background-color: white;
   color: red;
+  border-color: red;
+  border-style: solid;
+  border-width: 2px;
 }
 
 /* /////////////////////////////////////////////////// */
@@ -1077,7 +1080,10 @@ header {
 
 .toggle-button:hover {
   background-color: #def6f6;
-  color: red;
+  color: rgb(241, 163, 18);
+  border-color: rgb(241, 163, 18);
+  border-style: solid;
+  border-width: 2px;
 }
 
 .central-button,
