@@ -22,3 +22,9 @@ pnpm-debug.log*
 *.sln
 *.sw?
 back_end/ai/venv/*
+
+# Ignore all __pycache__ directories
+__pycache__/
+
+# Ignore all .pyc files
+*.pyc
