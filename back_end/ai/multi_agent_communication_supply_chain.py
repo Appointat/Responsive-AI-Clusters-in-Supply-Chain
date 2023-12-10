@@ -213,9 +213,7 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50) -> 
                             f"{ai_user_role}:\n\n{user_response.msg.content}\n", 0.005)
         print_text_animated(Fore.GREEN + f"{ai_assistant_role}:\n\n"
                             f"{assistant_response.msg.content}\n", 0.005)
-        # print(Fore.BLUE + f"AI User:\n\n{user_response.msg.content}\n")
-        # print(Fore.GREEN + "AI Assistant:\n\n"
-        #       f"{assistant_response.msg.content}\n")
+
         match_and_replace = lambda a, b: {k: match_and_replace(a[k], b[k]) if isinstance(a[k], dict) else b[k] for k in a}
 
         # Match the values in the response with the request
