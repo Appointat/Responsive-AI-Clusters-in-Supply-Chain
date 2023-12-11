@@ -23,6 +23,14 @@ type ProductInfo struct {
 }
 
 type AIRequest struct {
+	// OutletID           string                 `json:"outlet_id"`
+	// Outletlocation     string                 `json:"outlet_location"`
+	// Centralhublocation string                 `json:"central_hub_location"`
+	// Date               time.Time              `json:"date"`
+	// Event              string                 `json:"event"`
+	// EventDescription   string                 `json:"event_description"`
+	// ClientPreferences  string                 `json:"client_preferences"`
+	// ShopInventory      map[string]ProductInfo `json:"outlet_inventory"` //商店库存
 	OutletID           string                 `json:"outletID"`
 	Outletlocation     string                 `json:"location"`
 	Centralhublocation string                 `json:"centralHubLocation"`
