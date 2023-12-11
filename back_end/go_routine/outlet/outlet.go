@@ -256,6 +256,7 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	//Process the scheduled deliveries
 	o.ProcessScheduledDeliveries(date)
 	o.scheduleDeliveries(response, date)
+	o.updateInventory(response.Replenishments)
 }
 
 // Various methods to deal with delayed delivery
