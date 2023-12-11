@@ -246,7 +246,9 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	if eventOccurred {
 		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, eventDetails, o.inventory)
 	} else {
-		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, nil, o.inventory)
+		eventDetails.EventDate = date
+		eventDetails.EventDescription = "No event"
+		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, eventDetails, o.inventory)
 	}
 
 	//Send the json pack SupermarketInfo to frontend
