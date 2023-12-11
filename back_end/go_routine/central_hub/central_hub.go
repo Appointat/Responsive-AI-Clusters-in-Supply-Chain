@@ -16,10 +16,9 @@ import (
 )
 
 type ProductInfo struct {
-	ProductID         string `json:"product_id"`
-	Quantity          int    `json:"current_storage_amount"`
-	ReplenishmentRate int    `json:"daily_replenishment_without_envent_from_central_hub"`
-	MaxStock          int    `json:"max_warehouse_capacity"`
+	Quantity          int `json:"current_storage_amount"`
+	ReplenishmentRate int `json:"daily_replenishment_without_envent_from_central_hub"`
+	MaxStock          int `json:"max_warehouse_capacity"`
 }
 
 type AIRequest struct {
@@ -216,7 +215,6 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 	inventoryInfo := make(map[string]ProductInfo)
 	for _, prod := range shopInventory {
 		inventoryInfo[prod.GetProductID()] = ProductInfo{
-			ProductID:         prod.GetProductID(),
 			Quantity:          prod.GetNumber(),
 			ReplenishmentRate: prod.GetReplenishmentRate(),
 			MaxStock:          prod.GetMax_stock(),
