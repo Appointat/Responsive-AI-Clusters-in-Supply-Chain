@@ -16,29 +16,21 @@ import (
 )
 
 type ProductInfo struct {
-	ProductID         string `json:"productID"`
-	Quantity          int    `json:"quantity"`
-	ReplenishmentRate int    `json:"replenishmentRate"`
-	MaxStock          int    `json:"maxStock"`
+	ProductID         string `json:"product_id"`
+	Quantity          int    `json:"current_storage_amount"`
+	ReplenishmentRate int    `json:"daily_replenishment_without_envent_from_central_hub"`
+	MaxStock          int    `json:"max_warehouse_capacity"`
 }
 
 type AIRequest struct {
-	// OutletID           string                 `json:"outlet_id"`
-	// Outletlocation     string                 `json:"outlet_location"`
-	// Centralhublocation string                 `json:"central_hub_location"`
-	// Date               time.Time              `json:"date"`
-	// Event              string                 `json:"event"`
-	// EventDescription   string                 `json:"event_description"`
-	// ClientPreferences  string                 `json:"client_preferences"`
-	// ShopInventory      map[string]ProductInfo `json:"outlet_inventory"` //商店库存
-	OutletID           string                 `json:"outletID"`
-	Outletlocation     string                 `json:"location"`
-	Centralhublocation string                 `json:"centralHubLocation"`
+	OutletID           string                 `json:"outlet_id"`
+	Outletlocation     string                 `json:"outlet_location"`
+	Centralhublocation string                 `json:"central_hub_location"`
 	Date               time.Time              `json:"date"`
 	Event              string                 `json:"event"`
-	EventDescription   string                 `json:"eventDescription"`
-	ClientPreferences  string                 `json:"clientPreferences"`
-	ShopInventory      map[string]ProductInfo `json:"shopInventory"` //商店库存
+	EventDescription   string                 `json:"event_description"`
+	ClientPreferences  string                 `json:"client_preferences"`
+	ShopInventory      map[string]ProductInfo `json:"outlet_inventory"` //商店库存
 }
 
 type AIResponse struct {
@@ -255,7 +247,7 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 
 	h.sendGeneralInfoToFrontEnd(h.IntegrateAIResponseToGeneralInfo(eventName, event.EventDate, aiResponse))
 	//Extract the info from aiResponse
-	replenishments := make(map[string]int)
+	replenishments := make(map[string]int) // TODO: 提取库存信息
 
 	//Calculate the number of products that need to be replenished
 	for name, _ := range shopInventory {

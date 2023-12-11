@@ -59,43 +59,44 @@ PATH_ASSISTANT_ID_4 = "message8"
 USER_PATHS = [PATH_USER_ID_1, PATH_USER_ID_2, PATH_USER_ID_3, PATH_USER_ID_4]
 ASSISTANT_PATHS = [PATH_USER_ID_1, PATH_USER_ID_2, PATH_USER_ID_3, PATH_USER_ID_4]
 
-def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50) -> None:
-    request_json = {
-        "outlet_id": "1",
-        "outlet_location": "Lyon",
-        "central_hub_location": "Paris",
-        "date": "2023-12-07T15:04:05Z",
-        "event": "Lavender Festival",
-        "event_description": "The upcoming Lavender Festival in the region is expected to significantly increase the demand for local specialties. We anticipate a higher demand for Olive Oil and Baguette as tourists prefer local culinary experiences. Preparing additional stock of these items is advised to meet the increased customer flow.",
-        "client_preferences": "Customers in Marseille show a strong preference for locally sourced products, with an emphasis on organic and artisanal options. Olive Oil and Baguettes are particularly popular, aligning with regional culinary traditions.",
-        "weather": "rainy",
-        "outlet_inventory": {
-            "olive_oil": {
-                "product_id": "Olive Oil",
-                "current_storage_amount": 100,
-                "daily_replenishment_without_envent_from_central_hub": 30,
-                "max_warehouse_capacity": 500
-            },
-            "baguette": {
-                "product_id": "Baguette",
-                "current_storage_amount": 200,
-                "daily_replenishment_without_envent_from_central_hub": 50,
-                "max_warehouse_capacity": 300
-            },
-            "manchego_cheese": {
-                "product_id": "Manchego Cheese",
-                "current_storage_amount": 150,
-                "daily_replenishment_without_envent_from_central_hub": 40,
-                "max_warehouse_capacity": 400
-            },
-            "black_tea": {
-                "product_id": "Black Tea",
-                "current_storage_amount": 150,
-                "daily_replenishment_without_envent_from_central_hub": 40,
-                "max_warehouse_capacity": 500
+def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, request_json=None) -> None:
+    if request_json is None:
+        request_json = {
+            "outlet_id": "1",
+            "outlet_location": "Lyon",
+            "central_hub_location": "Paris",
+            "date": "2023-12-07T15:04:05Z",
+            "event": "Lavender Festival",
+            "event_description": "The upcoming Lavender Festival in the region is expected to significantly increase the demand for local specialties. We anticipate a higher demand for Olive Oil and Baguette as tourists prefer local culinary experiences. Preparing additional stock of these items is advised to meet the increased customer flow.",
+            "client_preferences": "Customers in Marseille show a strong preference for locally sourced products, with an emphasis on organic and artisanal options. Olive Oil and Baguettes are particularly popular, aligning with regional culinary traditions.",
+            "weather": "rainy",
+            "outlet_inventory": {
+                "olive_oil": {
+                    "product_id": "Olive Oil",
+                    "current_storage_amount": 100,
+                    "daily_replenishment_without_envent_from_central_hub": 30,
+                    "max_warehouse_capacity": 500
+                },
+                "baguette": {
+                    "product_id": "Baguette",
+                    "current_storage_amount": 200,
+                    "daily_replenishment_without_envent_from_central_hub": 50,
+                    "max_warehouse_capacity": 300
+                },
+                "manchego_cheese": {
+                    "product_id": "Manchego Cheese",
+                    "current_storage_amount": 150,
+                    "daily_replenishment_without_envent_from_central_hub": 40,
+                    "max_warehouse_capacity": 400
+                },
+                "black_tea": {
+                    "product_id": "Black Tea",
+                    "current_storage_amount": 150,
+                    "daily_replenishment_without_envent_from_central_hub": 40,
+                    "max_warehouse_capacity": 500
+                }
             }
         }
-    }
     response_json = {
         "outlet_inventory": {
             "olive_oil": {
@@ -108,7 +109,7 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50) -> 
                 "historical_daily_replenishment_amount_from_central_hub": "<NUM>",
                 "specific_reason_of_replenishment": "<STRING>"
             },
-            "manchego_Cheese": {
+            "manchego_cheese": {
                 "product_id": "Manchego Cheese",
                 "historical_daily_replenishment_amount_from_central_hub": "<NUM>",
                 "specific_reason_of_replenishment": "<STRING>"
@@ -119,7 +120,25 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50) -> 
                 "specific_reason_of_replenishment": "<STRING>"
             }
         },
-        "transportation_type": "<STRING>",
+        "central_hub_inventory": {
+            "olive_oil": {
+                "product_id": "Olive Oil",
+                "current_storage_amount": "<NUM>",
+                "max_warehouse_capacity": "<NUM>"
+            },
+            "baguette": {
+                "product_id": "Baguette",
+                "current_storage_amount": "<NUM>",
+            },
+            "manchego_cheese": {
+                "product_id": "Manchego Cheese",
+                "current_storage_amount": "<NUM>",
+            },
+            "black_tea": {
+                "product_id": "Black Tea",
+                "current_storage_amount": "<NUM>",
+            },
+        },
         "transportation_duration": "<NUM> per day"
     }
 
@@ -177,11 +196,11 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50) -> 
         extend_sys_msg_meta_dicts=sys_msg_meta_dicts,
     )
 
-    print(
-        Fore.GREEN +
-        f"AI Assistant sys message:\n{role_play_session.assistant_sys_msg}\n")
-    print(Fore.BLUE +
-          f"AI User sys message:\n{role_play_session.user_sys_msg}\n")
+    # print(
+    #     Fore.GREEN +
+    #     f"AI Assistant sys message:\n{role_play_session.assistant_sys_msg}\n")
+    # print(Fore.BLUE +
+    #       f"AI User sys message:\n{role_play_session.user_sys_msg}\n")
 
     print(Fore.YELLOW + f"Original task prompt:\n{task_prompt}\n")
     print(
@@ -225,8 +244,8 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50) -> 
                 parsed_json = json.loads(json_string)
                 _final_answer_json = match_and_replace(response_json, parsed_json)
         except:
-            final_answer_json = _final_answer_json
-        if _final_answer_json is None:
+            warning = "The user response is not in the correct format. Please check the user response."
+        if _final_answer_json is not None:
             final_answer_json = _final_answer_json
 
         try:
@@ -237,10 +256,9 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50) -> 
                 parsed_json = json.loads(json_string)
                 _final_answer_json = match_and_replace(response_json, parsed_json)
         except:
-            final_answer_json = _final_answer_json
+            warning = "The assistant response is not in the correct format. Please check the assistant response."
         if _final_answer_json is not None:
             final_answer_json = _final_answer_json
-        
 
         if "CAMEL_TASK_DONE" in user_response.msg.content or \
             "CAMEL_TASK_DONE" in assistant_response.msg.content:
@@ -248,7 +266,11 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50) -> 
 
         input_assistant_msg = assistant_response.msg
 
+    # Convert string into JSON
+    # final_answer_json["transportation_duration"] = "1"
     print(Fore.RED + f"final_answer_json:\n{json.dumps(final_answer_json, indent=4)}\n")
+
+    return final_answer_json
 
 # if __name__ == "__main__":
 #     role_playing()
