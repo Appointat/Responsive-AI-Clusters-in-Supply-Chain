@@ -139,8 +139,10 @@ func NewOutlet(outletID string, location string, numberOfEvents int, holidayEven
 
 	events := make(map[string]*event.Event)
 	for eventname, eventdetails := range holidayEvents {
-		events[eventname].EventDate = eventdetails.EventDate
-		events[eventname].EventDescription = eventdetails.EventDescription
+		events[eventname] = &event.Event{
+			EventDate:        eventdetails.EventDate,
+			EventDescription: eventdetails.EventDescription,
+		}
 	}
 
 	o := &Outlet{
