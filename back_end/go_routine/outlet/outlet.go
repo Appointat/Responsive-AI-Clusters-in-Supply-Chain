@@ -139,8 +139,10 @@ func NewOutlet(outletID string, location string, numberOfEvents int, holidayEven
 
 	events := make(map[string]*event.Event)
 	for eventname, eventdetails := range holidayEvents {
-		events[eventname].EventDate = eventdetails.EventDate
-		events[eventname].EventDescription = eventdetails.EventDescription
+		events[eventname] = &event.Event{
+			EventDate:        eventdetails.EventDate,
+			EventDescription: eventdetails.EventDescription,
+		}
 	}
 
 	o := &Outlet{
@@ -244,7 +246,9 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	if eventOccurred {
 		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, eventDetails, o.inventory)
 	} else {
-		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, nil, o.inventory)
+		eventDetails.EventDate = date
+		eventDetails.EventDescription = "No event"
+		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, eventDetails, o.inventory)
 	}
 
 	//Send the json pack SupermarketInfo to frontend
