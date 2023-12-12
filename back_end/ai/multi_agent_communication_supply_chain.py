@@ -12,6 +12,7 @@
 # limitations under the License.
 # =========== Copyright 2023 @ CAMEL-AI.org. All Rights Reserved. ===========
 import json, re
+import queue
 
 from colorama import Fore
 
@@ -36,37 +37,10 @@ PATH_ASSISTANT_ID_2 = "message6"
 PATH_ASSISTANT_ID_3 = "message7"
 PATH_ASSISTANT_ID_4 = "message8"
 USER_PATHS = [PATH_USER_ID_1, PATH_USER_ID_2, PATH_USER_ID_3, PATH_USER_ID_4]
-ASSISTANT_PATHS = [PATH_USER_ID_1, PATH_USER_ID_2, PATH_USER_ID_3, PATH_USER_ID_4]
+ASSISTANT_PATHS = [PATH_ASSISTANT_ID_1, PATH_ASSISTANT_ID_2, PATH_ASSISTANT_ID_3, PATH_ASSISTANT_ID_4]
+ALL_PATHS = USER_PATHS + ASSISTANT_PATHS
+connections = {path: set() for path in ALL_PATHS}
 
-
-async def send_streaming_message(message_text, sender="user", sender_id="1"):
-    handler = lambda ws, path: websocket_handler(websocket=ws, path=path,
-                                                 message_text=message_text,
-                                                 sender=sender, sender_id=sender_id)
-    async with websockets.serve(handler, "localhost", 8080):
-        await asyncio.Future()  # run forever
-
-async def websocket_handler(websocket, path, message_text, sender, sender_id):
-    msg = ""
-    for char in message_text:
-        msg += char
-        if sender == "user":
-            message = {
-                "SpeakerID": sender_id,
-                "ReceiverID": "0",
-                "text": msg
-            }
-        else:
-            message = {
-                "SpeakerID": "0",
-                "ReceiverID": sender_id,
-                "text": msg
-            }
-        try:
-            await websocket.send(json.dumps(message))
-            await asyncio.sleep(0.05)
-        except Exception as e:
-            logging.error(e)
 
 def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, request_json=None, central_hub_json=None) -> None:
     if request_json is None:
@@ -127,8 +101,6 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, req
     }
     # Add the central hub inventory to the request
     input_json = request_json | central_hub_json
-    print(Fore.RED + f"input_json:\n{json.dumps(input_json, indent=4)}\n")
-
 
     context_text = "===== CONTEXT =====\n" + json.dumps(input_json, indent=4) + """
 The \"historical_daily_replenishment_amount_from_central_hub\" means the average daily replenishment amount from the central hub to the outlet in the past. So it could be used as a reference for the replenishment amount in the future.
@@ -190,12 +162,14 @@ While making decisions, the central hub should first consider the neccessary inf
     #       f"AI User sys message:\n{role_play_session.user_sys_msg}\n")
 
     print(Fore.YELLOW + f"Original task prompt:\n{task_prompt}\n")
-    print(
-        Fore.CYAN +
-        f"Specified task prompt:\n{role_play_session.specified_task_prompt}\n")
-    print(Fore.RED + f"Final task prompt:\n{role_play_session.task_prompt}\n")
+    # print(
+    #     Fore.CYAN +
+    #     f"Specified task prompt:\n{role_play_session.specified_task_prompt}\n")
+    # print(Fore.RED + f"Final task prompt:\n{role_play_session.task_prompt}\n")
 
     final_answer_json = None
+
+    message_queue = queue.Queue()
 
     n = 0
     input_assistant_msg, _ = role_play_session.init_chat()
@@ -219,11 +193,8 @@ While making decisions, the central hub should first consider the neccessary inf
                             f"{ai_user_role}:\n\n{user_response.msg.content}\n", 0.005)
         print_text_animated(Fore.GREEN + f"{ai_assistant_role}:\n\n"
                             f"{assistant_response.msg.content}\n", 0.005)
-        
-        user_message_to_socket = user_response.msg.content.replace(r'\{.*\}', '')
-        if user_message_to_socket != "":
-            asyncio.run(send_streaming_message(message_text=user_message_to_socket, sender="user", sender_id=user_id))
-        # asyncio.run(send_streaming_message(assistant_response.msg.content))
+
+        message_queue.put({"sender_id": user_id, "user_mesaage": user_response.msg.content, "assistant_message": assistant_response.msg.content})
 
         match_and_replace = lambda a, b: {k: match_and_replace(a[k], b[k]) if isinstance(a[k], dict) else b[k] for k in a}
 
@@ -259,7 +230,6 @@ While making decisions, the central hub should first consider the neccessary inf
         input_assistant_msg = assistant_response.msg
 
     # Convert string into JSON
-
     outlet_inventory_json = final_answer_json['outlet_inventory']
 
     # Calculate the changed replenishment amount from central hub
@@ -289,4 +259,4 @@ While making decisions, the central hub should first consider the neccessary inf
     }
 
     print(Fore.RED + f"final_answer_json:\n{json.dumps(final_answer_json, indent=4)}\n")
-    return final_answer_json, central_hub_json
+    return final_answer_json, central_hub_json, message_queue
