@@ -5,7 +5,7 @@ from multi_agent_communication_supply_chain import role_playing
 
 app = Flask(__name__)
 
-cantral_hub_json = {
+central_hub_json = {
     "central_hub_inventory": {
         "olive_oil": {
             "current_storage_amount": 1000,
@@ -61,8 +61,8 @@ def handle_ai_request():
     request_data = request.get_json()
 
     # Perform some AI-related processing here...
-    response_data, _central_hub_json = role_playing(request_json=request_data, central_hub_json=cantral_hub_json)
-    cantral_hub_json = _central_hub_json
+    response_data, _central_hub_json = role_playing(request_json=request_data, central_hub_json=central_hub_json)
+    central_hub_json = _central_hub_json
 
     # Send JSON response
     return jsonify(response_data)
