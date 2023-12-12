@@ -16,10 +16,9 @@ import (
 )
 
 type ProductInfo struct {
-	ProductID         string `json:"product_id"`
-	Quantity          int    `json:"current_storage_amount"`
-	ReplenishmentRate int    `json:"daily_replenishment_without_envent_from_central_hub"`
-	MaxStock          int    `json:"max_warehouse_capacity"`
+	Quantity          int `json:"current_storage_amount"`
+	ReplenishmentRate int `json:"daily_replenishment_without_envent_from_central_hub"`
+	MaxStock          int `json:"max_warehouse_capacity"`
 }
 
 type AIRequest struct {
@@ -33,10 +32,19 @@ type AIRequest struct {
 	ShopInventory      map[string]ProductInfo `json:"outlet_inventory"` //商店库存
 }
 
+// AIResponse is the response from the AI
+type InventoryItem struct {
+	CurrentStorageAmount int `json:"current_storage_amount"`
+}
+
+type ReplenishmentItem struct {
+	ChangedReplenishmentAmount int `json:"changed_replenishment_amount_from_central_hub"`
+}
+
 type AIResponse struct {
-	DelayDays         int            `json:"delayDays"`
-	CentralhubStock   map[string]int `json:"centralhubStock"`
-	ReplenishmentData map[string]int `json:"replenishmentDates"`
+	DelayDays         int                          `json:"transportation_duration"`
+	CentralhubStock   map[string]InventoryItem     `json:"central_hub_inventory"`
+	ReplenishmentData map[string]ReplenishmentItem `json:"outlet_inventory"`
 }
 
 // GeneralInfo, SupermarketInfo, interact with the Frontend
@@ -166,7 +174,10 @@ func (h *CentralHub) IntegrateAIResponseToGeneralInfo(event string, date time.Ti
 	// Integrate the data from AI
 
 	// Extract the info from aiResponse
-	warehouseProduct := aiResponseData.ReplenishmentData
+	warehouseProduct := make(map[string]int)
+	for name, _ := range aiResponseData.CentralhubStock {
+		warehouseProduct[name] = aiResponseData.CentralhubStock[name].CurrentStorageAmount
+	}
 	generalInfo := GeneralInfo{
 		Date:             date,
 		Event:            event,
@@ -216,7 +227,6 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 	inventoryInfo := make(map[string]ProductInfo)
 	for _, prod := range shopInventory {
 		inventoryInfo[prod.GetProductID()] = ProductInfo{
-			ProductID:         prod.GetProductID(),
 			Quantity:          prod.GetNumber(),
 			ReplenishmentRate: prod.GetReplenishmentRate(),
 			MaxStock:          prod.GetMax_stock(),
@@ -252,11 +262,11 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 	//Calculate the number of products that need to be replenished
 	for name, _ := range shopInventory {
 		if ReplenishmentData, exists := aiResponse.ReplenishmentData[name]; exists {
-			quantityNeeded := ReplenishmentData
+			quantityNeeded := ReplenishmentData.ChangedReplenishmentAmount
 			if quantityNeeded != 0 {
 				replenishments[name] = quantityNeeded
 				//Directly change the number of products in the central hub according to the AI response
-				h.resources[name].SetNumber(aiResponse.CentralhubStock[name])
+				h.resources[name].SetNumber(aiResponse.CentralhubStock[name].CurrentStorageAmount)
 			} else {
 				replenishments[name] = 0
 			}

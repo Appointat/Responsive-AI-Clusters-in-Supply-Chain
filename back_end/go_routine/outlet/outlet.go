@@ -256,7 +256,6 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	//Process the scheduled deliveries
 	o.ProcessScheduledDeliveries(date)
 	o.scheduleDeliveries(response, date)
-	o.updateInventory(response.Replenishments)
 }
 
 // Various methods to deal with delayed delivery
@@ -287,14 +286,6 @@ func (o *Outlet) ProcessScheduledDeliveries(currentDate time.Time) {
 			}
 		}
 		delete(o.scheduledDeliveries, currentDate)
-	}
-}
-
-func (o *Outlet) updateInventory(replenishments map[string]int) {
-	for name, quantity := range replenishments {
-		if prod, ok := o.inventory[name]; ok {
-			prod.SetNumber(prod.GetNumber() + quantity)
-		}
 	}
 }
 
