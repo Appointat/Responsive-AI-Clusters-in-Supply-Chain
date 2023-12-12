@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 
 from multi_agent_communication_supply_chain import role_playing
 
+import logging
+
+
 app = Flask(__name__)
 
 central_hub_json = {
@@ -56,6 +59,8 @@ response_json = {
 # Define a route for the AI request
 @app.route('/ai', methods=['POST'])
 def handle_ai_request():
+    logging.basicConfig(level=logging.INFO)
+
     # Define global variables
     global central_hub_json
 
@@ -68,6 +73,7 @@ def handle_ai_request():
 
     # Send JSON response
     return jsonify(response_data)
+
 
 if __name__ == '__main__':
     # Running on http://0.0.0.0:5000/ without threading even in debug mode
