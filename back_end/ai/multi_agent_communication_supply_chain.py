@@ -21,46 +21,10 @@ from camel.utils import print_text_animated
 from camel.functions import MATH_FUNCS, SEARCH_FUNCS
 from camel.types import ModelType, TaskType
 
-
 import asyncio
-import websockets
 import json
 import logging
-
-import asyncio
 import websockets
-import json
-import logging
-
-async def send_message1(websocket, message_text):
-    msg = ""
-    for char in message_text:
-        msg += char
-        print(f"Sending message: {msg}")
-        message = {
-            "SpeakerID": "1",
-            "ReceiverID": "5",
-            "text": msg
-        }
-        try:
-            await websocket.send(json.dumps(message))
-            await asyncio.sleep(0.05)
-        except Exception as e:
-            logging.error(e)
-
-async def websocket_handler(websocket, path, message_text):
-    await send_message1(websocket, message_text)
-
-async def send_streaming_message(message_text):
-    handler = lambda ws, path: websocket_handler(ws, path, message_text)
-    async with websockets.serve(handler, "localhost", 8080):
-        await asyncio.Future()  # run forever
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    custom_message = "Hello, this is the message text!"
-    asyncio.run(send_streaming_message(custom_message))
-
 
 
 PATH_USER_ID_1 = "message1"
@@ -73,6 +37,36 @@ PATH_ASSISTANT_ID_3 = "message7"
 PATH_ASSISTANT_ID_4 = "message8"
 USER_PATHS = [PATH_USER_ID_1, PATH_USER_ID_2, PATH_USER_ID_3, PATH_USER_ID_4]
 ASSISTANT_PATHS = [PATH_USER_ID_1, PATH_USER_ID_2, PATH_USER_ID_3, PATH_USER_ID_4]
+
+
+async def send_streaming_message(message_text, sender="user", sender_id="1"):
+    handler = lambda ws, path: websocket_handler(websocket=ws, path=path,
+                                                 message_text=message_text,
+                                                 sender=sender, sender_id=sender_id)
+    async with websockets.serve(handler, "localhost", 8080):
+        await asyncio.Future()  # run forever
+
+async def websocket_handler(websocket, path, message_text, sender, sender_id):
+    msg = ""
+    for char in message_text:
+        msg += char
+        if sender == "user":
+            message = {
+                "SpeakerID": sender_id,
+                "ReceiverID": "0",
+                "text": msg
+            }
+        else:
+            message = {
+                "SpeakerID": "0",
+                "ReceiverID": sender_id,
+                "text": msg
+            }
+        try:
+            await websocket.send(json.dumps(message))
+            await asyncio.sleep(0.05)
+        except Exception as e:
+            logging.error(e)
 
 def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, request_json=None, central_hub_json=None) -> None:
     if request_json is None:
@@ -108,6 +102,7 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, req
                 }
             }
         }
+    user_id = request_json["outlet_id"]
     post_outlet_inventory_json = request_json['outlet_inventory']
     response_json = {
         "outlet_inventory": {
@@ -224,6 +219,11 @@ While making decisions, the central hub should first consider the neccessary inf
                             f"{ai_user_role}:\n\n{user_response.msg.content}\n", 0.005)
         print_text_animated(Fore.GREEN + f"{ai_assistant_role}:\n\n"
                             f"{assistant_response.msg.content}\n", 0.005)
+        
+        user_message_to_socket = user_response.msg.content.replace(r'\{.*\}', '')
+        if user_message_to_socket != "":
+            asyncio.run(send_streaming_message(message_text=user_message_to_socket, sender="user", sender_id=user_id))
+        # asyncio.run(send_streaming_message(assistant_response.msg.content))
 
         match_and_replace = lambda a, b: {k: match_and_replace(a[k], b[k]) if isinstance(a[k], dict) else b[k] for k in a}
 
@@ -290,22 +290,3 @@ While making decisions, the central hub should first consider the neccessary inf
 
     print(Fore.RED + f"final_answer_json:\n{json.dumps(final_answer_json, indent=4)}\n")
     return final_answer_json, central_hub_json
-
-# if __name__ == "__main__":
-#     cantral_hub_json = {
-#         "central_hub_inventory": {
-#             "olive_oil": {
-#                 "current_storage_amount": 1000
-#             },
-#             "baguette": {
-#                 "current_storage_amount": 1000
-#             },
-#             "manchego_cheese": {
-#                 "current_storage_amount": 1000
-#             },
-#             "black_tea": {
-#                 "current_storage_amount": 1000
-#             }
-#         }
-#     }
-#     role_playing(central_hub_json=cantral_hub_json)
