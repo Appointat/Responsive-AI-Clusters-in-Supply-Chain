@@ -5,6 +5,55 @@ from multi_agent_communication_supply_chain import role_playing
 
 app = Flask(__name__)
 
+cantral_hub_json = {
+    "central_hub_inventory": {
+        "olive_oil": {
+            "current_storage_amount": 1000,
+        },
+        "baguette": {
+            "current_storage_amount": 1000,
+        },
+        "manchego_cheese": {
+            "current_storage_amount": 1000,
+        },
+        "black_tea": {
+            "current_storage_amount": 1000,
+        },
+    }
+}
+
+response_json = {
+    "outlet_inventory": {
+        "olive_oil": {
+            "changed_replenishment_amount_from_central_hub": 1000,
+        },
+        "baguette": {
+            "changed_replenishment_amount_from_central_hub": 1000,
+        },
+        "manchego_cheese": {
+            "changed_replenishment_amount_from_central_hub": 1000,
+        },
+        "black_tea": {
+            "changed_replenishment_amount_from_central_hub": 1000,
+        }
+    },
+    "central_hub_inventory": {
+        "olive_oil": {
+            "current_storage_amount": 1000,
+        },
+        "baguette": {
+            "current_storage_amount": 1000,
+        },
+        "manchego_cheese": {
+            "current_storage_amount": 1000,
+        },
+        "black_tea": {
+            "current_storage_amount": 1000,
+        },
+    },
+    "transportation_duration": 1
+}
+
 # Define a route for the AI request
 @app.route('/ai', methods=['POST'])
 def handle_ai_request():
@@ -12,7 +61,8 @@ def handle_ai_request():
     request_data = request.get_json()
 
     # Perform some AI-related processing here...
-    response_data = role_playing(request_json=request_data)
+    response_data, _central_hub_json = role_playing(request_json=request_data, central_hub_json=cantral_hub_json)
+    cantral_hub_json = _central_hub_json
 
     # Send JSON response
     return jsonify(response_data)

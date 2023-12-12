@@ -44,9 +44,9 @@ async def main():
     async with websockets.serve(send_message1, "localhost", 8080):
         await asyncio.Future()  # run forever
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    asyncio.run(main())
+# if __name__ == "__main__":
+#     logging.basicConfig(level=logging.INFO)
+#     asyncio.run(main())
 
 PATH_USER_ID_1 = "message1"
 PATH_USER_ID_2 = "message2"
@@ -59,7 +59,7 @@ PATH_ASSISTANT_ID_4 = "message8"
 USER_PATHS = [PATH_USER_ID_1, PATH_USER_ID_2, PATH_USER_ID_3, PATH_USER_ID_4]
 ASSISTANT_PATHS = [PATH_USER_ID_1, PATH_USER_ID_2, PATH_USER_ID_3, PATH_USER_ID_4]
 
-def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, request_json=None) -> None:
+def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, request_json=None, central_hub_json=None) -> None:
     if request_json is None:
         request_json = {
             "outlet_id": "1",
@@ -72,95 +72,72 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, req
             "weather": "rainy",
             "outlet_inventory": {
                 "olive_oil": {
-                    "product_id": "Olive Oil",
                     "current_storage_amount": 100,
                     "daily_replenishment_without_envent_from_central_hub": 30,
                     "max_warehouse_capacity": 500
                 },
                 "baguette": {
-                    "product_id": "Baguette",
                     "current_storage_amount": 200,
                     "daily_replenishment_without_envent_from_central_hub": 50,
                     "max_warehouse_capacity": 300
                 },
                 "manchego_cheese": {
-                    "product_id": "Manchego Cheese",
                     "current_storage_amount": 150,
                     "daily_replenishment_without_envent_from_central_hub": 40,
                     "max_warehouse_capacity": 400
                 },
                 "black_tea": {
-                    "product_id": "Black Tea",
                     "current_storage_amount": 150,
                     "daily_replenishment_without_envent_from_central_hub": 40,
                     "max_warehouse_capacity": 500
                 }
             }
         }
+    post_outlet_inventory_json = request_json['outlet_inventory']
     response_json = {
         "outlet_inventory": {
             "olive_oil": {
-                "product_id": "Olive Oil",
-                "historical_daily_replenishment_amount_from_central_hub": "<NUM>",
+                "future_storage_amount": "<NUM>",
                 "specific_reason_of_replenishment": "<STRING>"
             },
             "baguette": {
-                "product_id": "Baguette",
-                "historical_daily_replenishment_amount_from_central_hub": "<NUM>",
+                "future_storage_amount": "<NUM>",
                 "specific_reason_of_replenishment": "<STRING>"
             },
             "manchego_cheese": {
-                "product_id": "Manchego Cheese",
-                "historical_daily_replenishment_amount_from_central_hub": "<NUM>",
+                "future_storage_amount": "<NUM>",
                 "specific_reason_of_replenishment": "<STRING>"
             },
             "black_tea": {
-                "product_id": "Black Tea",
-                "historical_daily_replenishment_amount_from_central_hub": "<NUM>",
+                "future_storage_amount": "<NUM>",
                 "specific_reason_of_replenishment": "<STRING>"
             }
         },
-        "central_hub_inventory": {
-            "olive_oil": {
-                "product_id": "Olive Oil",
-                "current_storage_amount": "<NUM>",
-                "max_warehouse_capacity": "<NUM>"
-            },
-            "baguette": {
-                "product_id": "Baguette",
-                "current_storage_amount": "<NUM>",
-            },
-            "manchego_cheese": {
-                "product_id": "Manchego Cheese",
-                "current_storage_amount": "<NUM>",
-            },
-            "black_tea": {
-                "product_id": "Black Tea",
-                "current_storage_amount": "<NUM>",
-            },
-        },
-        "transportation_duration": "<NUM> per day"
+        "transportation_duration": "<NUM> day"
     }
+    # Add the central hub inventory to the request
+    input_json = request_json | central_hub_json
+    print(Fore.RED + f"input_json:\n{json.dumps(input_json, indent=4)}\n")
 
-    context_text = "===== CONTEXT =====\n" + json.dumps(request_json, indent=4) + \
-        "\nThe \"historical_daily_replenishment_amount_from_central_hub\" means the average daily replenishment amount from the central hub to the outlet in the past. So it could be used as a reference for the replenishment amount in the future.\n" + \
-        "The \"max_warehouse_capacity\" means the maximum capacity of the warehouse of the outlet.\n" + \
-        "The \"specific_reason_of_replenishment\" means the specific reason of replenishment for the outlet (the decisions made by the central hub) at present" + \
-        "While making decisions, the central hub should first consider the neccessary information in the context, and then predict what is the unknown demand of outlet in the event.\n"
-        
+
+    context_text = "===== CONTEXT =====\n" + json.dumps(input_json, indent=4) + """
+The \"historical_daily_replenishment_amount_from_central_hub\" means the average daily replenishment amount from the central hub to the outlet in the past. So it could be used as a reference for the replenishment amount in the future.
+The \"max_warehouse_capacity\" means the maximum capacity of the warehouse of the outlet.
+The \"specific_reason_of_replenishment\" means the specific reason of replenishment for the outlet (the decisions made by the central hub) at present.
+THe current storage amount of the outlet should be less than the maximum capacity of the warehouse of the outlet.
+While making decisions, the central hub should first consider the neccessary information in the context, and then predict what is the unknown demand of outlet in the event.
+"""
     task_prompt = "In order to help the outlet to handle the upcoming events well," + \
-        "make decisions (concerned about the replenishment for all retail goods, transportation, etc.) " + \
-        "based on the known information or even information from Internet (you need to show the basis and the thoughts specifically)."
-    assistant_answer_template = "When you are to write \"CAMEL_TASK_DONE\", please generate a concluded answer in the format JSON TEMPLATE. " + \
-        "If some BLANKs are not moentioned (for example, \"specific_reason_of_replenishment\": \"<BLANCK>\") in the conversation, you should also fulfill them with sertain values or strings.\n"
+        " please make decisions based on the known information (you need to show the basis and the thoughts specifically). And finally before the \"CAMEL_TASK_DONE\", the AI assistant (Event Logistics Coordinator of Outlet) MUST strictly adhere to the structure of the JSON TEMPLATE, ONLY fill in the BLANKs, and DO NOT alter or modify any other part of the template.\n"
+    assistant_answer_template = "Even if some BLANKs/NUMs/STRINGs are not moentioned (for example, \"specific_reason_of_replenishment\": \"<BLANCK>\") in the conversation, you must fill them with sertain values or strings.\n"
     answer_template = "===== JSON TEMPLATE =====\n"
     answer_template += json.dumps(response_json, indent=4)
     assistant_answer_template += answer_template
 
-    ai_assistant_role = "Inventory Management Specialist of Central Hub"
-    ai_assistant_description = "This expert should have strong organizational skills, attention to detail, and a deep understanding of supply chain and inventory management systems. They should be proficient in inventory tracking software and have the ability to analyze stock levels to ensure availability for events. Their duties would include categorizing goods, forecasting demand based on the event description, and configuring the inventory system to reflect accurate information for event-specific requirements."
-    ai_user_role = "Event Logistics Coordinator of Outlet"
-    ai_user_description = "The expert must have experience in event planning and logistics, with a knack for coordinating with multiple stakeholders. They should have competencies in project management, communication, and problem-solving. Their duties involve understanding the event description to determine the necessary goods, liaising with the Inventory Management Specialist to ensure proper stock levels, and overseeing the setup to meet the event's needs."
+    ai_user_role = "Inventory Management Specialist of Central Hub"
+    ai_user_description = "This expert should have strong organizational skills, attention to detail, and a deep understanding of supply chain and inventory management systems. They should be proficient in inventory tracking software and have the ability to analyze stock levels to ensure availability for events. Their duties would include categorizing goods, forecasting demand based on the event description, and configuring the inventory system to reflect accurate information for event-specific requirements."
+    ai_assistant_role = "Event Logistics Coordinator of Outlet"
+    ai_assistant_description = "The expert must have experience in event planning and logistics, with a knack for coordinating with multiple stakeholders. They should have competencies in project management, communication, and problem-solving. Their duties involve understanding the event description to determine the necessary goods, liaising with the Inventory Management Specialist to ensure proper stock levels, and overseeing the setup to meet the event's needs."
 
     # You can use the following code to play the role-playing game
     function_list = [*MATH_FUNCS, *SEARCH_FUNCS]
@@ -267,10 +244,53 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, req
         input_assistant_msg = assistant_response.msg
 
     # Convert string into JSON
-    # final_answer_json["transportation_duration"] = "1"
+
+    outlet_inventory_json = final_answer_json['outlet_inventory']
+
+    # Calculate the changed replenishment amount from central hub
+    changed_replenishment_amount_from_central_hub = {}
+    for item in outlet_inventory_json:
+        if item in post_outlet_inventory_json:
+            # Subtract the values of the same items
+            changed_replenishment_amount_from_central_hub[item] = {
+                "changed_replenishment_amount_from_central_hub":
+                int(outlet_inventory_json[item]["future_storage_amount"]) -
+                int(post_outlet_inventory_json[item]["current_storage_amount"])
+            }
+            # Add the values of the same items
+            central_hub_json["central_hub_inventory"][item]["current_storage_amount"] -= \
+                changed_replenishment_amount_from_central_hub[item]["changed_replenishment_amount_from_central_hub"]
+
+    duration_str = final_answer_json.get("transportation_duration", "1 day")  # Default to '1 day' if not found
+    # Find all numbers in the string (assuming the first one is the day count)
+    numbers = [int(s) for s in duration_str.split() if s.isdigit()]
+    transportation_duration_json = {}
+    transportation_duration_json["transportation_duration"] = numbers[0] if len(numbers) > 0 else 1
+
+    final_answer_json = {
+        "outlet_inventory": changed_replenishment_amount_from_central_hub,
+        "central_hub_inventory": central_hub_json,
+        "transportation_duration": transportation_duration_json["transportation_duration"]
+    }
+
     print(Fore.RED + f"final_answer_json:\n{json.dumps(final_answer_json, indent=4)}\n")
+    return final_answer_json, central_hub_json
 
-    return final_answer_json
-
-# if __name__ == "__main__":
-#     role_playing()
+if __name__ == "__main__":
+    cantral_hub_json = {
+        "central_hub_inventory": {
+            "olive_oil": {
+                "current_storage_amount": 1000
+            },
+            "baguette": {
+                "current_storage_amount": 1000
+            },
+            "manchego_cheese": {
+                "current_storage_amount": 1000
+            },
+            "black_tea": {
+                "current_storage_amount": 1000
+            }
+        }
+    }
+    role_playing(central_hub_json=cantral_hub_json)
