@@ -27,26 +27,41 @@ import websockets
 import json
 import logging
 
-async def send_message1(websocket, path):
-    msg = print_text_animated("a, b, c, d, e, f, g, h, i, j", 0.01)
-    message = {
-        "SpeakerID": "1",
-        "ReceiverID": "2",
-        "text": msg
-    }
-    try:
-        await websocket.send(json.dumps(message))
-    except Exception as e:
-        logging.error(e)
-    await asyncio.sleep(1)
+import asyncio
+import websockets
+import json
+import logging
 
-async def main():
-    async with websockets.serve(send_message1, "localhost", 8080):
+async def send_message1(websocket, message_text):
+    msg = ""
+    for char in message_text:
+        msg += char
+        print(f"Sending message: {msg}")
+        message = {
+            "SpeakerID": "1",
+            "ReceiverID": "5",
+            "text": msg
+        }
+        try:
+            await websocket.send(json.dumps(message))
+            await asyncio.sleep(0.05)
+        except Exception as e:
+            logging.error(e)
+
+async def websocket_handler(websocket, path, message_text):
+    await send_message1(websocket, message_text)
+
+async def send_streaming_message(message_text):
+    handler = lambda ws, path: websocket_handler(ws, path, message_text)
+    async with websockets.serve(handler, "localhost", 8080):
         await asyncio.Future()  # run forever
 
-# if __name__ == "__main__":
-#     logging.basicConfig(level=logging.INFO)
-#     asyncio.run(main())
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    custom_message = "Hello, this is the message text!"
+    asyncio.run(send_streaming_message(custom_message))
+
+
 
 PATH_USER_ID_1 = "message1"
 PATH_USER_ID_2 = "message2"
@@ -276,21 +291,21 @@ While making decisions, the central hub should first consider the neccessary inf
     print(Fore.RED + f"final_answer_json:\n{json.dumps(final_answer_json, indent=4)}\n")
     return final_answer_json, central_hub_json
 
-if __name__ == "__main__":
-    cantral_hub_json = {
-        "central_hub_inventory": {
-            "olive_oil": {
-                "current_storage_amount": 1000
-            },
-            "baguette": {
-                "current_storage_amount": 1000
-            },
-            "manchego_cheese": {
-                "current_storage_amount": 1000
-            },
-            "black_tea": {
-                "current_storage_amount": 1000
-            }
-        }
-    }
-    role_playing(central_hub_json=cantral_hub_json)
+# if __name__ == "__main__":
+#     cantral_hub_json = {
+#         "central_hub_inventory": {
+#             "olive_oil": {
+#                 "current_storage_amount": 1000
+#             },
+#             "baguette": {
+#                 "current_storage_amount": 1000
+#             },
+#             "manchego_cheese": {
+#                 "current_storage_amount": 1000
+#             },
+#             "black_tea": {
+#                 "current_storage_amount": 1000
+#             }
+#         }
+#     }
+#     role_playing(central_hub_json=cantral_hub_json)

@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-import json
 
 from multi_agent_communication_supply_chain import role_playing
 
@@ -57,6 +56,9 @@ response_json = {
 # Define a route for the AI request
 @app.route('/ai', methods=['POST'])
 def handle_ai_request():
+    # Define global variables
+    global central_hub_json
+
     # Get JSON data from the request
     request_data = request.get_json()
 
