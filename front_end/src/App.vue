@@ -640,7 +640,7 @@ export default {
       }
     },
     message1start() {
-      this.message1 = new WebSocket("ws://localhost:8080/message1");
+      this.message1 = new WebSocket("ws://localhost:8000/message1");
       this.message1.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "1") {
@@ -670,7 +670,7 @@ export default {
       };
     },
     message2start() {
-      this.message2 = new WebSocket("ws://localhost:8080/message2");
+      this.message2 = new WebSocket("ws://localhost:8000/message2");
       this.message2.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "2") {
@@ -700,7 +700,7 @@ export default {
       };
     },
     message3start() {
-      this.message3 = new WebSocket("ws://localhost:8080/message3");
+      this.message3 = new WebSocket("ws://localhost:8000/message3");
       this.message3.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "3") {
@@ -729,7 +729,7 @@ export default {
       };
     },
     message4start() {
-      this.message4 = new WebSocket("ws://localhost:8080/message4");
+      this.message4 = new WebSocket("ws://localhost:8000/message4");
       this.message4.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "4") {
@@ -758,7 +758,7 @@ export default {
       };
     },
     message5start() {
-      this.message5 = new WebSocket("ws://localhost:8080/message5");
+      this.message5 = new WebSocket("ws://localhost:8000/message5");
       this.message5.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "1") {
@@ -788,7 +788,7 @@ export default {
       };
     },
     message6start() {
-      this.message6 = new WebSocket("ws://localhost:8080/message6");
+      this.message6 = new WebSocket("ws://localhost:8000/message6");
       this.message6.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "2") {
@@ -818,7 +818,7 @@ export default {
       };
     },
     message7start() {
-      this.message7 = new WebSocket("ws://localhost:8080/message7");
+      this.message7 = new WebSocket("ws://localhost:8000/message7");
       this.message7.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "3") {
@@ -847,7 +847,7 @@ export default {
       };
     },
     message8start() {
-      this.message8 = new WebSocket("ws://localhost:8080/message8");
+      this.message8 = new WebSocket("ws://localhost:8000/message8");
       this.message8.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "4") {
