@@ -2,7 +2,14 @@ from flask import Flask, request, jsonify
 
 from multi_agent_communication_supply_chain import role_playing
 
-import logging, queue
+import logging
+
+import asyncio
+import websockets
+import json
+import logging
+import functools
+import threading
 
 global messages_queue, central_hub_json
 
@@ -55,12 +62,8 @@ response_json = {
     "transportation_duration": 1
 }
 
-import asyncio
-import websockets
-import json
-import logging
-import functools
-import threading
+
+app = Flask(__name__)
 
 # async def send_streaming_message(websocket, path, message):
 #     try:
@@ -90,7 +93,7 @@ async def send_streaming_message(websocket, path, messages_queue):
     while True:
         message = await get_message_from_queue(messages_queue)  # Retrieve a message from the queue
         print(f"message:\n{message}")
-        if message is None:  # You can use a sentinel value like None to stop the loop
+        if message is None:
             break
 
         sender_id = message["sender_id"]
@@ -123,7 +126,6 @@ def run_websocket_server(messages_queue):
     loop.run_until_complete(start_server)
     loop.run_forever()
 
-app = Flask(__name__)
 websocket_server_thread = None
 current_messages_queue = None
 
