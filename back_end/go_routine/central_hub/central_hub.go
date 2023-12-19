@@ -29,7 +29,7 @@ type AIRequest struct {
 	Event              string                 `json:"event"`
 	EventDescription   string                 `json:"event_description"`
 	ClientPreferences  string                 `json:"client_preferences"`
-	ShopInventory      map[string]ProductInfo `json:"outlet_inventory"` //商店库存
+	ShopInventory      map[string]ProductInfo `json:"outlet_inventory"`
 }
 
 // AIResponse is the response from the AI
