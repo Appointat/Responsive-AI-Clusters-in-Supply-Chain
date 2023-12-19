@@ -22,10 +22,7 @@ from camel.utils import print_text_animated
 from camel.functions import MATH_FUNCS, SEARCH_FUNCS
 from camel.types import ModelType, TaskType
 
-import asyncio
 import json
-import logging
-import websockets
 
 
 PATH_USER_ID_1 = "message1"
@@ -154,18 +151,8 @@ While making decisions, the central hub should first consider the neccessary inf
         with_task_specify=False,
         extend_sys_msg_meta_dicts=sys_msg_meta_dicts,
     )
-
-    # print(
-    #     Fore.GREEN +
-    #     f"AI Assistant sys message:\n{role_play_session.assistant_sys_msg}\n")
-    # print(Fore.BLUE +
-    #       f"AI User sys message:\n{role_play_session.user_sys_msg}\n")
-
     print(Fore.YELLOW + f"Original task prompt:\n{task_prompt}\n")
-    # print(
-    #     Fore.CYAN +
-    #     f"Specified task prompt:\n{role_play_session.specified_task_prompt}\n")
-    # print(Fore.RED + f"Final task prompt:\n{role_play_session.task_prompt}\n")
+ 
 
     final_answer_json = None
 
