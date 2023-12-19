@@ -5,7 +5,6 @@ import json
 import logging
 import functools
 import threading
-
 import logging
 
 from multi_agent_communication_supply_chain import role_playing
