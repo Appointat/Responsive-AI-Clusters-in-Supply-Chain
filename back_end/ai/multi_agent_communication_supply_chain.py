@@ -22,7 +22,6 @@ from camel.utils import print_text_animated
 from camel.functions import MATH_FUNCS, SEARCH_FUNCS
 from camel.types import ModelType, TaskType
 
-import json
 
 
 # PATH_USER_ID_1 = "message1"
