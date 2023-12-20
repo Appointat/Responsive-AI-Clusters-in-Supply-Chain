@@ -16,7 +16,7 @@ import queue
 
 from colorama import Fore
 
-from camel.configs import ChatGPTConfig, FunctionCallingConfig
+from camel.configs import ChatGPTConfig
 from camel.societies import RolePlaying
 from camel.utils import print_text_animated
 from camel.functions import MATH_FUNCS, SEARCH_FUNCS
