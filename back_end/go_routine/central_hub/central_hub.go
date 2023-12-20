@@ -257,7 +257,7 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 
 	h.sendGeneralInfoToFrontEnd(h.IntegrateAIResponseToGeneralInfo(eventName, event.EventDate, aiResponse))
 	//Extract the info from aiResponse
-	replenishments := make(map[string]int) // TODO: 提取库存信息
+	replenishments := make(map[string]int) // TODO: Extract the replenishment info from aiResponse
 
 	//Calculate the number of products that need to be replenished
 	for name, _ := range shopInventory {
