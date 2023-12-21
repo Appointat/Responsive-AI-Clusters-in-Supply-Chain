@@ -10,21 +10,6 @@ from camel.functions import MATH_FUNCS, SEARCH_FUNCS
 from camel.types import ModelType, TaskType
 
 
-
-# PATH_USER_ID_1 = "message1"
-# PATH_USER_ID_2 = "message2"
-# PATH_USER_ID_3 = "message3"
-# PATH_USER_ID_4 = "message4"
-# PATH_ASSISTANT_ID_1 = "message5"
-# PATH_ASSISTANT_ID_2 = "message6"
-# PATH_ASSISTANT_ID_3 = "message7"
-# PATH_ASSISTANT_ID_4 = "message8"
-# USER_PATHS = [PATH_USER_ID_1, PATH_USER_ID_2, PATH_USER_ID_3, PATH_USER_ID_4]
-# ASSISTANT_PATHS = [PATH_ASSISTANT_ID_1, PATH_ASSISTANT_ID_2, PATH_ASSISTANT_ID_3, PATH_ASSISTANT_ID_4]
-# ALL_PATHS = USER_PATHS + ASSISTANT_PATHS
-# connections = {path: set() for path in ALL_PATHS}
-
-
 def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, request_json=None, central_hub_json=None) -> None:
     if request_json is None:
         request_json = {
