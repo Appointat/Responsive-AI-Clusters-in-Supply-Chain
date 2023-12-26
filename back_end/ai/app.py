@@ -1,18 +1,14 @@
-import queue
 from flask import Flask, request, jsonify
 import asyncio
 import websockets
 import json
-import logging
 import functools
 import threading
-import logging
 
-from multi_agent_communication_supply_chain import role_playing
+from multi_agent_communication_supply_chain import role_playing, messages_queue
 
-global messages_queue, central_hub_json
+global central_hub_json
 
-messages_queue = queue.Queue()
 
 central_hub_json = {
     "central_hub_inventory": {
@@ -86,7 +82,9 @@ async def get_message_from_queue(messages_queue):
     return await asyncio.to_thread(messages_queue.get)
 
 async def send_streaming_message(websocket, path):
-    print(f"messages_queue, send_streaming_message:\n{messages_queue}")
+    import copy
+    queue_copy = copy.deepcopy(messages_queue.queue)  # Avoid modifying the original queue
+    print(f"messages_queue, send_streaming_message:\n{list(queue_copy)}")
 
     while True:
         message = await get_message_from_queue(messages_queue)  # Retrieve a message from the queue
@@ -95,6 +93,7 @@ async def send_streaming_message(websocket, path):
             break
 
         sender_id = message["sender_id"]
+
         user_message = message["user_message"]
         for char in user_message:  # user
             msg_to_send = {
@@ -117,7 +116,7 @@ async def send_streaming_message(websocket, path):
 
         messages_queue.task_done()  # Mark the task as done
 
-def run_websocket_server(messages_queue):
+def run_websocket_server():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     start_server = websockets.serve(functools.partial(send_streaming_message), 'localhost', 8000)
@@ -149,7 +148,7 @@ def send_message(message):
 
 def run_flask_app():
     # Running on http://0.0.0.0:5000/ without threading even in debug mode
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000)
 
 def main():
     flask_thread = threading.Thread(target=run_flask_app)
