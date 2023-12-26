@@ -9,6 +9,8 @@ from camel.utils import print_text_animated
 from camel.functions import MATH_FUNCS, SEARCH_FUNCS
 from camel.types import ModelType, TaskType
 
+messages_queue = queue.Queue()
+
 
 def role_playing(model_type=ModelType.GPT_3_5_TURBO_16K, chat_turn_limit=50, request_json=None, central_hub_json=None) -> None:
     if request_json is None:
@@ -127,8 +129,6 @@ While making decisions, the central hub should first consider the neccessary inf
 
     final_answer_json = None
 
-    message_queue = queue.Queue()
-
     n = 0
     input_assistant_msg, _ = role_play_session.init_chat()
     while n < chat_turn_limit:
@@ -152,7 +152,8 @@ While making decisions, the central hub should first consider the neccessary inf
         print_text_animated(Fore.GREEN + f"{ai_assistant_role}:\n\n"
                             f"{assistant_response.msg.content}\n", 0.005)
 
-        message_queue.put({"sender_id": user_id, "user_mesaage": user_response.msg.content, "assistant_message": assistant_response.msg.content})
+        messages_queue.put({"sender_id": user_id, "user_message": user_response.msg.content, "assistant_message": assistant_response.msg.content})
+        print(Fore.WHITE + f"The length of the messages_queue is {messages_queue.qsize()}\n")
 
         match_and_replace = lambda a, b: {k: match_and_replace(a[k], b[k]) if isinstance(a[k], dict) else b[k] for k in a}
 
@@ -217,4 +218,4 @@ While making decisions, the central hub should first consider the neccessary inf
     }
 
     print(Fore.RED + f"final_answer_json:\n{json.dumps(final_answer_json, indent=4)}\n")
-    return final_answer_json, central_hub_json, message_queue
+    return final_answer_json, central_hub_json
