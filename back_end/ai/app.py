@@ -88,7 +88,7 @@ async def send_streaming_message(websocket, path):
 
     while True:
         message = await get_message_from_queue(messages_queue)  # Retrieve a message from the queue
-        print(f"message:\n{message}")
+        print(f"The message from the message queue:\n{message}")
         if message is None:
             break
 
