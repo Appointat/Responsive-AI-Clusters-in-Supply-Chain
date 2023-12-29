@@ -76,7 +76,6 @@ func (o *Outlet) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	o.client = conn
-	defer conn.Close()
 	// Need to hangup the connection in the main function "/centralhub"
 }
 
