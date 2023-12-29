@@ -79,7 +79,7 @@ async def send_streaming_message(websocket, path):
 
         sender_id = message["sender_id"]
 
-        user_message = message["user_message"]
+        user_message = message["user_message"] + "\n\n"
         for char in user_message:  # user
             msg_to_send = {
                 "SpeakerID": sender_id,
@@ -89,7 +89,7 @@ async def send_streaming_message(websocket, path):
             time.sleep(0.005)
             await websocket.send(json.dumps(msg_to_send))
 
-        assistant_message = message["assistant_message"]
+        assistant_message = message["assistant_message"] + "\n\n"
         for char in assistant_message:  # assistant
             msg_to_send = {
                 "SpeakerID": "0",
