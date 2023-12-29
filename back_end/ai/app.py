@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
 import asyncio
-import websockets
-import json
 import functools
+import json
 import threading
+import time
+import websockets
 
 from multi_agent_communication_supply_chain import role_playing, messages_queue
 
@@ -85,7 +86,7 @@ async def send_streaming_message(websocket, path):
                 "ReceiverID": "0",
                 "text": char,
             }
-            await asyncio.sleep(0.005)
+            time.sleep(0.005)
             await websocket.send(json.dumps(msg_to_send))
 
         assistant_message = message["assistant_message"]
@@ -95,7 +96,7 @@ async def send_streaming_message(websocket, path):
                 "ReceiverID": sender_id,
                 "text": char,
             }
-            await asyncio.sleep(0.005)
+            time.sleep(0.005)
             await websocket.send(json.dumps(msg_to_send))
 
         messages_queue.task_done()  # Mark the task as done
