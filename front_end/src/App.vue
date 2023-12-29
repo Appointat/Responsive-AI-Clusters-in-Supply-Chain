@@ -6,7 +6,6 @@
   </header>
   <div class="information">
     <h2 class="date">Date: {{ date }}</h2>
-    <!-- <h2 class="event">Event: {{ event }}</h2> -->
   </div>
   <div ref="visualization">
     <div class="table">
@@ -99,12 +98,6 @@
       <button @click="toggleMessages4(1)" class="toggle-button show4">
         Normal Messages
       </button>
-      <!-- <button @click="centralMessages1(1)" class="central-button centralshow1">Central to Auchan</button>
-      <button @click="centralMessages2(1)" class="central-button centralshow2">Central to Carrefour</button>
-      <button @click="centralMessages3(1)" class="central-button centralshow3">Central to Monoprix</button>
-      <button @click="centralMessages4(1)" class="central-button centralshow4">Central to Normal</button> -->
-      <!-- supermarkets messages -->
-      <!-- (message1 || message5) &&  -->
       <div class="event">
         <p class="event1">{{ event1 }}</p>
         <p class="event2">{{ event2 }}</p>
@@ -112,67 +105,27 @@
         <p class="event4">{{ event4 }}</p>
       </div>
 
-      <div
-        ref="messages1"
-        class="message-container1"
-        v-if="(message1 || message5) && showMessages1"
-      >
-        <span
-          v-for="msg in messages1_text"
-          :key="msg.id"
-          :class="['message', getMessageClass(msg.speakerid)]"
-          >{{ msg.text }}
+      <div ref="messages1" class="message-container1" v-if="showMessages1">
+        <span v-for="msg in messages1_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
+        }}
         </span>
       </div>
-      <div
-        ref="messages2"
-        class="message-container2"
-        v-if="(message2 || message6) && showMessages2"
-      >
-        <span
-          v-for="msg in messages2_text"
-          :key="msg.id"
-          :class="['message', getMessageClass(msg.speakerid)]"
-          >{{ msg.text }}
+      <div ref="messages2" class="message-container2" v-if="showMessages2">
+        <span v-for="msg in messages2_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
+        }}
         </span>
       </div>
-      <div
-        ref="messages3"
-        class="message-container3"
-        v-if="(message3 || message7) && showMessages3"
-      >
-        <span
-          v-for="msg in messages3_text"
-          :key="msg.id"
-          :class="['message', getMessageClass(msg.speakerid)]"
-          >{{ msg.text }}
+      <div ref="messages3" class="message-container3" v-if="showMessages3">
+        <span v-for="msg in messages3_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
+        }}
         </span>
       </div>
-      <div
-        ref="messages4"
-        class="message-container4"
-        v-if="(message4 || message8) && showMessages4"
-      >
-        <span
-          v-for="msg in messages4_text"
-          :key="msg.id"
-          :class="['message', getMessageClass(msg.speakerid)]"
-          >{{ msg.text }}
+      <div ref="messages4" class="message-container4" v-if="showMessages4">
+        <span v-for="msg in messages4_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
+        }}
         </span>
       </div>
-      <!-- warehouse messages -->
-      <!-- <div ref="messages5" class="message-container5" v-if="message5 && showMessages5">
-                <span v-for="msg in messages5_text" :key="msg.id">{{ msg.text }} </span>
-            </div>
-            <div ref="messages6" class="message-container6" v-if="message6 && showMessages6">
-                <span v-for="msg in messages6_text" :key="msg.id">{{ msg.text }} </span>
-            </div>
-            <div ref="messages7" class="message-container7" v-if="message7 && showMessages7">
-                <span v-for="msg in messages7_text" :key="msg.id">{{ msg.text }} </span>
-            </div>
-            <div ref="messages8" class="message-container8" v-if="message8 && showMessages8">
-                <span v-for="msg in messages8_text" :key="msg.id">{{ msg.text }} </span>
-            </div> -->
+
     </div>
   </div>
 </template>
@@ -216,15 +169,18 @@ export default {
       ]),
       onedaytime: 60000, // 60s/day
       date: null,
+
       event1: "No event",
       event2: "No event",
       event3: "No event No event",
       event4: "No event",
-      outlet1: null,
+
       supermarketInfo1: null,
+      outlet1: null,
       outlet2: null,
       outlet3: null,
       outlet4: null,
+
       message1: null,
       message2: null,
       message3: null,
@@ -246,26 +202,17 @@ export default {
       messages2_text: [],
       messages3_text: [],
       messages4_text: [],
-      // messages5_text: [],
-      // messages6_text: [],
-      // messages7_text: [],
-      // messages8_text: [],
+
       nextMsgId1: 0,
       nextMsgId2: 0,
       nextMsgId3: 0,
       nextMsgId4: 0,
-      // nextMsgId5: 0,
-      // nextMsgId6: 0,
-      // nextMsgId7: 0,
-      // nextMsgId8: 0,
+
       showMessages1: true,
       showMessages2: true,
       showMessages3: true,
       showMessages4: true,
-      // showMessages5: true,
-      // showMessages6: true,
-      // showMessages7: true,
-      // showMessages8: true
+
     };
   },
   //////////
@@ -274,6 +221,7 @@ export default {
   },
   //////////
   methods: {
+    /* Set SVG module */
     createVisualization() {
       const width = 2400;
       const height = 1200;
@@ -284,36 +232,30 @@ export default {
         .attr("width", width)
         .attr("height", height);
 
-      // 先定义一个道路图案
+      // road pattern
       this.svg
         .append("defs")
         .append("pattern")
         .attr("id", "roadPattern")
-        .attr("width", 20) // 图案宽度，可以根据需要调整
-        .attr("height", 20) // 图案高度，同上
+        .attr("width", 20)
+        .attr("height", 20)
         .attr("patternUnits", "userSpaceOnUse")
         .append("path")
-        .attr("d", "M 10 0 L 10 20") // 创建线性图案
-        .attr("stroke", "#666") // 道路颜色
-        .attr("stroke-width", 6); // 道路宽度
+        .attr("d", "M 10 0 L 10 20")
+        .attr("stroke", "#666") // color
+        .attr("stroke-width", 6); // width
 
       // Drawing the line between warehouse and supermarket
       this.supermarkets.forEach((s) => {
         this.svg
-          // .append("line")
-          // .style("stroke", "black")
-          // .attr("x1", this.warehouse.x)
-          // .attr("y1", this.warehouse.y)
-          // .attr("x2", s.x)
-          // .attr("y2", s.y + 15);
           .append("line")
-          .style("stroke", "url(#roadPattern)") // 应用道路图案
-          .style("stroke-width", 30) // 增加线条宽度
+          .style("stroke", "url(#roadPattern)")
+          .style("stroke-width", 30)
           .attr("x1", this.warehouse.x)
           .attr("y1", this.warehouse.y)
           .attr("x2", s.x)
           .attr("y2", s.y + 15)
-          .attr("stroke-linecap", "round"); // 圆形线帽，使道路看起来更平滑
+          .attr("stroke-linecap", "round");
       });
       // warehouse
       this.svg
@@ -323,26 +265,6 @@ export default {
         .attr("y", this.warehouse.y - 195)
         .attr("width", 350)
         .attr("height", 350);
-      // supermarket
-      //const supermarketNames = ["Auchan", "Carrefour", "Monoprix", "Normal"];
-      // this.supermarkets.forEach((s, index) => {
-      //   this.svg
-      //   .append("image")
-      //   .attr("xlink:href", require("@/assets/supermarket.png"))
-      //   .attr("x", s.x - 15)
-      //   .attr("y", s.y - 15)
-      //   .attr("width", 55)
-      //   .attr("height", 55);
-      //   //supermarket number
-      //   this.svg
-      //     .append("text")
-      //     .attr("x", s.x - 30)
-      //     .attr("y", s.y - 20)
-      //     .text(`${supermarketNames[index]}`)
-      //     .style("font-size", "28px")
-      //     .style("font-family", "Arial, sans-serif")
-      //     .attr("class", "supermarket-label");
-      // });
       this.svg
         .append("image")
         .attr("xlink:href", require("@/assets/auchan.png"))
@@ -373,6 +295,7 @@ export default {
         .attr("height", 300);
     },
 
+    /* Main start */
     start() {
       this.$nextTick(() => {
         this.outlet1start();
@@ -391,7 +314,7 @@ export default {
       });
     },
 
-    ///////////
+    /* Receive General info */
     centralhubstart() {
       this.centralhub = new WebSocket("ws://localhost:8080/centralhub");
       this.centralhub.onmessage = (event) => {
@@ -404,11 +327,10 @@ export default {
       let date1 = generalInfo.date;
       let date0 = new Date(date1);
       var year = date0.getUTCFullYear();
-      var month = date0.getUTCMonth() + 1; // 注意月份是从0开始的，因此要加1
+      var month = date0.getUTCMonth() + 1; // the month starts from 0, so add 1
       var day = date0.getUTCDate();
       this.date = this.pad(day) + "/" + this.pad(month) + "/" + year;
-      ////////
-      // this.event = generalInfo.event;
+      // set events for different markets
       Object.entries(generalInfo.event).forEach((table) => {
         let key = table[0];
         let value = table[1];
@@ -434,8 +356,8 @@ export default {
       return num < 10 ? "0" + num : num;
     },
 
+    /*function for sending box */
     sendBoxToSupermarket(supermarketInfo) {
-      //////////
       let target;
       const duration = this.onedaytime * supermarketInfo.deliveryTime;
       switch (supermarketInfo.id) {
@@ -456,11 +378,17 @@ export default {
           this.stock4 = new Map(Object.entries(supermarketInfo.productLeft));
           break;
       }
-      //////////红蓝绿橙
+      /* 
+      Product name        Color
+      "Olive Oil"       : red
+      "Baguette"        : blue
+      "Manchego Cheese" : green
+      "Black Tea"       : orange
+      */
       Object.entries(supermarketInfo.productAdd).forEach((table) => {
         let key = table[0];
         let value = table[1];
-        let size = 5;
+        let size = 10;
         if (value != 0) {
           if (key == "Olive Oil") {
             const boxa = this.svg
@@ -526,7 +454,7 @@ export default {
       });
     },
 
-    //////////
+    /* Receive Supermarkets info and send boxes */
     outlet1start() {
       this.outlet1 = new WebSocket("ws://localhost:8080/outlet1");
       this.outlet1.onmessage = (event) => {
@@ -582,7 +510,8 @@ export default {
         console.error("WebSocket outlet4 Error:", error);
       };
     },
-    //////////
+
+    /* Set button status to control messageboxes show and hide */
     toggleMessages1(messageBox) {
       if (messageBox === 1) {
         this.showMessages1 = !this.showMessages1;
@@ -603,30 +532,8 @@ export default {
         this.showMessages4 = !this.showMessages4;
       }
     },
-
-    centralMessages1(messageBox) {
-      if (messageBox === 1) {
-        this.showMessages5 = !this.showMessages5;
-      }
-    },
-    centralMessages2(messageBox) {
-      if (messageBox === 1) {
-        this.showMessages6 = !this.showMessages6;
-      }
-    },
-    centralMessages3(messageBox) {
-      if (messageBox === 1) {
-        this.showMessages7 = !this.showMessages7;
-      }
-    },
-    centralMessages4(messageBox) {
-      if (messageBox === 1) {
-        this.showMessages8 = !this.showMessages8;
-      }
-    },
-
+    /* Return different CSS class names based on speakerid */
     getMessageClass(speakerid) {
-      // 根据speakerid返回不同的CSS类名
       if (speakerid == "1") {
         return "speaker1-class";
       } else if (speakerid == "2") {
@@ -636,11 +543,22 @@ export default {
       } else if (speakerid == "4") {
         return "speaker4-class";
       } else if (speakerid == "0") {
-        return "speaker0-class"; // warehouse
+        return "speaker0-class";        // warehouse
       }
     },
+
+    /* Receive Messages */
+    /* Total 4 Message containers 
+      
+      messageXstart() : 1~4 supermarket; 5~8 warehouse
+
+      (1)supermarket1 + (5)warehouse => messages1_text[]
+      (2)supermarket2 + (6)warehouse => messages2_text[]
+      (3)supermarket3 + (7)warehouse => messages3_text[]
+      (4)supermarket4 + (8)warehouse => messages4_text[]
+    */
     message1start() {
-      this.message1 = new WebSocket("ws://localhost:8000/message1");
+      this.message1 = new WebSocket("ws://localhost:8080/message1");
       this.message1.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "1") {
@@ -649,13 +567,11 @@ export default {
             text: data.text,
             speakerid: data.SpeakerID,
           });
-          //this.scrollToBottom();
+          // Make the text box automatically scroll
           if (this.showMessages1) {
             const container1 = this.$refs.messages1;
             container1.scrollTop = container1.scrollHeight;
           }
-        } else {
-          //console.log(data.speakerid);
         }
       };
       this.message1.onopen = () => {
@@ -670,7 +586,7 @@ export default {
       };
     },
     message2start() {
-      this.message2 = new WebSocket("ws://localhost:8000/message2");
+      this.message2 = new WebSocket("ws://localhost:8080/message2");
       this.message2.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "2") {
@@ -679,13 +595,11 @@ export default {
             text: data.text,
             speakerid: data.SpeakerID,
           });
-          //this.scrollToBottom();
+
           if (this.showMessages2) {
             const container2 = this.$refs.messages2;
             container2.scrollTop = container2.scrollHeight;
           }
-        } else {
-          //console.log(data.speakerid);
         }
       };
       this.message2.onopen = () => {
@@ -700,7 +614,7 @@ export default {
       };
     },
     message3start() {
-      this.message3 = new WebSocket("ws://localhost:8000/message3");
+      this.message3 = new WebSocket("ws://localhost:8080/message3");
       this.message3.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "3") {
@@ -713,8 +627,6 @@ export default {
             const container3 = this.$refs.messages3;
             container3.scrollTop = container3.scrollHeight;
           }
-        } else {
-          //console.log(data.speakerid);
         }
       };
       this.message3.onopen = () => {
@@ -729,7 +641,7 @@ export default {
       };
     },
     message4start() {
-      this.message4 = new WebSocket("ws://localhost:8000/message4");
+      this.message4 = new WebSocket("ws://localhost:8080/message4");
       this.message4.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.SpeakerID == "4") {
@@ -742,8 +654,6 @@ export default {
             const container4 = this.$refs.messages4;
             container4.scrollTop = container4.scrollHeight;
           }
-        } else {
-          //console.log(data.speakerid);
         }
       };
       this.message4.onopen = () => {
@@ -758,7 +668,7 @@ export default {
       };
     },
     message5start() {
-      this.message5 = new WebSocket("ws://localhost:8000/message5");
+      this.message5 = new WebSocket("ws://localhost:8080/message5");
       this.message5.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "1") {
@@ -767,13 +677,11 @@ export default {
             text: data.text,
             speakerid: data.SpeakerID,
           });
-          //this.scrollToBottom();
+
           if (this.showMessages1) {
             const container1 = this.$refs.messages1;
             container1.scrollTop = container1.scrollHeight;
           }
-        } else {
-          //console.log(data.speakerid);
         }
       };
       this.message5.onopen = () => {
@@ -788,7 +696,7 @@ export default {
       };
     },
     message6start() {
-      this.message6 = new WebSocket("ws://localhost:8000/message6");
+      this.message6 = new WebSocket("ws://localhost:8080/message6");
       this.message6.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "2") {
@@ -797,13 +705,11 @@ export default {
             text: data.text,
             speakerid: data.SpeakerID,
           });
-          //this.scrollToBottom();
+
           if (this.showMessages2) {
             const container2 = this.$refs.messages2;
             container2.scrollTop = container2.scrollHeight;
           }
-        } else {
-          //console.log(data.speakerid);
         }
       };
       this.message6.onopen = () => {
@@ -818,7 +724,7 @@ export default {
       };
     },
     message7start() {
-      this.message7 = new WebSocket("ws://localhost:8000/message7");
+      this.message7 = new WebSocket("ws://localhost:8080/message7");
       this.message7.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "3") {
@@ -831,8 +737,6 @@ export default {
             const container3 = this.$refs.messages3;
             container3.scrollTop = container3.scrollHeight;
           }
-        } else {
-          //console.log(data.speakerid);
         }
       };
       this.message7.onopen = () => {
@@ -847,7 +751,7 @@ export default {
       };
     },
     message8start() {
-      this.message8 = new WebSocket("ws://localhost:8000/message8");
+      this.message8 = new WebSocket("ws://localhost:8080/message8");
       this.message8.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.ReceiverID == "4") {
@@ -860,8 +764,6 @@ export default {
             const container4 = this.$refs.messages4;
             container4.scrollTop = container4.scrollHeight;
           }
-        } else {
-          //console.log(data.speakerid);
         }
       };
       this.message8.onopen = () => {
@@ -912,7 +814,7 @@ header {
   font-size: 48px;
 }
 
-/* /////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////// */
 
 .btn,
 .bth:link,
@@ -941,7 +843,7 @@ header {
   border-width: 2px;
 }
 
-/* /////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////// */
 
 .information {
   padding: 20px;
@@ -955,7 +857,7 @@ header {
   padding-bottom: 20px;
 }
 
-/* /////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////// */
 
 .event {
   font-size: 36px;
@@ -993,7 +895,7 @@ header {
   text-align: right;
 }
 
-/* ///////////////////////////////////////////// */
+/* //////////////////////////////////////////////////// */
 
 .table {
   display: grid;
@@ -1031,17 +933,20 @@ header {
 .table tr:nth-child(1) td:nth-child(2) {
   background: linear-gradient(to right, #def6f6, 70%, red);
 }
+
 .table tr:nth-child(2) td:nth-child(2) {
   background: linear-gradient(to right, #def6f6, 70%, blue);
 }
+
 .table tr:nth-child(3) td:nth-child(2) {
   background: linear-gradient(to right, #def6f6, 70%, green);
 }
+
 .table tr:nth-child(4) td:nth-child(2) {
   background: linear-gradient(to right, #def6f6, 70%, orange);
 }
 
-/* ///////////////////////////////////////////// */
+/* //////////////////////////////////////////////////// */
 
 .communication {
   position: relative;
@@ -1058,7 +963,6 @@ header {
   margin-left: 200px;
 }
 
-/* 添加下拉折叠按钮的样式 */
 .toggle-button,
 .bttoggle-buttonh:link,
 .toggle-button:visited {
@@ -1072,7 +976,7 @@ header {
   cursor: pointer;
   border: none;
   font-family: inherit;
-  width: 250px;
+  width: 300px;
   height: 60px;
   background-color: rgb(241, 163, 18);
   color: white;
@@ -1086,76 +990,29 @@ header {
   border-width: 2px;
 }
 
-.central-button,
-.btcentral-button:link,
-.central-button:visited {
-  display: inline-block;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 9px;
-  transition: all 300ms;
-  cursor: pointer;
-  border: none;
-  font-family: inherit;
-  width: 180px;
-  height: 40px;
-  background-color: rgb(227, 54, 54);
-  color: white;
-}
-
-.central-button:hover {
-  background-color: white;
-  color: red;
-}
 
 .show1 {
   position: absolute;
   top: 50px;
-  left: -70px;
+  left: -130px;
 }
 
 .show2 {
   position: absolute;
   top: 920px;
-  left: -70px;
+  left: -130px;
 }
 
 .show3 {
   position: absolute;
   top: 50px;
-  left: 1900px;
+  left: 1910px;
 }
 
 .show4 {
   position: absolute;
   top: 920px;
-  left: 1900px;
-}
-
-.centralshow1 {
-  position: absolute;
-  top: 320px;
-  left: 550px;
-}
-
-.centralshow2 {
-  position: absolute;
-  top: 670px;
-  left: 550px;
-}
-
-.centralshow3 {
-  position: absolute;
-  top: 320px;
-  left: 850px;
-}
-
-.centralshow4 {
-  position: absolute;
-  top: 670px;
-  left: 850px;
+  left: 1910px;
 }
 
 .message-container1 {
@@ -1182,57 +1039,7 @@ header {
   left: 1900px;
 }
 
-.message-container5 {
-  position: absolute;
-  top: 100px;
-  left: 480px;
-}
 
-.message-container6 {
-  position: absolute;
-  top: 730px;
-  left: 480px;
-}
-
-.message-container7 {
-  position: absolute;
-  top: 100px;
-  left: 800px;
-}
-
-.message-container8 {
-  position: absolute;
-  top: 730px;
-  left: 800px;
-}
-
-/* .message-container1,
-.message-container2,
-.message-container3,
-.message-container4 {
-  height: 180px;
-  width: 280px;
-  overflow-y: auto;
-  border: 5px solid rgba(233, 201, 18, 0.867);
-  border-radius: 12px;
-  word-wrap: break-word;
-  white-space: pre-wrap;
-} */
-/* .message-container1,
-.message-container2,
-.message-container3,
-.message-container4 {
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  padding: 10px;
-  margin: 10px 0;
-  background-color: #f9f9f9;
-  width: 300px;
-  height: 330px;
-  overflow-y: auto;
-  word-wrap: break-word;
-  white-space: pre-wrap;
-} */
 .message-container1,
 .message-container2,
 .message-container3,
@@ -1242,56 +1049,26 @@ header {
   padding: 10px;
   margin: 10px 0;
   background-color: #f8f5f5;
-  /* 白色背景更接近聊天应用 */
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-  /* 轻微的阴影效果 */
   width: 300px;
-  /* 或根据您的布局调整 */
   height: 330px;
   overflow-y: auto;
   font-size: 20px;
-  /* 更适合聊天的文字大小 */
   white-space: pre-wrap;
   word-wrap: break-word;
 }
 
-/* 聊天气泡样式 */
-/* .message-container1 .message { */
-/* background-color: #ceced3; */
-/* 浅灰色聊天气泡，发送方可以选择不同颜色 */
-/* border-radius: 18px; */
-/* 圆润的聊天气泡角度 */
-/* padding: 10px 15px; */
-/* 内部填充 */
-/* margin: 0px 0; */
-/* 消息之间的间距 */
-/* max-width: 80%; */
-/* 气泡最大宽度 */
-/* word-wrap: break-word; */
-/* 自动换行 */
-/* display: inline-block; */
-/* 使元素像块级元素一样流动，但仍然是行内的 */
-/* } */
 
-/* 发送方的聊天气泡，您可以根据消息来源添加额外的类或ID */
+/* Supermarket's chat bubble */
 .message-container1 .message.speaker1-class,
 .message-container2 .message.speaker2-class,
 .message-container3 .message.speaker3-class,
 .message-container4 .message.speaker4-class {
-  background-color: #b851ef;
-  /* 蓝色气泡表示发送方 */
-  color: white;
-  /* 发送方气泡内的文字颜色 */
-  /* margin-left: auto;
-  margin-right: auto; */
-  /* 发送方气泡靠右 */
-  /* display: flex;
-  flex-direction: column;
-  align-items: flex-end; */
-  /* 对齐到右侧 */
+  background-color: #def6f6;
+  color: black;
 }
 
-/* 接收方的聊天气泡 */
+/* Warehouse's chat bubble */
 .message-container1 .message.speaker0-class,
 .message-container2 .message.speaker0-class,
 .message-container3 .message.speaker0-class,
@@ -1310,7 +1087,6 @@ header {
   border: 5px solid rgba(198, 82, 80, 0.867);
   border-radius: 12px;
   word-wrap: break-word;
-  /* 允许长单词或无间断的文本换行 */
   white-space: pre-wrap;
 }
 
@@ -1323,45 +1099,5 @@ header {
 .message-container7 span,
 .message-container8 span {
   display: inline;
-  /* 使用行内元素 */
-}
-
-/* .speaker1-class {
-  color: rgb(255, 0, 0);
-}
-
-.speaker2-class {
-  color: rgb(0, 42, 255);
-}
-
-.speaker3-class {
-  color: rgb(1, 1, 19);
-}
-
-.speaker4-class {
-  color: rgb(157, 0, 255);
-}
-
-.speaker0-class {
-  color: rgb(255, 136, 0);
-} */
-.speaker1-class {
-  color: #e91e63;
-}
-
-.speaker2-class {
-  color: #03a9f4;
-}
-
-.speaker3-class {
-  color: #4caf50;
-}
-
-.speaker4-class {
-  color: #ffc107;
-}
-
-.speaker0-class {
-  color: #9c27b0;
 }
 </style>
