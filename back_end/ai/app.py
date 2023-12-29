@@ -62,22 +62,6 @@ response_json = {
 
 app = Flask(__name__)
 
-# async def send_streaming_message(websocket, path, message):
-#     try:
-#         while True:
-#             msg = message
-#             await websocket.send(json.dumps({
-#                 "SpeakerID": "0",
-#                 "ReceiverID": "1",
-#                 "text": msg
-#             }))
-#             await asyncio.sleep(1)
-
-#     except websockets.exceptions.ConnectionClosedError as e:
-#         logging.error("WebSocket connection closed error", e)
-#     except Exception as e:
-#         logging.error("Error in send_streaming_message", e)
-
 async def get_message_from_queue(messages_queue):
     return await asyncio.to_thread(messages_queue.get)
 
@@ -101,7 +85,7 @@ async def send_streaming_message(websocket, path):
                 "ReceiverID": "0",
                 "text": char,
             }
-            await asyncio.sleep(0.05)
+            await asyncio.sleep(0.005)
             await websocket.send(json.dumps(msg_to_send))
 
         assistant_message = message["assistant_message"]
@@ -111,7 +95,7 @@ async def send_streaming_message(websocket, path):
                 "ReceiverID": sender_id,
                 "text": char,
             }
-            await asyncio.sleep(0.05)
+            await asyncio.sleep(0.005)
             await websocket.send(json.dumps(msg_to_send))
 
         messages_queue.task_done()  # Mark the task as done
