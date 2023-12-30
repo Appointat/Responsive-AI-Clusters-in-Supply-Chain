@@ -233,4 +233,5 @@ While making decisions, the central hub should first consider the neccessary inf
     print(Fore.RED + f"original_outlet_json:\n{json.dumps(request_json, indent=4)}\n")
     print(Fore.RED + f"original_central_hub_json:\n{json.dumps(_central_hub_json, indent=4)}\n")
     print(Fore.RED + f"final_answer_json:\n{json.dumps(final_answer_json, indent=4)}\n")
+    print(Fore.RESET)
     return final_answer_json, central_hub_json
