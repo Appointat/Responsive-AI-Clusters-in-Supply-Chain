@@ -260,10 +260,25 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 	h.sendGeneralInfoToFrontEnd(h.IntegrateAIResponseToGeneralInfo(eventName, event.EventDate, aiResponse))
 	//Extract the info from aiResponse
 	replenishments := make(map[string]int) // TODO: Extract the replenishment info from aiResponse
-
 	//Calculate the number of products that need to be replenished
 	for name, _ := range shopInventory {
+		//Switch name keys to _
+		switch name {
+		case "Baguette" : name = "baguette"
+		case "Black Tea" : name = "black_tea"
+		case "Manchego Cheese" : name = "manchego_cheese"
+		case "Olive Oil" : name = "olive_oil"
+		}
+
 		if ReplenishmentData, exists := aiResponse.ReplenishmentData[name]; exists {
+			//change back
+			switch name {
+				case "baguette" : name = "Baguette"
+				case "black_tea" : name = "Black Tea"
+				case "manchego_cheese" : name = "Manchego Cheese"
+				case "olive_oil" : name = "Olive Oil"
+				}
+
 			quantityNeeded := ReplenishmentData.ChangedReplenishmentAmount
 			if quantityNeeded != 0 {
 				replenishments[name] = quantityNeeded
