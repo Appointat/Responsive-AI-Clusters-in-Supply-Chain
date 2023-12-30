@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"sync"
@@ -153,9 +152,9 @@ func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error)
 	}
 
 	defer resp.Body.Close()
-	body, _ := io.ReadAll(resp.Body)
+
 	var aiResponse AIResponse
-	json.Unmarshal(body, &aiResponse)
+	json.Unmarshal([]byte(jsonData), &aiResponse)
 
 	// If the AI response is nil, return an error
 	if aiResponse.CentralhubStock == nil || aiResponse.ReplenishmentData == nil || aiResponse.DelayDays == 0 {
