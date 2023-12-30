@@ -368,6 +368,9 @@ export default {
 
     /*function for sending box */
     sendBoxToSupermarket(supermarketInfo) {
+      console.log("\n\n");
+      console.log(supermarketInfo);
+
       let target;
       const duration = this.onedaytime * supermarketInfo.deliveryTime;
       switch (supermarketInfo.id) {
