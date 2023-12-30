@@ -68,8 +68,6 @@ async def get_message_from_queue(messages_queue):
     return await asyncio.to_thread(messages_queue.get)
 
 async def send_streaming_message(websocket, path):
-    client_ip, client_port = websocket.remote_address
-    print(f"Connection established with {client_ip}:{client_port}")
     import copy
     queue_copy = copy.deepcopy(messages_queue.queue)  # Avoid modifying the original queue
     print(f"messages_queue, send_streaming_message:\n{list(queue_copy)}")
