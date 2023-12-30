@@ -106,26 +106,37 @@
       </div>
 
       <div ref="messages1" class="message-container1" v-if="showMessages1">
-        <span v-for="msg in messages1_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
-        }}
+        <span
+          v-for="msg in messages1_text"
+          :key="msg.id"
+          :class="['message', getMessageClass(msg.speakerid)]"
+          >{{ msg.text }}
         </span>
       </div>
       <div ref="messages2" class="message-container2" v-if="showMessages2">
-        <span v-for="msg in messages2_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
-        }}
+        <span
+          v-for="msg in messages2_text"
+          :key="msg.id"
+          :class="['message', getMessageClass(msg.speakerid)]"
+          >{{ msg.text }}
         </span>
       </div>
       <div ref="messages3" class="message-container3" v-if="showMessages3">
-        <span v-for="msg in messages3_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
-        }}
+        <span
+          v-for="msg in messages3_text"
+          :key="msg.id"
+          :class="['message', getMessageClass(msg.speakerid)]"
+          >{{ msg.text }}
         </span>
       </div>
       <div ref="messages4" class="message-container4" v-if="showMessages4">
-        <span v-for="msg in messages4_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
-        }}
+        <span
+          v-for="msg in messages4_text"
+          :key="msg.id"
+          :class="['message', getMessageClass(msg.speakerid)]"
+          >{{ msg.text }}
         </span>
       </div>
-
     </div>
   </div>
 </template>
@@ -212,7 +223,6 @@ export default {
       showMessages2: true,
       showMessages3: true,
       showMessages4: true,
-
     };
   },
   //////////
@@ -331,24 +341,24 @@ export default {
       var day = date0.getUTCDate();
       this.date = this.pad(day) + "/" + this.pad(month) + "/" + year;
       // set events for different markets
-      Object.entries(generalInfo.event).forEach((table) => {
-        let key = table[0];
-        let value = table[1];
-        switch (key) {
-          case "1":
-            this.event1 = value;
-            break;
-          case "2":
-            this.event2 = value;
-            break;
-          case "3":
-            this.event3 = value;
-            break;
-          case "4":
-            this.event4 = value;
-            break;
-        }
-      });
+      // Object.entries(generalInfo.event).forEach((table) => {
+      //   let key = table[0];
+      //   let value = table[1];
+      //   switch (key) {
+      //     case "1":
+      //       this.event1 = value;
+      //       break;
+      //     case "2":
+      //       this.event2 = value;
+      //       break;
+      //     case "3":
+      //       this.event3 = value;
+      //       break;
+      //     case "4":
+      //       this.event4 = value;
+      //       break;
+      //   }
+      // });
       this.stock0 = new Map(Object.entries(generalInfo.warehouseProduct));
     },
 
@@ -362,18 +372,22 @@ export default {
       const duration = this.onedaytime * supermarketInfo.deliveryTime;
       switch (supermarketInfo.id) {
         case "1":
+          this.event1 = supermarketInfo.event;
           target = this.supermarkets[0];
           this.stock1 = new Map(Object.entries(supermarketInfo.productLeft));
           break;
         case "2":
+          this.event2 = supermarketInfo.event;
           target = this.supermarkets[1];
           this.stock2 = new Map(Object.entries(supermarketInfo.productLeft));
           break;
         case "3":
+          this.event3 = supermarketInfo.event;
           target = this.supermarkets[2];
           this.stock3 = new Map(Object.entries(supermarketInfo.productLeft));
           break;
         case "4":
+          this.event4 = supermarketInfo.event;
           target = this.supermarkets[3];
           this.stock4 = new Map(Object.entries(supermarketInfo.productLeft));
           break;
@@ -543,7 +557,7 @@ export default {
       } else if (speakerid == "4") {
         return "speaker4-class";
       } else if (speakerid == "0") {
-        return "speaker0-class";        // warehouse
+        return "speaker0-class"; // warehouse
       }
     },
 
@@ -990,7 +1004,6 @@ header {
   border-width: 2px;
 }
 
-
 .show1 {
   position: absolute;
   top: 50px;
@@ -1039,7 +1052,6 @@ header {
   left: 1900px;
 }
 
-
 .message-container1,
 .message-container2,
 .message-container3,
@@ -1057,7 +1069,6 @@ header {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
-
 
 /* Supermarket's chat bubble */
 .message-container1 .message.speaker1-class,
