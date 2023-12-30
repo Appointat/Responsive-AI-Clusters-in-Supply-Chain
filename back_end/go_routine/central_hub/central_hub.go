@@ -175,8 +175,8 @@ func (h *CentralHub) IntegrateAIResponseToGeneralInfo(event string, date time.Ti
 
 	// Extract the info from aiResponse
 	warehouseProduct := make(map[string]int)
-	for name, _ := range aiResponseData.CentralhubStock {
-		warehouseProduct[name] = aiResponseData.CentralhubStock[name].CurrentStorageAmount
+	for name, item := range aiResponseData.CentralhubStock {
+		warehouseProduct[name] = item.CurrentStorageAmount
 	}
 	generalInfo := GeneralInfo{
 		Date:             date,
