@@ -48,25 +48,27 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO, chat_turn_limit=50, request
                 }
             }
         }
+    # Copy the central hub json
+    _central_hub_json = central_hub_json.copy()
     user_id = request_json["outlet_id"]
     response_json = {
         "outlet_inventory": {
-            "olive_oil": {
-                "future_storage_amount": "<NUM>",
-                "specific_reason_of_replenishment": "<STRING>"
-            },
             "baguette": {
                 "future_storage_amount": "<NUM>",
-                "specific_reason_of_replenishment": "<STRING>"
-            },
-            "manchego_cheese": {
-                "future_storage_amount": "<NUM>",
-                "specific_reason_of_replenishment": "<STRING>"
+                "specific_reason_of_replenishment": "<STRING>",
             },
             "black_tea": {
                 "future_storage_amount": "<NUM>",
-                "specific_reason_of_replenishment": "<STRING>"
-            }
+                "specific_reason_of_replenishment": "<STRING>",
+            },
+            "manchego_cheese": {
+                "future_storage_amount": "<NUM>",
+                "specific_reason_of_replenishment": "<STRING>",
+            },
+            "olive_oil": {
+                "future_storage_amount": "<NUM>",
+                "specific_reason_of_replenishment": "<STRING>",
+            },
         },
         "transportation_duration": "<NUM> day"
     }
@@ -170,7 +172,6 @@ While making decisions, the central hub should first consider the neccessary inf
             ).replace("\'", "\"")
             role_playing_output_json = json.loads(output_text)
             role_playing_output_json["transportation_duration"] = [int(s) for s in role_playing_output_json["transportation_duration"].split() if s.isdigit()][0]
-            print(Fore.RED + f"output_json:\n{json.dumps(role_playing_output_json, indent=4)}\n")
             # {
             #     "outlet_inventory": {
             #         "olive_oil": {
@@ -216,5 +217,7 @@ While making decisions, the central hub should first consider the neccessary inf
         "transportation_duration": trasportation_duration_json
     }
 
+    print(Fore.RED + f"original_outlet_json:\n{json.dumps(request_json, indent=4)}\n")
+    print(Fore.RED + f"original_central_hub_json:\n{json.dumps(_central_hub_json, indent=4)}\n")
     print(Fore.RED + f"final_answer_json:\n{json.dumps(final_answer_json, indent=4)}\n")
     return final_answer_json, central_hub_json
