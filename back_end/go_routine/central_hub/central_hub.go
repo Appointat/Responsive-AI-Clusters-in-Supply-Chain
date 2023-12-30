@@ -142,30 +142,32 @@ func (h *CentralHub) GetNumberOfProducts(productName string) int {
 
 func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error) {
 	// Code as JSON
-	jsonData, err := json.Marshal(requestData)
-	if err != nil {
-		return nil, err
-	}
+
+	jsonData, _ := json.Marshal(requestData)
+	fmt.Println("Request JSON:", string(jsonData))
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	// Send Post Request to Python AI
-	resp, err := http.Post(h.aiServerURL, "application/json", bytes.NewBuffer(jsonData))
-	if err != nil {
-		return nil, err
-	}
+	resp, _ := http.Post(h.aiServerURL, "application/json", bytes.NewBuffer(jsonData))
+	// if err != nil {
+	// 	return nil, err
+	// }
 	defer resp.Body.Close()
 
 	// Decode JSON Response
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
+	body, _ := ioutil.ReadAll(resp.Body)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	// Convert JSON to Struct
 	var response AIResponse
-	err = json.Unmarshal(body, &response)
-	if err != nil {
-		return nil, err
-	}
+	_ = json.Unmarshal(body, &response)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	return &response, nil
 }
