@@ -93,9 +93,9 @@ While making decisions, the central hub should first consider the neccessary inf
     chat_recode = context_text
 
     ai_user_role = "Inventory Management Specialist of Central Hub"
-    ai_user_description = "This expert should have strong organizational skills, attention to detail, and a deep understanding of supply chain and inventory management systems. They should be proficient in inventory tracking software and have the ability to analyze stock levels to ensure availability for events. Their duties would include categorizing goods, forecasting demand based on the event description, and configuring the inventory system to reflect accurate information for event-specific requirements."
+    ai_user_description = "This expert has strong organizational skills, attention to detail, and a deep understanding of supply chain and inventory management systems, who should be proficient in inventory tracking has the ability to analyze stock levels to ensure availability for events. Their duties would include categorizing goods, forecasting demand based on the event description, and configuring the inventory system to reflect accurate information for event-specific requirements."
     ai_assistant_role = "Event Logistics Coordinator of Outlet"
-    ai_assistant_description = "The expert must have experience in event planning and logistics, with a knack for coordinating with multiple stakeholders. They should have competencies in project management, communication, and problem-solving. Their duties involve understanding the event description to determine the necessary goods, liaising with the Inventory Management Specialist to ensure proper stock levels, and overseeing the setup to meet the event's needs."
+    ai_assistant_description = "This expert has experience in event planning and logistics, with a knack for coordinating with multiple stakeholders, who should have competencies in project management, mathematical calculation and problem-solving. Their duties involve understanding the event description to determine the necessary goods, liaising with the Inventory Management Specialist to ensure proper stock levels, and overseeing the setup to meet the event's needs."
 
     # You can use the following code to play the role-playing game
     function_list = [*MATH_FUNCS]

@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 import asyncio
-import copy
 import functools
 import json
 import threading
