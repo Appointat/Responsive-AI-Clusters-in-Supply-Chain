@@ -191,7 +191,7 @@ func (o *Outlet) GetNumberOfProducts(productName string) int {
 	return -1
 }
 
-func (o *Outlet) IntegrateResponseToSupermarketInfo(Response *centralhub.Response) *centralhub.SupermarketInfo {
+func (o *Outlet) IntegrateResponseToSupermarketInfo(eventName string, Response *centralhub.Response) *centralhub.SupermarketInfo {
 	//Extract the replenishment information from the response into the supermarketInfo
 	var supermarketInfo centralhub.SupermarketInfo
 	supermarketInfo.ProductAdd = make(map[string]int)
@@ -206,6 +206,7 @@ func (o *Outlet) IntegrateResponseToSupermarketInfo(Response *centralhub.Respons
 	for name, product := range o.inventory {
 		supermarketInfo.ProductLeft[name] = product.GetNumber()
 	}
+	supermarketInfo.Event = eventName
 	return &supermarketInfo
 }
 
@@ -251,7 +252,7 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	}
 
 	//Send the json pack SupermarketInfo to frontend
-	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(response))
+	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(eventName, response))
 	//Process the scheduled deliveries
 	o.ProcessScheduledDeliveries(date)
 	o.scheduleDeliveries(response, date)
