@@ -1,4 +1,4 @@
-import json, re
+import json
 import queue
 
 from colorama import Fore
@@ -49,7 +49,6 @@ def role_playing(model_type=ModelType.GPT_3_5_TURBO, chat_turn_limit=50, request
             }
         }
     user_id = request_json["outlet_id"]
-    post_outlet_inventory_json = request_json["outlet_inventory"]
     response_json = {
         "outlet_inventory": {
             "olive_oil": {
