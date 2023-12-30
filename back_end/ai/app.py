@@ -67,6 +67,8 @@ async def get_message_from_queue(messages_queue):
     return await asyncio.to_thread(messages_queue.get)
 
 async def send_streaming_message(websocket, path):
+    client_ip, client_port = websocket.remote_address
+    print(f"Connection established with {client_ip}:{client_port}")
     import copy
     queue_copy = copy.deepcopy(messages_queue.queue)  # Avoid modifying the original queue
     print(f"messages_queue, send_streaming_message:\n{list(queue_copy)}")
@@ -78,8 +80,9 @@ async def send_streaming_message(websocket, path):
             break
 
         sender_id = message["sender_id"]
-
         user_message = message["user_message"] + "\n\n"
+        assistant_message = message["assistant_message"] + "\n\n"
+
         for char in user_message:  # user
             msg_to_send = {
                 "SpeakerID": sender_id,
@@ -89,7 +92,6 @@ async def send_streaming_message(websocket, path):
             time.sleep(0.005)
             await websocket.send(json.dumps(msg_to_send))
 
-        assistant_message = message["assistant_message"] + "\n\n"
         for char in assistant_message:  # assistant
             msg_to_send = {
                 "SpeakerID": "0",
