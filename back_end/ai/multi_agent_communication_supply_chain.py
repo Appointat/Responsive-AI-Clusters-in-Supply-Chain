@@ -210,10 +210,12 @@ While making decisions, the central hub should first consider the neccessary inf
             changed_replenishment_amount_from_central_hub = 0
         central_hub_json["central_hub_inventory"][product]["current_storage_amount"] -= changed_replenishment_amount_from_central_hub
 
+        outlet_inventory_json[product]["future_storage_amount"] = int(future_storage_amount)
+
     # Format the final answer json
     final_answer_json = {
         "outlet_inventory": outlet_inventory_json,
-        "central_hub_inventory": central_hub_json,
+        "central_hub_inventory": central_hub_json["central_hub_inventory"],
         "transportation_duration": trasportation_duration_json
     }
 
