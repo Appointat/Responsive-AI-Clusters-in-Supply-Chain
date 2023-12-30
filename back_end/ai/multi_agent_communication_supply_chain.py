@@ -175,6 +175,8 @@ While making decisions, the central hub should first consider the neccessary inf
                 chat_record=chat_record,
                 answer_template=response_json,
             ).replace("\'", "\"")
+            print(Fore.BLUE + f"output_text:\n{output_text}\n")
+
             # Extract the json format in the output_text, while the output_text is a string including the json format and other strings
             output_text = output_text[output_text.find("{"):output_text.rfind("}") + 1]
             role_playing_output_json = json.loads(output_text)
@@ -223,18 +225,10 @@ While making decisions, the central hub should first consider the neccessary inf
 
         outlet_inventory_json[product]["future_storage_amount"] = int(future_storage_amount)
 
-    def format_product_names(json_data):
-        formatted_inventory = {}
-        for product_name, details in json_data.items():
-            # Convert the product name to upcase and replace underscores with spaces
-            formatted_name = product_name.replace("_", " ").title()
-            formatted_inventory[formatted_name] = details
-        return formatted_inventory
-
     # Format the final answer json
     final_answer_json = {
         "outlet_inventory": outlet_inventory_json,
-        "central_hub_inventory": format_product_names(central_hub_json["central_hub_inventory"]),
+        "central_hub_inventory": central_hub_json["central_hub_inventory"],
         "transportation_duration": trasportation_duration_json
     }
 
