@@ -152,8 +152,7 @@ While making decisions, the central hub should first consider the neccessary inf
         print(Fore.BLUE + f"{ai_user_role}:\n\n{user_response.msg.content}\n")
         print(Fore.GREEN + f"{ai_assistant_role}:\n\n{assistant_response.msg.content}\n")
 
-        # Output the msg to the markdown file: chat_record.md
-        # If the file does not exist, create it
+        # Output the msg to the markdown file: chat_record.md, and if the file does not exist, create it
         with open(f"Chat Record {request_json['event']}.md", "a") as f:
             user_msg_md = user_response.msg.content.replace('\n', '\n\n')
             assistant_msg_md = assistant_response.msg.content.replace('\n', '\n\n')
@@ -176,6 +175,8 @@ While making decisions, the central hub should first consider the neccessary inf
                 chat_record=chat_record,
                 answer_template=response_json,
             ).replace("\'", "\"")
+            # Extract the json format in the output_text, while the output_text is a string including the json format and other strings
+            output_text = output_text[output_text.find("{"):output_text.rfind("}") + 1]
             role_playing_output_json = json.loads(output_text)
             try:
                 role_playing_output_json["transportation_duration"] = [int(s) for s in role_playing_output_json["transportation_duration"].split() if s.isdigit()][0]
