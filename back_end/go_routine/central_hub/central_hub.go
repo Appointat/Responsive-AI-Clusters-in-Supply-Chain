@@ -249,6 +249,7 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 	// //Send Request to AI
 	aiResponse, err := h.SendRequestToAI(requestData)
 	if err != nil {
+		log.Println("Error occurred in communication with AI: %+v",err)
 		return &Response{
 			Replenishments: nil,
 			DeliveryTime:   0,
