@@ -90,7 +90,7 @@ While making decisions, the central hub should first consider the neccessary inf
     answer_template += json.dumps(response_json, indent=4)
     assistant_answer_template = answer_template
 
-    chat_recode = context_text
+    chat_record = context_text
 
     ai_user_role = "Inventory Management Specialist of Central Hub"
     ai_user_description = "This expert has strong organizational skills, attention to detail, and a deep understanding of supply chain and inventory management systems, who should be proficient in inventory tracking has the ability to analyze stock levels to ensure availability for events. Their duties would include categorizing goods, forecasting demand based on the event description, and configuring the inventory system to reflect accurate information for event-specific requirements."
@@ -152,10 +152,17 @@ While making decisions, the central hub should first consider the neccessary inf
         print(Fore.BLUE + f"{ai_user_role}:\n\n{user_response.msg.content}\n")
         print(Fore.GREEN + f"{ai_assistant_role}:\n\n{assistant_response.msg.content}\n")
 
+        # Output the msg to the markdown file: chat_record.md
+        # If the file does not exist, create it
+        with open(f"chat_record_{request_json['event']}.md", "a") as f:
+            f.write(f"[{ai_user_role}]:{user_response.msg.content}\n\n")
+            f.write(f"[{ai_assistant_role}]:{assistant_response.msg.content}\n\n")
+
+
         messages_queue.put({"sender_id": user_id, "user_message": user_response.msg.content, "assistant_message": assistant_response.msg.content})
         print(Fore.WHITE + f"The length of the messages_queue is {messages_queue.qsize()}\n")
 
-        chat_recode += (f"[{ai_user_role}]:{user_response.msg.content}\n\n" + \
+        chat_record += (f"[{ai_user_role}]:{user_response.msg.content}\n\n" + \
             f"[{ai_assistant_role}]:{assistant_response.msg.content}\n\n")
 
         if "CAMEL_TASK_DONE" in user_response.msg.content or \
@@ -165,7 +172,7 @@ While making decisions, the central hub should first consider the neccessary inf
             output_text = format_agent.run(
                 user_role_name=ai_user_role,
                 assistant_role_name=ai_assistant_role,
-                chat_record=chat_recode,
+                chat_record=chat_record,
                 answer_template=response_json,
             ).replace("\'", "\"")
             role_playing_output_json = json.loads(output_text)
