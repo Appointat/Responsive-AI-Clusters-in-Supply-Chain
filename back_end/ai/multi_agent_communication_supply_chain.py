@@ -211,7 +211,7 @@ While making decisions, the central hub should first consider the neccessary inf
 
     # Format the final answer json
     final_answer_json = {
-        "outlet_inventory": changed_replenishment_amount_from_central_hub,
+        "outlet_inventory": outlet_inventory_json,
         "central_hub_inventory": central_hub_json,
         "transportation_duration": trasportation_duration_json
     }
