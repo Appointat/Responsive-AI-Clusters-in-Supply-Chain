@@ -72,7 +72,7 @@ func (o *Outlet) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 
 	conn, err := o.wsupgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println("Failed to set websocket upgrade: %+v", err)
+		log.Printf("Failed to set websocket upgrade: %v", err)
 		return
 	}
 	o.client = conn
@@ -220,7 +220,7 @@ func (o *Outlet) SendSupermarketInfoToFrontend(supermarketInfo *centralhub.Super
 	// Send the json data to frontend via WebSocket
 	err := o.client.WriteJSON(supermarketInfo)
 	if err != nil {
-		log.Println("Failed to write json to frontend: %+v", err)
+		log.Printf("Failed to write json to frontend: %v", err)
 	}
 }
 
