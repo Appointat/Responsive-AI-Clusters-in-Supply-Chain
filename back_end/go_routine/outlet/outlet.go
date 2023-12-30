@@ -235,7 +235,7 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	var eventName string
 	var eventDetails *event.Event
 	for eventName, eventDetails = range o.events {
-		if eventDetails.EventDate.Year() == date.Year() && eventDetails.EventDate.Month() == date.Month() && eventDetails.EventDate.Day() == date.Day() {
+		if eventDetails.EventDate.Month() == date.Month() && eventDetails.EventDate.Day() == date.Day() {
 			//if the matching event appears
 			eventOccurred = true
 			break
@@ -246,6 +246,7 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	if eventOccurred {
 		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, eventDetails, o.inventory)
 	} else {
+		eventName = "No event"
 		eventDetails.EventDate = date
 		eventDetails.EventDescription = "No event"
 		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, eventDetails, o.inventory)
