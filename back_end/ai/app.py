@@ -28,6 +28,7 @@ central_hub_json = {
     }
 }
 
+# Example request JSON
 # response_json = {
 #     "outlet_inventory": {
 #         "olive_oil": {
