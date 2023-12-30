@@ -37,7 +37,7 @@ type InventoryItem struct {
 }
 
 type ReplenishmentItem struct {
-	ChangedReplenishmentAmount int    `json:"changed_replenishment_amount_from_central_hub"`
+	ChangedReplenishmentAmount int    `json:"future_storage_amount"`
 	UnusedReason               string `json:"specific_reason_of_replenishment"`
 }
 
