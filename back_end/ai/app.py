@@ -28,37 +28,37 @@ central_hub_json = {
     }
 }
 
-response_json = {
-    "outlet_inventory": {
-        "olive_oil": {
-            "changed_replenishment_amount_from_central_hub": 1000,
-        },
-        "baguette": {
-            "changed_replenishment_amount_from_central_hub": 1000,
-        },
-        "manchego_cheese": {
-            "changed_replenishment_amount_from_central_hub": 1000,
-        },
-        "black_tea": {
-            "changed_replenishment_amount_from_central_hub": 1000,
-        }
-    },
-    "central_hub_inventory": {
-        "olive_oil": {
-            "current_storage_amount": 1000,
-        },
-        "baguette": {
-            "current_storage_amount": 1000,
-        },
-        "manchego_cheese": {
-            "current_storage_amount": 1000,
-        },
-        "black_tea": {
-            "current_storage_amount": 1000,
-        },
-    },
-    "transportation_duration": 1
-}
+# response_json = {
+#     "outlet_inventory": {
+#         "olive_oil": {
+#             "changed_replenishment_amount_from_central_hub": 1000,
+#         },
+#         "baguette": {
+#             "changed_replenishment_amount_from_central_hub": 1000,
+#         },
+#         "manchego_cheese": {
+#             "changed_replenishment_amount_from_central_hub": 1000,
+#         },
+#         "black_tea": {
+#             "changed_replenishment_amount_from_central_hub": 1000,
+#         }
+#     },
+#     "central_hub_inventory": {
+#         "olive_oil": {
+#             "current_storage_amount": 1000,
+#         },
+#         "baguette": {
+#             "current_storage_amount": 1000,
+#         },
+#         "manchego_cheese": {
+#             "current_storage_amount": 1000,
+#         },
+#         "black_tea": {
+#             "current_storage_amount": 1000,
+#         },
+#     },
+#     "transportation_duration": 1
+# }
 
 
 app = Flask(__name__)
@@ -116,6 +116,19 @@ current_messages_queue = None
 def handle_ai_request():
     # Get JSON data from the request
     request_data = request.get_json()
+
+    def format_product_names(json_data):
+        if "outlet_inventory" in json_data:
+            formatted_inventory = {}
+            for product_name, details in json_data["outlet_inventory"].items():
+                # Convert the product name to lowercase and replace spaces with underscores
+                formatted_name = product_name.lower().replace(" ", "_")
+                formatted_inventory[formatted_name] = details
+
+            json_data["outlet_inventory"] = formatted_inventory
+        return json_data
+
+    request_data = format_product_names(request_data)
 
     # Perform some AI-related processing with role_playing
     global central_hub_json
