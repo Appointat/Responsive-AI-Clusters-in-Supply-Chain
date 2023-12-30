@@ -98,7 +98,7 @@ func INIT() { // Single Agent
 		product.InstanceProducts() //Initialize the products
 
 		go func() {
-			http.ListenAndServe(":8080", nil)
+			http.ListenAndServe(":8001", nil)
 		}()
 		go func() {
 			defer ticker.Stop()

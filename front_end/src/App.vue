@@ -326,7 +326,7 @@ export default {
 
     /* Receive General info */
     centralhubstart() {
-      this.centralhub = new WebSocket("ws://localhost:8080/centralhub");
+      this.centralhub = new WebSocket("ws://localhost:8001/centralhub");
       this.centralhub.onmessage = (event) => {
         const data = JSON.parse(event.data);
         this.freshInfo(data);
@@ -473,7 +473,7 @@ export default {
 
     /* Receive Supermarkets info and send boxes */
     outlet1start() {
-      this.outlet1 = new WebSocket("ws://localhost:8080/outlet1");
+      this.outlet1 = new WebSocket("ws://localhost:8001/outlet1");
       this.outlet1.onmessage = (event) => {
         const data = JSON.parse(event.data);
         this.sendBoxToSupermarket(data);
@@ -487,7 +487,7 @@ export default {
     },
 
     outlet2start() {
-      this.outlet2 = new WebSocket("ws://localhost:8080/outlet2");
+      this.outlet2 = new WebSocket("ws://localhost:8001/outlet2");
       this.outlet2.onmessage = (event) => {
         const data = JSON.parse(event.data);
         this.sendBoxToSupermarket(data);
@@ -501,7 +501,7 @@ export default {
     },
 
     outlet3start() {
-      this.outlet3 = new WebSocket("ws://localhost:8080/outlet3");
+      this.outlet3 = new WebSocket("ws://localhost:8001/outlet3");
       this.outlet3.onmessage = (event) => {
         const data = JSON.parse(event.data);
         this.sendBoxToSupermarket(data);
@@ -515,7 +515,7 @@ export default {
     },
 
     outlet4start() {
-      this.outlet4 = new WebSocket("ws://localhost:8080/outlet4");
+      this.outlet4 = new WebSocket("ws://localhost:8001/outlet4");
       this.outlet4.onmessage = (event) => {
         const data = JSON.parse(event.data);
         this.sendBoxToSupermarket(data);

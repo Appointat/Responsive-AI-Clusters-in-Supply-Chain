@@ -119,7 +119,7 @@ func InitializeHub() {
 	inventory["Manchego Cheese"] = product.NewProduct("Manchego Cheese", 1500, 40, 400)
 	inventory["Black Tea"] = product.NewProduct("Black Tea", 800, 20, 250)
 	http.HandleFunc("/centralhub", instance.HandleWebSocket)
-	go http.ListenAndServe(":8080", nil)
+	go http.ListenAndServe(":8001", nil)
 	// Add the inventory to the central hub
 	instance.SetInventory(inventory)
 }
