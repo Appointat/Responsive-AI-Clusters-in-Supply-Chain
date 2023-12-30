@@ -13,16 +13,16 @@ global central_hub_json
 
 central_hub_json = {
     "central_hub_inventory": {
-        "olive_oil": {
+        "baguette": {
             "current_storage_amount": 1000,
         },
-        "baguette": {
+        "black_tea": {
             "current_storage_amount": 1000,
         },
         "manchego_cheese": {
             "current_storage_amount": 1000,
         },
-        "black_tea": {
+        "olive_oil": {
             "current_storage_amount": 1000,
         },
     }
