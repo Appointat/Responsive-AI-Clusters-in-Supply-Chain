@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import asyncio
+import copy
 import functools
 import json
 import threading
@@ -8,8 +9,8 @@ import websockets
 
 from multi_agent_communication_supply_chain import role_playing, messages_queue
 
-global central_hub_json
 
+global central_hub_json
 
 central_hub_json = {
     "central_hub_inventory": {
@@ -28,7 +29,7 @@ central_hub_json = {
     }
 }
 
-# Example request JSON
+# Example of request JSON
 # response_json = {
 #     "outlet_inventory": {
 #         "olive_oil": {
@@ -68,10 +69,6 @@ async def get_message_from_queue(messages_queue):
     return await asyncio.to_thread(messages_queue.get)
 
 async def send_streaming_message(websocket, path):
-    import copy
-    queue_copy = copy.deepcopy(messages_queue.queue)  # Avoid modifying the original queue
-    print(f"messages_queue, send_streaming_message:\n{list(queue_copy)}")
-
     while True:
         message = await get_message_from_queue(messages_queue)  # Retrieve a message from the queue
         print(f"The message from the message queue:\n{message}")
@@ -138,12 +135,6 @@ def handle_ai_request():
 
     # Return the response from role_playing
     return jsonify(response_json)
-
-
-@app.route('/send/<message>')
-def send_message(message):
-    messages_queue.put(message)
-    return 'Message enqueued'
 
 def run_flask_app():
     # Running on http://0.0.0.0:5000/ without threading even in debug mode
