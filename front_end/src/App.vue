@@ -1061,14 +1061,14 @@ header {
 .message-container4 {
   border: 1px solid #ddd;
   border-radius: 15px;
-  padding: 10px;
+  padding: 8px;
   margin: 10px 0;
   background-color: #f8f5f5;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   width: 300px;
   height: 330px;
   overflow-y: auto;
-  font-size: 20px;
+  font-size: 12px;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
