@@ -13,7 +13,7 @@ from format_agent import FormatAgent
 messages_queue = queue.Queue()
 
 
-def role_playing(model_type=ModelType.GPT_3_5_TURBO, chat_turn_limit=50, request_json=None, central_hub_json=None) -> None:
+def role_playing(model_type=ModelType.GPT_3_5_TURBO, chat_turn_limit=30, request_json=None, central_hub_json=None) -> None:
     if request_json is None:
         # Default request json
         request_json = {
