@@ -5,7 +5,6 @@ from colorama import Fore
 
 from camel.configs import ChatGPTConfig, FunctionCallingConfig
 from camel.societies import RolePlaying
-from camel.utils import print_text_animated
 from camel.functions import MATH_FUNCS
 from camel.types import ModelType, TaskType
 
@@ -16,6 +15,7 @@ messages_queue = queue.Queue()
 
 def role_playing(model_type=ModelType.GPT_3_5_TURBO, chat_turn_limit=50, request_json=None, central_hub_json=None) -> None:
     if request_json is None:
+        # Default request json
         request_json = {
             "outlet_id": "1",
             "outlet_location": "Lyon",
@@ -83,12 +83,12 @@ THe current storage amount of the outlet should be less than the maximum capacit
 While making decisions, the central hub should first consider the neccessary information in the context, and then predict what is the unknown demand of outlet in the event.
 """
     task_prompt = "In order to help the outlet to handle the upcoming events well, " + \
-        "please make decisions based on the known information (you need to show the basis and the thoughts specifically). "
-        # "And finally before the \"CAMEL_TASK_DONE\", the AI assistant (Event Logistics Coordinator of Outlet) MUST strictly adhere to the structure of the JSON TEMPLATE, ONLY fill in the BLANKs, and DO NOT alter or modify any other part of the template.\n"
-    assistant_answer_template = "Even if some BLANKs/NUMs/STRINGs are not moentioned (for example, \"specific_reason_of_replenishment\": \"<BLANCK>\") in the conversation, you must fill them with sertain values or strings.\n"
+        "please make decisions based on the known information (you need to show the basis and the thoughts specifically). " + \
+        "The standard of the task completion is that the AI assistant (Event Logistics Coordinator of Outlet) MUST make sure every BLANKs in the JSON template are filled with sertain values or strings."
+    # assistant_answer_template = "Even if some BLANKs/NUMs/STRINGs are not moentioned (for example, \"specific_reason_of_replenishment\": \"<BLANCK>\") in the conversation, you must fill them with sertain values or strings.\n"
     answer_template = "===== JSON TEMPLATE =====\n"
     answer_template += json.dumps(response_json, indent=4)
-    assistant_answer_template += answer_template
+    assistant_answer_template = answer_template
 
     chat_recode = context_text
 
@@ -149,10 +149,8 @@ While making decisions, the central hub should first consider the neccessary inf
                    f"Reason: {user_response.info['termination_reasons']}."))
             break
 
-        print_text_animated(Fore.BLUE +
-                            f"{ai_user_role}:\n\n{user_response.msg.content}\n", 0.005)
-        print_text_animated(Fore.GREEN + f"{ai_assistant_role}:\n\n"
-                            f"{assistant_response.msg.content}\n", 0.005)
+        print(Fore.BLUE + f"{ai_user_role}:\n\n{user_response.msg.content}\n")
+        print(Fore.GREEN + f"{ai_assistant_role}:\n\n{assistant_response.msg.content}\n")
 
         messages_queue.put({"sender_id": user_id, "user_message": user_response.msg.content, "assistant_message": assistant_response.msg.content})
         print(Fore.WHITE + f"The length of the messages_queue is {messages_queue.qsize()}\n")
@@ -163,7 +161,7 @@ While making decisions, the central hub should first consider the neccessary inf
         if "CAMEL_TASK_DONE" in user_response.msg.content or \
             "CAMEL_TASK_DONE" in assistant_response.msg.content:
 
-            format_agent = FormatAgent(model_type=ModelType.GPT_4_TURBO, model_config=ChatGPTConfig(temperature=0.0))
+            format_agent = FormatAgent(model_type=ModelType.GPT_4_TURBO, model_config=ChatGPTConfig(temperature=0.0))  # To make the output more readable, we use GPT-4 only
             output_text = format_agent.run(
                 user_role_name=ai_user_role,
                 assistant_role_name=ai_assistant_role,
