@@ -246,15 +246,7 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 
 	// //Send Request to AI
 	var aiResponse *AIResponse
-	aiResponse, err := h.SendRequestToAI(requestData)
-	if err != nil {
-		log.Printf("Error occurred in communication with AI: %v\n", err)
-		return &Response{
-			Replenishments: nil,
-			DeliveryTime:   0,
-			Error:          err,
-		}
-	}
+	aiResponse, _ = h.SendRequestToAI(requestData)
 
 	h.sendGeneralInfoToFrontEnd(h.IntegrateAIResponseToGeneralInfo(eventName, event.EventDate, aiResponse))
 	//Extract the info from aiResponse
