@@ -38,8 +38,8 @@ type InventoryItem struct {
 }
 
 type ReplenishmentItem struct {
-	ChangedReplenishmentAmount int `json:"changed_replenishment_amount_from_central_hub"`
-	unused_reason string `json:specific_reason_of_replenishment`
+	ChangedReplenishmentAmount int    `json:"changed_replenishment_amount_from_central_hub"`
+	unused_reason              string `json:specific_reason_of_replenishment`
 }
 
 type AIResponse struct {
@@ -180,7 +180,7 @@ func (h *CentralHub) IntegrateAIResponseToGeneralInfo(event string, date time.Ti
 		warehouseProduct[name] = item.CurrentStorageAmount
 	}
 	generalInfo := GeneralInfo{
-		Date:             date,
+		Date: date,
 		// Event:            event,
 		WarehouseProduct: warehouseProduct,
 	}
@@ -213,7 +213,7 @@ func (h *CentralHub) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	// Upgrade the HTTP connection to a websocket connection
 	conn, err := h.wsupgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println("Failed to set websocket upgrade: %+v", err)
+		log.Printf("Failed to set websocket upgrade: %v", err)
 		return
 	}
 	h.client = conn
@@ -249,7 +249,7 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 	// //Send Request to AI
 	aiResponse, err := h.SendRequestToAI(requestData)
 	if err != nil {
-		log.Println("Error occurred in communication with AI: %+v",err)
+		log.Printf("Error occurred in communication with AI: %v\n", err)
 		return &Response{
 			Replenishments: nil,
 			DeliveryTime:   0,
@@ -264,20 +264,28 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 	for name, _ := range shopInventory {
 		//Switch name keys to _
 		switch name {
-		case "Baguette" : name = "baguette"
-		case "Black Tea" : name = "black_tea"
-		case "Manchego Cheese" : name = "manchego_cheese"
-		case "Olive Oil" : name = "olive_oil"
+		case "Baguette":
+			name = "baguette"
+		case "Black Tea":
+			name = "black_tea"
+		case "Manchego Cheese":
+			name = "manchego_cheese"
+		case "Olive Oil":
+			name = "olive_oil"
 		}
 
 		if ReplenishmentData, exists := aiResponse.ReplenishmentData[name]; exists {
 			//change back
 			switch name {
-				case "baguette" : name = "Baguette"
-				case "black_tea" : name = "Black Tea"
-				case "manchego_cheese" : name = "Manchego Cheese"
-				case "olive_oil" : name = "Olive Oil"
-				}
+			case "baguette":
+				name = "Baguette"
+			case "black_tea":
+				name = "Black Tea"
+			case "manchego_cheese":
+				name = "Manchego Cheese"
+			case "olive_oil":
+				name = "Olive Oil"
+			}
 
 			quantityNeeded := ReplenishmentData.ChangedReplenishmentAmount
 			if quantityNeeded != 0 {
