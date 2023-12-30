@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"sync"
@@ -39,7 +39,7 @@ type InventoryItem struct {
 
 type ReplenishmentItem struct {
 	ChangedReplenishmentAmount int    `json:"changed_replenishment_amount_from_central_hub"`
-	unused_reason              string `json:specific_reason_of_replenishment`
+	UnusedReason               string `json:"specific_reason_of_replenishment"`
 }
 
 type AIResponse struct {
@@ -144,31 +144,28 @@ func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error)
 	// Code as JSON
 
 	jsonData, _ := json.Marshal(requestData)
-	// if err != nil {
-	// 	return nil, err
-	// }
 
 	// Send Post Request to Python AI
-	resp, _ := http.Post(h.aiServerURL, "application/json", bytes.NewBuffer(jsonData))
-	// if err != nil {
-	// 	return nil, err
-	// }
+	resp, err := http.Post(h.aiServerURL, "application/json", bytes.NewBuffer(jsonData))
+	if err != nil || resp.StatusCode != 200 {
+		log.Printf("Error occurred in communication with AI: %v\n", err)
+		return nil, err
+	}
+
 	defer resp.Body.Close()
+	body, _ := io.ReadAll(resp.Body)
+	var aiResponse AIResponse
+	json.Unmarshal(body, &aiResponse)
 
-	// Decode JSON Response
-	body, _ := ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	// If the AI response is nil, return an error
+	if aiResponse.CentralhubStock == nil || aiResponse.ReplenishmentData == nil || aiResponse.DelayDays == 0 {
+		log.Printf("AI Response is nil\n")
+		return nil, fmt.Errorf("AI Response is nil")
+	}
 
-	// Convert JSON to Struct
-	var response AIResponse
-	_ = json.Unmarshal(body, &response)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	fmt.Println("Response:", response)
-	return &response, nil
+	log.Printf("AI Response: %v\n", aiResponse)
+
+	return &aiResponse, nil
 }
 
 // Send the general information to the frontend
@@ -248,6 +245,7 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 	}
 
 	// //Send Request to AI
+	var aiResponse *AIResponse
 	aiResponse, err := h.SendRequestToAI(requestData)
 	if err != nil {
 		log.Printf("Error occurred in communication with AI: %v\n", err)
@@ -255,6 +253,14 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 			Replenishments: nil,
 			DeliveryTime:   0,
 			Error:          err,
+		}
+	}
+	if aiResponse == nil {
+		log.Printf("AI Response is nil\n")
+		return &Response{
+			Replenishments: nil,
+			DeliveryTime:   0,
+			Error:          fmt.Errorf("AI Response is nil"),
 		}
 	}
 
