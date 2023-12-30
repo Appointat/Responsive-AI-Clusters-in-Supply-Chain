@@ -299,17 +299,6 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 				//Directly change the number of products in the central hub according to the AI response
 				h.resources[name].SetNumber(aiResponse.CentralhubStock[name].CurrentStorageAmount)
 			} else {
-				//change back
-				switch name {
-				case "baguette":
-					name = "Baguette"
-				case "black_tea":
-					name = "Black Tea"
-				case "manchego_cheese":
-					name = "Manchego Cheese"
-				case "olive_oil":
-					name = "Olive Oil"
-				}
 				replenishments[name] = 0
 			}
 		}
