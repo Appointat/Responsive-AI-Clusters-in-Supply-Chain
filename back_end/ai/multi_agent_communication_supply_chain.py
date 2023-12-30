@@ -175,6 +175,7 @@ While making decisions, the central hub should first consider the neccessary inf
                 role_playing_output_json["transportation_duration"] = [int(s) for s in role_playing_output_json["transportation_duration"].split() if s.isdigit()][0]
             except:
                 role_playing_output_json["transportation_duration"] = 1
+            # Example of role_playing_output_json
             # {
             #     "outlet_inventory": {
             #         "olive_oil": {
