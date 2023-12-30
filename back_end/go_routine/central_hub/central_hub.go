@@ -159,6 +159,7 @@ func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error)
 	// If the AI response is nil, return an error
 	if aiResponse.CentralhubStock == nil || aiResponse.ReplenishmentData == nil || aiResponse.DelayDays == 0 {
 		log.Printf("AI Response is nil\n")
+		log.Printf("AI Response: %v\n", aiResponse)
 		return nil, fmt.Errorf("AI Response is nil")
 	}
 
@@ -252,14 +253,6 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 			Replenishments: nil,
 			DeliveryTime:   0,
 			Error:          err,
-		}
-	}
-	if aiResponse == nil {
-		log.Printf("AI Response is nil\n")
-		return &Response{
-			Replenishments: nil,
-			DeliveryTime:   0,
-			Error:          fmt.Errorf("AI Response is nil"),
 		}
 	}
 
