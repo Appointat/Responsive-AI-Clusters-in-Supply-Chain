@@ -154,9 +154,11 @@ While making decisions, the central hub should first consider the neccessary inf
 
         # Output the msg to the markdown file: chat_record.md
         # If the file does not exist, create it
-        with open(f"Chat record {request_json['event']}.md", "a") as f:
-            f.write(f"[{ai_user_role}]:\n{user_response.msg.content}\n\n")
-            f.write(f"[{ai_assistant_role}]:\n{assistant_response.msg.content}\n\n")
+        with open(f"Chat Record {request_json['event']}.md", "a") as f:
+            user_msg_md = user_response.msg.content.replace('\n', '\n\n')
+            assistant_msg_md = assistant_response.msg.content.replace('\n', '\n\n')
+            f.write(f"[{ai_user_role}]:\n\n{user_msg_md}\n\n\n")
+            f.write(f"[{ai_assistant_role}]:\n\n{assistant_msg_md}\n\n\n")
 
         messages_queue.put({"sender_id": user_id, "user_message": user_response.msg.content, "assistant_message": assistant_response.msg.content})
         print(Fore.WHITE + f"The length of the messages_queue is {messages_queue.qsize()}\n")
