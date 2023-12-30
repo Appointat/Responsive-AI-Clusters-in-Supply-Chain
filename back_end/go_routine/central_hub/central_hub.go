@@ -144,7 +144,6 @@ func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error)
 	// Code as JSON
 
 	jsonData, _ := json.Marshal(requestData)
-	fmt.Println("Request JSON:", string(jsonData))
 	// if err != nil {
 	// 	return nil, err
 	// }
@@ -168,7 +167,7 @@ func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error)
 	// if err != nil {
 	// 	return nil, err
 	// }
-
+	fmt.Println("Response:", response)
 	return &response, nil
 }
 
