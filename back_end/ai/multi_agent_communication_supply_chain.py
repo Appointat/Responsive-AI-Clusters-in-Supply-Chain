@@ -171,7 +171,10 @@ While making decisions, the central hub should first consider the neccessary inf
                 answer_template=response_json,
             ).replace("\'", "\"")
             role_playing_output_json = json.loads(output_text)
-            role_playing_output_json["transportation_duration"] = [int(s) for s in role_playing_output_json["transportation_duration"].split() if s.isdigit()][0]
+            try:
+                role_playing_output_json["transportation_duration"] = [int(s) for s in role_playing_output_json["transportation_duration"].split() if s.isdigit()][0]
+            except:
+                role_playing_output_json["transportation_duration"] = 1
             # {
             #     "outlet_inventory": {
             #         "olive_oil": {
@@ -212,10 +215,18 @@ While making decisions, the central hub should first consider the neccessary inf
 
         outlet_inventory_json[product]["future_storage_amount"] = int(future_storage_amount)
 
+    def format_product_names(json_data):
+        formatted_inventory = {}
+        for product_name, details in json_data.items():
+            # Convert the product name to upcase and replace underscores with spaces
+            formatted_name = product_name.replace("_", " ").title()
+            formatted_inventory[formatted_name] = details
+        return formatted_inventory
+
     # Format the final answer json
     final_answer_json = {
         "outlet_inventory": outlet_inventory_json,
-        "central_hub_inventory": central_hub_json["central_hub_inventory"],
+        "central_hub_inventory": format_product_names(central_hub_json["central_hub_inventory"]),
         "transportation_duration": trasportation_duration_json
     }
 
