@@ -138,6 +138,7 @@ def handle_ai_request():
     central_hub_json = updated_central_hub_json
 
     # Return the response from role_playing
+    print(f"Response JSON:\n{response_json}")
     return jsonify(response_json)
 
 def run_flask_app():
