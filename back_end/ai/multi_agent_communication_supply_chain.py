@@ -1,5 +1,6 @@
 import json
 import queue
+import re
 
 from colorama import Fore
 
@@ -85,7 +86,7 @@ While making decisions, the central hub should first consider the neccessary inf
     task_prompt = "In order to help the outlet to handle the upcoming events well, " + \
         "please make decisions based on the known information (you need to show the basis and the thoughts specifically). " + \
         "The standard of the task completion is that the AI assistant (Event Logistics Coordinator of Outlet) MUST make sure every BLANKs in the JSON template are filled with sertain values or strings."
-    # assistant_answer_template = "Even if some BLANKs/NUMs/STRINGs are not moentioned (for example, \"specific_reason_of_replenishment\": \"<BLANCK>\") in the conversation, you must fill them with sertain values or strings.\n"
+    # assistant_answer_template = "Even if some BLANKs/NUMs/STRINGs are not moentioned (for example, \"specific_reason_of_replenishment\": \"<BLANCK>\") by the instruction of the AI assistant, you must fill them with sertain values or strings.\n"
     answer_template = "===== JSON TEMPLATE =====\n"
     answer_template += json.dumps(response_json, indent=4)
     assistant_answer_template = answer_template
@@ -95,15 +96,16 @@ While making decisions, the central hub should first consider the neccessary inf
     ai_user_role = "Inventory Management Specialist of Central Hub"
     ai_user_description = "This expert has strong organizational skills, attention to detail, and a deep understanding of supply chain and inventory management systems, who should be proficient in inventory tracking has the ability to analyze stock levels to ensure availability for events. Their duties would include categorizing goods, forecasting demand based on the event description, and configuring the inventory system to reflect accurate information for event-specific requirements."
     ai_assistant_role = "Event Logistics Coordinator of Outlet"
-    ai_assistant_description = "This expert has experience in event planning and logistics, with a knack for coordinating with multiple stakeholders, who should have competencies in project management, mathematical calculation and problem-solving. Their duties involve understanding the event description to determine the necessary goods, liaising with the Inventory Management Specialist to ensure proper stock levels, and overseeing the setup to meet the event's needs."
+    ai_assistant_description = "This expert has experience in event planning and logistics, with a knack for coordinating with multiple stakeholders, who should have competencies in project management, mathematical calculation (Need to determine the final value of the equations) and problem-solving. Their duties involve understanding the event description to determine the necessary goods, liaising with the Inventory Management Specialist to ensure proper stock levels, and overseeing the setup to meet the event's needs."
 
     # You can use the following code to play the role-playing game
     function_list = [*MATH_FUNCS]
     assistant_model_config = FunctionCallingConfig.from_openai_function_list(
         function_list=function_list,
-        kwargs=dict(temperature=0.0),
+        kwargs=dict(temperature=0.7),
     )
-    user_model_config = ChatGPTConfig(temperature=0.0)
+    # assistant_model_config = ChatGPTConfig(temperature=0.7)
+    user_model_config = ChatGPTConfig(temperature=0.7)
     sys_msg_meta_dicts = [
         dict(
             assistant_role=ai_assistant_role, user_role=ai_user_role,
@@ -175,11 +177,14 @@ While making decisions, the central hub should first consider the neccessary inf
                 chat_record=chat_record,
                 answer_template=response_json,
             ).replace("\'", "\"")
+            output_text = re.sub(r'(\w)"(\w)', r'\1\"\2', output_text)
             print(Fore.BLUE + f"output_text:\n{output_text}\n")
 
             # Extract the json format in the output_text, while the output_text is a string including the json format and other strings
-            output_text = output_text[output_text.find("{"):output_text.rfind("}") + 1]
-            role_playing_output_json = json.loads(output_text)
+            role_playing_output_json = json.loads(re.search(r'{.*}', output_text, re.DOTALL).group())
+            print(Fore.BLUE + f"role_playing_output_json:\n{json.dumps(role_playing_output_json, indent=4)}\n")
+            # output_text = output_text[output_text.find("{"):output_text.rfind("}") + 1]
+            # role_playing_output_json = json.loads(output_text)
             try:
                 role_playing_output_json["transportation_duration"] = [int(s) for s in role_playing_output_json["transportation_duration"].split() if s.isdigit()][0]
             except:
