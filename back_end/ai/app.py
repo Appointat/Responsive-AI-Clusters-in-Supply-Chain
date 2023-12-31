@@ -129,7 +129,11 @@ def handle_ai_request():
 
     # Perform some AI-related processing with role_playing
     global central_hub_json
-    response_json, updated_central_hub_json = role_playing(request_json=request_data, central_hub_json=central_hub_json)
+    try:
+        response_json, updated_central_hub_json = role_playing(request_json=request_data, central_hub_json=central_hub_json)
+    except:
+        response_json, updated_central_hub_json = role_playing(request_json=request_data, central_hub_json=central_hub_json)
+
     for product in updated_central_hub_json["central_hub_inventory"]:
         product_account = int(updated_central_hub_json["central_hub_inventory"][product]["current_storage_amount"])
         if product_account <= 0:
