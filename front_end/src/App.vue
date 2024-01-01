@@ -230,7 +230,6 @@ export default {
     this.createVisualization();
   },
   beforeUnmount() {
-    // 在组件销毁之前停止播放
     if (this.$data.audioPlayer) {
       this.$data.audioPlayer.pause();
       this.$data.audioPlayer = null;
