@@ -149,34 +149,34 @@ export default {
   data() {
     return {
       stock0: new Map([
-        ["Olive Oil", 0],
         ["Baguette", 0],
-        ["Manchego Cheese", 0],
         ["Black Tea", 0],
+        ["Manchego Cheese", 0],
+        ["Olive Oil", 0],
       ]),
       stock1: new Map([
-        ["Olive Oil", 0],
         ["Baguette", 0],
-        ["Manchego Cheese", 0],
         ["Black Tea", 0],
+        ["Manchego Cheese", 0],
+        ["Olive Oil", 0],
       ]),
       stock2: new Map([
-        ["Olive Oil", 0],
         ["Baguette", 0],
-        ["Manchego Cheese", 0],
         ["Black Tea", 0],
+        ["Manchego Cheese", 0],
+        ["Olive Oil", 0],
       ]),
       stock3: new Map([
-        ["Olive Oil", 0],
         ["Baguette", 0],
-        ["Manchego Cheese", 0],
         ["Black Tea", 0],
+        ["Manchego Cheese", 0],
+        ["Olive Oil", 0],
       ]),
       stock4: new Map([
-        ["Olive Oil", 0],
         ["Baguette", 0],
-        ["Manchego Cheese", 0],
         ["Black Tea", 0],
+        ["Manchego Cheese", 0],
+        ["Olive Oil", 0],
       ]),
       onedaytime: 10000, // 60s/day
       date: null,
@@ -479,7 +479,7 @@ export default {
               .attr("x", this.warehouse.x + 3.5 * size)
               .attr("y", this.warehouse.y + 2.3 * size)
               .style("font-size", "16px")
-              .style("fill", "red")
+              .style("fill", "#ffd43b")
               .style("text-anchor", "middle")
               .text(value);
             boxat
@@ -512,7 +512,7 @@ export default {
               .attr("x", this.warehouse.x + 3.5 * size)
               .attr("y", this.warehouse.y + 0.3 * size)
               .style("font-size", "16px")
-              .style("fill", "blue")
+              .style("fill", "red")
               .style("text-anchor", "middle")
               .text(value);
             boxbt
@@ -578,7 +578,7 @@ export default {
               .attr("x", this.warehouse.x - 1.5 * size)
               .attr("y", this.warehouse.y + 2.3 * size)
               .style("font-size", "16px")
-              .style("fill", "#ffd43b")
+              .style("fill", "blue")
               .style("text-anchor", "middle")
               .text(value);
             boxdt
