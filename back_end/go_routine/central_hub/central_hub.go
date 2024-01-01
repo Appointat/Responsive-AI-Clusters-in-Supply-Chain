@@ -158,7 +158,7 @@ func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error)
 	json.Unmarshal(body, &aiResponse)
 
 	// If the AI response is nil, return an error
-	if aiResponse.CentralhubStock == nil || aiResponse.ReplenishmentData == nil || aiResponse.DelayDays == 0 {
+	if aiResponse.CentralhubStock == nil || aiResponse.ReplenishmentData == nil {
 		log.Printf("AI Response is nil\n")
 		log.Printf("AI Response: %v\n", aiResponse)
 		return nil, fmt.Errorf("AI Response is nil")
