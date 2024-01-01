@@ -105,36 +105,28 @@
         <p class="event4">{{ event4 }}</p>
       </div>
 
-      <div ref="messages1" class="message-container1" v-if="showMessages1">
-        <span
-          v-for="msg in messages1_text"
-          :key="msg.id"
-          :class="['message', getMessageClass(msg.speakerid)]"
-          >{{ msg.text }}
+      <div ref="messages1" class="message-container1" :class="{ enlarged: isEnlarged1 }" @click.stop="toggleEnlarge1"
+        v-if="showMessages1">
+        <span v-for="msg in messages1_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
+        }}
         </span>
       </div>
-      <div ref="messages2" class="message-container2" v-if="showMessages2">
-        <span
-          v-for="msg in messages2_text"
-          :key="msg.id"
-          :class="['message', getMessageClass(msg.speakerid)]"
-          >{{ msg.text }}
+      <div ref="messages2" class="message-container2" :class="{ enlarged: isEnlarged2 }" @click.stop="toggleEnlarge2"
+        v-if="showMessages2">
+        <span v-for="msg in messages2_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
+        }}
         </span>
       </div>
-      <div ref="messages3" class="message-container3" v-if="showMessages3">
-        <span
-          v-for="msg in messages3_text"
-          :key="msg.id"
-          :class="['message', getMessageClass(msg.speakerid)]"
-          >{{ msg.text }}
+      <div ref="messages3" class="message-container3" :class="{ enlarged: isEnlarged3 }" @click.stop="toggleEnlarge3"
+        v-if="showMessages3">
+        <span v-for="msg in messages3_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
+        }}
         </span>
       </div>
-      <div ref="messages4" class="message-container4" v-if="showMessages4">
-        <span
-          v-for="msg in messages4_text"
-          :key="msg.id"
-          :class="['message', getMessageClass(msg.speakerid)]"
-          >{{ msg.text }}
+      <div ref="messages4" class="message-container4" :class="{ enlarged: isEnlarged4 }" @click.stop="toggleEnlarge4"
+        v-if="showMessages4">
+        <span v-for="msg in messages4_text" :key="msg.id" :class="['message', getMessageClass(msg.speakerid)]">{{ msg.text
+        }}
         </span>
       </div>
     </div>
@@ -223,17 +215,31 @@ export default {
       showMessages2: true,
       showMessages3: true,
       showMessages4: true,
+
+      isEnlarged1: false,
+      isEnlarged2: false,
+      isEnlarged3: false,
+      isEnlarged4: false,
     };
   },
   //////////
   mounted() {
     this.createVisualization();
+    window.addEventListener('click', this.closeEnlarge1);
+    window.addEventListener('click', this.closeEnlarge2);
+    window.addEventListener('click', this.closeEnlarge3);
+    window.addEventListener('click', this.closeEnlarge4);
   },
   beforeUnmount() {
     if (this.$data.audioPlayer) {
       this.$data.audioPlayer.pause();
       this.$data.audioPlayer = null;
     }
+
+    window.removeEventListener('click', this.closeEnlarge1);
+    window.removeEventListener('click', this.closeEnlarge2);
+    window.removeEventListener('click', this.closeEnlarge3);
+    window.removeEventListener('click', this.closeEnlarge4);
   },
   //////////
   methods: {
@@ -329,6 +335,44 @@ export default {
         this.message8start();
         this.audiostart();
       });
+    },
+    /* enlarge & close*/
+    toggleEnlarge1() {
+      this.isEnlarged1 = true;
+      this.isEnlarged2 = false;
+      this.isEnlarged3 = false;
+      this.isEnlarged4 = false;
+    },
+    toggleEnlarge2() {
+      this.isEnlarged1 = false;
+      this.isEnlarged2 = true;
+      this.isEnlarged3 = false;
+      this.isEnlarged4 = false;
+    },
+    toggleEnlarge3() {
+      this.isEnlarged1 = false;
+      this.isEnlarged2 = false;
+      this.isEnlarged3 = true;
+      this.isEnlarged4 = false;
+    },
+    toggleEnlarge4() {
+      this.isEnlarged1 = false;
+      this.isEnlarged2 = false;
+      this.isEnlarged3 = false;
+      this.isEnlarged4 = true;
+    },
+
+    closeEnlarge1() {
+      this.isEnlarged1 = false;
+    },
+    closeEnlarge2() {
+      this.isEnlarged2 = false;
+    },
+    closeEnlarge3() {
+      this.isEnlarged3 = false;
+    },
+    closeEnlarge4() {
+      this.isEnlarged4 = false;
     },
 
     //bgm
@@ -1235,5 +1279,17 @@ header {
 .message-container7 span,
 .message-container8 span {
   display: inline;
+}
+
+
+
+.enlarged {
+  transform: scale(2);
+  z-index: 1000;
+  position: absolute;
+  top: 220px;
+  left: 900px;
+  background-color: white;
+
 }
 </style>
