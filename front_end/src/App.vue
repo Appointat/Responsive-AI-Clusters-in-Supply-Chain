@@ -178,12 +178,12 @@ export default {
         ["Manchego Cheese", 0],
         ["Black Tea", 0],
       ]),
-      onedaytime: 60000, // 60s/day
+      onedaytime: 10000, // 60s/day
       date: null,
 
       event1: "No event",
       event2: "No event",
-      event3: "No event No event",
+      event3: "No event",
       event4: "No event",
 
       supermarketInfo1: null,
@@ -228,6 +228,13 @@ export default {
   //////////
   mounted() {
     this.createVisualization();
+  },
+  beforeUnmount() {
+    // 在组件销毁之前停止播放
+    if (this.$data.audioPlayer) {
+      this.$data.audioPlayer.pause();
+      this.$data.audioPlayer = null;
+    }
   },
   //////////
   methods: {
@@ -321,7 +328,17 @@ export default {
         this.message6start();
         this.message7start();
         this.message8start();
+        this.audiostart();
       });
+    },
+
+    //bgm
+    audiostart() {
+      const audioPlayer = new Audio();
+      audioPlayer.loop = true;
+      audioPlayer.src = require("@/assets/bgm.flac");
+      audioPlayer.play();
+      this.$data.audioPlayer = audioPlayer;
     },
 
     /* Receive General info */
@@ -372,7 +389,7 @@ export default {
       console.log(supermarketInfo);
 
       let target;
-      const duration = this.onedaytime * supermarketInfo.deliveryTime;
+      let duration = this.onedaytime * supermarketInfo.deliveryTime;
       switch (supermarketInfo.id) {
         case "1":
           this.event1 = supermarketInfo.event;
@@ -395,7 +412,7 @@ export default {
           this.stock4 = new Map(Object.entries(supermarketInfo.productLeft));
           break;
       }
-      /* 
+      /*
       Product name        Color
       "Olive Oil"       : red
       "Baguette"        : blue
@@ -405,67 +422,173 @@ export default {
       Object.entries(supermarketInfo.productAdd).forEach((table) => {
         let key = table[0];
         let value = table[1];
-        let size = 10;
+        let size = 20;
+        //let yes=true;
+        let countdownDuration = duration / this.onedaytime;
+        if (duration < this.onedaytime) {
+          duration = this.onedaytime / 10;
+          countdownDuration = 0;
+        }
+
         if (value != 0) {
+          const boxe = this.svg
+            .append("text")
+            .attr("x", this.warehouse.x + size)
+            .attr("y", this.warehouse.y - 2 * size)
+            .style("font-size", "28px")
+            .style("fill", "black")
+            .style("text-anchor", "middle")
+            .text(countdownDuration + " day left");
+          boxe
+            .transition()
+            .ease(d3.easeLinear)
+            .duration(duration)
+            .attr("x", target.x + size)
+            .attr("y", target.y - 2 * size)
+            .on("end", () => boxe.remove());
+
+          let countdownValue = countdownDuration;
+
+          const countdownTimer = setInterval(() => {
+            countdownValue -= 1;
+            boxe.text(countdownValue + " day left");
+
+            if (countdownValue === 0) {
+              clearInterval(countdownTimer);
+            }
+          }, this.onedaytime);
+
           if (key == "Olive Oil") {
             const boxa = this.svg
-              .append("rect")
+              .append("image")
               .attr("x", this.warehouse.x + size)
               .attr("y", this.warehouse.y + size)
               .attr("width", size * 2)
               .attr("height", size * 2)
-              .style("fill", "red");
+              .attr("xlink:href", require("@/assets/oil.png"));
+            //.style("opacity", 1);
+            //.style("fill", "red");
             boxa
               .transition()
+              .ease(d3.easeLinear)
               .duration(duration)
               .attr("x", target.x + size)
               .attr("y", target.y + size)
               .on("end", () => boxa.remove());
+            const boxat = this.svg
+              .append("text")
+              .attr("x", this.warehouse.x + 3.5 * size)
+              .attr("y", this.warehouse.y + 2.3 * size)
+              .style("font-size", "16px")
+              .style("fill", "red")
+              .style("text-anchor", "middle")
+              .text(value);
+            boxat
+              .transition()
+              .ease(d3.easeLinear)
+              .duration(duration)
+              .attr("x", target.x + 3.5 * size)
+              .attr("y", target.y + 2.3 * size)
+              .on("end", () => boxat.remove());
           }
           if (key == "Baguette") {
             const boxb = this.svg
-              .append("rect")
+              .append("image")
               .attr("x", this.warehouse.x + size)
               .attr("y", this.warehouse.y - size)
               .attr("width", size * 2)
               .attr("height", size * 2)
-              .style("fill", "blue");
+              .attr("xlink:href", require("@/assets/bread.png"));
+            //.style("opacity", 0);
+            //.style("fill", "blue");
             boxb
               .transition()
+              .ease(d3.easeLinear)
               .duration(duration)
               .attr("x", target.x + size)
               .attr("y", target.y - size)
               .on("end", () => boxb.remove());
+            const boxbt = this.svg
+              .append("text")
+              .attr("x", this.warehouse.x + 3.5 * size)
+              .attr("y", this.warehouse.y + 0.3 * size)
+              .style("font-size", "16px")
+              .style("fill", "blue")
+              .style("text-anchor", "middle")
+              .text(value);
+            boxbt
+              .transition()
+              .ease(d3.easeLinear)
+              .duration(duration)
+              .attr("x", target.x + 3.5 * size)
+              .attr("y", target.y + 0.3 * size)
+              .on("end", () => boxbt.remove());
           }
           if (key == "Manchego Cheese") {
             const boxc = this.svg
-              .append("rect")
+              .append("image")
               .attr("x", this.warehouse.x - size)
               .attr("y", this.warehouse.y - size)
               .attr("width", size * 2)
               .attr("height", size * 2)
-              .style("fill", "green");
+              .attr("xlink:href", require("@/assets/cheese.png"));
+            //.style("opacity", 0);
+            //.style("fill", "green");
             boxc
               .transition()
+              .ease(d3.easeLinear)
               .duration(duration)
               .attr("x", target.x - size)
               .attr("y", target.y - size)
               .on("end", () => boxc.remove());
+            const boxct = this.svg
+              .append("text")
+              .attr("x", this.warehouse.x - 1.5 * size)
+              .attr("y", this.warehouse.y + 0.3 * size)
+              .style("font-size", "16px")
+              .style("fill", "green")
+              .style("text-anchor", "middle")
+              .text(value);
+            boxct
+              .transition()
+              .ease(d3.easeLinear)
+              .duration(duration)
+              .attr("x", target.x - 1.5 * size)
+              .attr("y", target.y + 0.3 * size)
+              .on("end", () => boxct.remove());
           }
           if (key == "Black Tea") {
             const boxd = this.svg
-              .append("rect")
+              .append("image")
               .attr("x", this.warehouse.x - size)
               .attr("y", this.warehouse.y + size)
               .attr("width", size * 2)
               .attr("height", size * 2)
-              .style("fill", "orange");
+              .attr("xlink:href", require("@/assets/tea.png"));
+            //.style("opacity", 0);
+            //.style("fill", "orange");
             boxd
               .transition()
+              .ease(d3.easeLinear)
               .duration(duration)
               .attr("x", target.x - size)
               .attr("y", target.y + size)
               .on("end", () => boxd.remove());
+            const boxdt = this.svg
+              .append("text")
+              .attr("x", this.warehouse.x - 1.5 * size)
+              .attr("y", this.warehouse.y + 2.3 * size)
+              .style("font-size", "16px")
+              .style("fill", "#ffd43b")
+              .style("text-anchor", "middle")
+              .text(value);
+            boxdt
+              .transition()
+              .ease(d3.easeLinear)
+              .duration(duration)
+              .attr("x", target.x - 1.5 * size)
+              .attr("y", target.y + 2.3 * size)
+              .on("end", () => boxdt.remove());
           }
         }
       });
@@ -565,8 +688,8 @@ export default {
     },
 
     /* Receive Messages */
-    /* Total 4 Message containers 
-      
+    /* Total 4 Message containers
+
       messageXstart() : 1~4 supermarket; 5~8 warehouse
 
       (1)supermarket1 + (5)warehouse => messages1_text[]
