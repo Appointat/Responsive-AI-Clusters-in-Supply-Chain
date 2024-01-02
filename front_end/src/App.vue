@@ -170,7 +170,7 @@ export default {
         ["Manchego Cheese", 0],
         ["Olive Oil", 0],
       ]),
-      onedaytime: 10000, // 60s/day
+      onedaytime: 60000, // 60s/day
       date: null,
 
       event1: "No event",
