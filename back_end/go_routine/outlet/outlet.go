@@ -107,14 +107,16 @@ func INIT() { // Single Agent
 				copy(_allOutlets, allOutlets)
 				localWg := new(sync.WaitGroup)
 				localWg.Add(len(_allOutlets))
+				// Get the virtual current date
+				// diff := time.Since(initDate)
+				// seconds := int(diff.Seconds())
+				// factor := 3600 * 24 / 60 // 1 day
+				// virtualSeconds := seconds * factor
+
+				//Current date add 1 day
+				currentDate = currentDate.AddDate(0, 0, 1)
 
 				for _, outlet := range _allOutlets {
-					// Get the virtual current date
-					diff := time.Since(initDate)
-					seconds := int(diff.Seconds())
-					factor := 3600 * 24 / 60 // 1 day
-					virtualSeconds := seconds * factor
-					currentDate := initDate.Add(time.Second * time.Duration(virtualSeconds))
 					go func(outlet *Outlet, currentDate time.Time) {
 						defer localWg.Done()
 						outlet.CheckAndNotify(currentDate)
