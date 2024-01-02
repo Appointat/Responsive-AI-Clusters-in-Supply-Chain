@@ -36,6 +36,15 @@ The commercial implications of implementing such a system are vast:
 - **Enhanced Decision-Making**: Data-driven insights allow for more informed and strategic business decisions.
 - **Competitive Advantage**: Businesses equipped with responsive supply chains can outmaneuver competition and respond better to consumer needs.
 
+## Installation
+
+### UI: Vue
+
+### Backend: Go Routines
+
+### Backend: GPT-4-turbo
+
+
 ## Getting Started
 
 [Instructions for installation, dependencies, and running the project]
