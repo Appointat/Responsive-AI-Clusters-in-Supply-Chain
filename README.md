@@ -47,7 +47,11 @@ The commercial implications of implementing such a system are vast:
 
 ## Getting Started
 
-[Instructions for installation, dependencies, and running the project]
+### UI: Vue
+
+### Backend: Go Routines
+
+### Backend: GPT-4-turbo
 
 ## Contribution
 
