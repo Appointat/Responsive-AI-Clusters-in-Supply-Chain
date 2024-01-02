@@ -246,6 +246,7 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 
 	var response *centralhub.Response
 	if eventOccurred {
+		eventDetails.EventDate = date
 		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, eventDetails, o.inventory)
 	} else {
 		eventName = "No event"
