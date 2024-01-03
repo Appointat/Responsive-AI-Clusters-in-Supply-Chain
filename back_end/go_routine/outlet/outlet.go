@@ -80,7 +80,6 @@ func (o *Outlet) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 }
 
 var (
-	initDate    time.Time
 	currentDate time.Time
 	dateMutex   sync.Mutex
 	once        sync.Once
@@ -93,7 +92,7 @@ func INIT() { // Single Agent
 	product.InstanceProducts()
 	InstanceOutlets()
 	once.Do(func() {
-		initDate = time.Now()
+		currentDate = time.Now()
 		ticker = time.NewTicker(time.Second * 60)
 		product.InstanceProducts() //Initialize the products
 
