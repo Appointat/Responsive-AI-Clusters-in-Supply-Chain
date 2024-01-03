@@ -97,35 +97,44 @@ func INIT() { // Single Agent
 		ticker = time.NewTicker(time.Second * 60)
 		product.InstanceProducts() //Initialize the products
 
+		immediate := time.After(0)
 		go func() {
 			http.ListenAndServe(":8001", nil)
 		}()
 		go func() {
 			defer ticker.Stop()
-			for range ticker.C {
-				_allOutlets := make([]*Outlet, len(allOutlets))
-				copy(_allOutlets, allOutlets)
-				localWg := new(sync.WaitGroup)
-				localWg.Add(len(_allOutlets))
-				// Get the virtual current date
-				// diff := time.Since(initDate)
-				// seconds := int(diff.Seconds())
-				// factor := 3600 * 24 / 60 // 1 day
-				// virtualSeconds := seconds * factor
-
-				//Current date add 1 day
-				currentDate = currentDate.AddDate(0, 0, 1)
-
-				for _, outlet := range _allOutlets {
-					go func(outlet *Outlet, currentDate time.Time) {
-						defer localWg.Done()
-						outlet.CheckAndNotify(currentDate)
-					}(outlet, currentDate)
+			for {
+				select {
+				case <-ticker.C:
+					performDailyOperations()
+				case <-immediate:
+					performDailyOperations()
+					if immediate != nil {
+						immediate = nil
+					}
 				}
-				localWg.Wait()
 			}
+
 		}()
 	})
+}
+
+func performDailyOperations() {
+	_allOutlets := make([]*Outlet, len(allOutlets))
+	copy(_allOutlets, allOutlets)
+	localWg := new(sync.WaitGroup)
+	localWg.Add(len(_allOutlets))
+
+	// Current date add 1 day
+	currentDate = currentDate.AddDate(0, 0, 1)
+
+	for _, outlet := range _allOutlets {
+		go func(outlet *Outlet, currentDate time.Time) {
+			defer localWg.Done()
+			outlet.CheckAndNotify(currentDate)
+		}(outlet, currentDate)
+	}
+	localWg.Wait()
 }
 
 func GetCurrentDate() time.Time {
