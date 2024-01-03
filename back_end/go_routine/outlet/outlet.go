@@ -126,8 +126,8 @@ func INIT() { // Single Agent
 	// Wait for the message of frontend
 	<-startChan
 	once.Do(func() {
-		// Initialize the currentDate to 1st Jan 2024
-		currentDate = time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)
+		// Initialize the currentDate to 31st December 2023
+		currentDate = time.Date(2023, 12, 31, 0, 0, 0, 0, time.UTC)
 		ticker = time.NewTicker(time.Second * 60)
 		product.InstanceProducts() //Initialize the products
 
