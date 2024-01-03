@@ -26,16 +26,16 @@ def handle_ai_request():
     response_json = {
         "outlet_inventory": {
             "olive_oil": {
-                "changed_replenishment_amount_from_central_hub": 1000,
+                "changed_replenishment_amount_from_central_hub": 100,
             },
             "baguette": {
-                "changed_replenishment_amount_from_central_hub": 1000,
+                "changed_replenishment_amount_from_central_hub": 100,
             },
             "manchego_cheese": {
-                "changed_replenishment_amount_from_central_hub": 1000,
+                "changed_replenishment_amount_from_central_hub": 100,
             },
             "black_tea": {
-                "changed_replenishment_amount_from_central_hub": 1000,
+                "changed_replenishment_amount_from_central_hub": 100,
             }
         },
         "central_hub_inventory": {
