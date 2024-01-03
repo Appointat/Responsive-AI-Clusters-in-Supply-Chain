@@ -62,6 +62,33 @@ func InstanceOutlets() {
 	}
 }
 
+var (
+	startChan = make(chan struct{})
+	upgrader  = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+	}
+)
+
+func startHandler(w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer conn.Close()
+
+	// wait for the message of frontend
+	_, _, err = conn.ReadMessage()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	//
+	close(startChan)
+}
+
 func (o *Outlet) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	// Upgrade the HTTP connection to a websocket connection
 	o.wsupgrader.CheckOrigin = func(r *http.Request) bool {
@@ -91,6 +118,10 @@ func INIT() { // Single Agent
 	centralhub.InitializeHub()
 	product.InstanceProducts()
 	InstanceOutlets()
+
+	http.HandleFunc("/start", startHandler)
+	// Wait for the message of frontend
+	<-startChan
 	once.Do(func() {
 		currentDate = time.Now()
 		ticker = time.NewTicker(time.Second * 60)
