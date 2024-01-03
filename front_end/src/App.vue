@@ -334,8 +334,29 @@ export default {
         this.message7start();
         this.message8start();
         this.audiostart();
+        this.startprocess();
       });
     },
+
+    startprocess() {
+      this.startuil = new WebSocket("ws://localhost:8001/start");
+
+      this.startuil.onopen = () => {
+        // 连接建立后发送消息
+        this.startuil.send(JSON.stringify({ message: 'start' }));
+      };
+
+      this.startuil.onerror = (error) => {
+        // 错误处理
+        console.error('WebSocket Error:', error);
+      };
+
+      this.startuil.onclose = (event) => {
+        // 连接关闭时的处理
+        console.log('WebSocket Closed:', event);
+      };
+    },
+    
     /* enlarge & close*/
     toggleEnlarge1() {
       this.isEnlarged1 = true;
