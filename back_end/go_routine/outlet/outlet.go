@@ -268,7 +268,7 @@ func (o *Outlet) scheduleDeliveries(response *centralhub.Response, currentDate t
 		deliveryDate := currentDate.Add(time.Duration(response.DeliveryTime) * time.Hour * 24)
 
 		// if today is the delivery date or the delivery time is 0, then deliver immediately
-		if deliveryDate.Equal(currentDate) || response.DeliveryTime == 0 {
+		if (deliveryDate.Month() == currentDate.Month() && deliveryDate.Day() == currentDate.UTC().Day()) || response.DeliveryTime == 0 {
 			if prod, ok := o.inventory[name]; ok {
 				prod.SetNumber(prod.GetNumber() + quantity)
 			}
