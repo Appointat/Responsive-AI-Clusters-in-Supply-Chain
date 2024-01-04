@@ -26,16 +26,20 @@ def handle_ai_request():
     response_json = {
         "outlet_inventory": {
             "olive_oil": {
-                "changed_replenishment_amount_from_central_hub": 1000,
+                "future_storage_amount": 100,
+                "specific_reason_of_replenishment": "The current storage amount is 0",
             },
             "baguette": {
-                "changed_replenishment_amount_from_central_hub": 1000,
+                "future_storage_amount": 100,
+                "specific_reason_of_replenishment": "The current storage amount is 0",
             },
             "manchego_cheese": {
-                "changed_replenishment_amount_from_central_hub": 1000,
+                "future_storage_amount": 100,
+                "specific_reason_of_replenishment": "The current storage amount is 0",
             },
             "black_tea": {
-                "changed_replenishment_amount_from_central_hub": 1000,
+                "future_storage_amount": 100,
+                "specific_reason_of_replenishment": "The current storage amount is 0",
             }
         },
         "central_hub_inventory": {

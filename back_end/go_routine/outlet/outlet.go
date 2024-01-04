@@ -62,6 +62,36 @@ func InstanceOutlets() {
 	}
 }
 
+var (
+	startChan = make(chan struct{})
+	upgrader  = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
+)
+
+func startHandler(w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer conn.Close()
+
+	// wait for the message of frontend
+	_, _, err = conn.ReadMessage()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	//
+	close(startChan)
+}
+
 func (o *Outlet) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	// Upgrade the HTTP connection to a websocket connection
 	o.wsupgrader.CheckOrigin = func(r *http.Request) bool {
@@ -80,7 +110,6 @@ func (o *Outlet) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 }
 
 var (
-	initDate    time.Time
 	currentDate time.Time
 	dateMutex   sync.Mutex
 	once        sync.Once
@@ -92,40 +121,54 @@ func INIT() { // Single Agent
 	centralhub.InitializeHub()
 	product.InstanceProducts()
 	InstanceOutlets()
+
+	http.HandleFunc("/start", startHandler)
+	// Wait for the message of frontend
+	<-startChan
 	once.Do(func() {
-		initDate = time.Now()
+		// Initialize the currentDate to 31st December 2023
+		currentDate = time.Date(2023, 12, 31, 0, 0, 0, 0, time.UTC)
 		ticker = time.NewTicker(time.Second * 60)
 		product.InstanceProducts() //Initialize the products
 
+		immediate := time.After(0)
 		go func() {
 			http.ListenAndServe(":8001", nil)
 		}()
 		go func() {
 			defer ticker.Stop()
-			for range ticker.C {
-				_allOutlets := make([]*Outlet, len(allOutlets))
-				copy(_allOutlets, allOutlets)
-				localWg := new(sync.WaitGroup)
-				localWg.Add(len(_allOutlets))
-				// Get the virtual current date
-				// diff := time.Since(initDate)
-				// seconds := int(diff.Seconds())
-				// factor := 3600 * 24 / 60 // 1 day
-				// virtualSeconds := seconds * factor
-
-				//Current date add 1 day
-				currentDate = currentDate.AddDate(0, 0, 1)
-
-				for _, outlet := range _allOutlets {
-					go func(outlet *Outlet, currentDate time.Time) {
-						defer localWg.Done()
-						outlet.CheckAndNotify(currentDate)
-					}(outlet, currentDate)
+			for {
+				select {
+				case <-ticker.C:
+					performDailyOperations()
+				case <-immediate:
+					performDailyOperations()
+					if immediate != nil {
+						immediate = nil
+					}
 				}
-				localWg.Wait()
 			}
+
 		}()
 	})
+}
+
+func performDailyOperations() {
+	_allOutlets := make([]*Outlet, len(allOutlets))
+	copy(_allOutlets, allOutlets)
+	localWg := new(sync.WaitGroup)
+	localWg.Add(len(_allOutlets))
+
+	// Current date add 1 day
+	currentDate = currentDate.AddDate(0, 0, 1)
+
+	for _, outlet := range _allOutlets {
+		go func(outlet *Outlet, currentDate time.Time) {
+			defer localWg.Done()
+			outlet.CheckAndNotify(currentDate)
+		}(outlet, currentDate)
+	}
+	localWg.Wait()
 }
 
 func GetCurrentDate() time.Time {
@@ -254,12 +297,18 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 		eventDetails.EventDescription = "No event"
 		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, eventDetails, o.inventory)
 	}
-
-	//Send the json pack SupermarketInfo to frontend
-	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(eventName, response))
-	//Process the scheduled deliveries
 	o.ProcessScheduledDeliveries(date)
 	o.scheduleDeliveries(response, date)
+	//Send the json pack SupermarketInfo to frontend
+
+	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(eventName, response))
+	//Process the scheduled deliveries
+	for deliveryDate, deliveries := range o.scheduledDeliveries {
+		for productName, quantity := range deliveries {
+			log.Printf("Scheduled Delivery - Date: %s, Product: %s, Quantity: %d\n", deliveryDate, productName, quantity)
+		}
+	}
+
 }
 
 // Various methods to deal with delayed delivery
