@@ -297,8 +297,10 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 		eventDetails.EventDescription = "No event"
 		response = o.notifyCentralHub(o.GetOutletID(), o.GetLocation(), o.clientPreferences, eventName, eventDetails, o.inventory)
 	}
-
+	o.ProcessScheduledDeliveries(date)
+	o.scheduleDeliveries(response, date)
 	//Send the json pack SupermarketInfo to frontend
+
 	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(eventName, response))
 	//Process the scheduled deliveries
 	for deliveryDate, deliveries := range o.scheduledDeliveries {
@@ -306,8 +308,7 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 			log.Printf("Scheduled Delivery - Date: %s, Product: %s, Quantity: %d\n", deliveryDate, productName, quantity)
 		}
 	}
-	o.ProcessScheduledDeliveries(date)
-	o.scheduleDeliveries(response, date)
+
 }
 
 // Various methods to deal with delayed delivery
