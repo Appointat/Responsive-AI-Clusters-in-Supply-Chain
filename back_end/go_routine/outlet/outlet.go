@@ -301,6 +301,11 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	//Send the json pack SupermarketInfo to frontend
 	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(eventName, response))
 	//Process the scheduled deliveries
+	for deliveryDate, deliveries := range o.scheduledDeliveries {
+		for productName, quantity := range deliveries {
+			log.Printf("Scheduled Delivery - Date: %s, Product: %s, Quantity: %d\n", deliveryDate, productName, quantity)
+		}
+	}
 	o.ProcessScheduledDeliveries(date)
 	o.scheduleDeliveries(response, date)
 }
