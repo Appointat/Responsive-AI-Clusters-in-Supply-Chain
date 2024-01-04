@@ -27,15 +27,19 @@ def handle_ai_request():
         "outlet_inventory": {
             "olive_oil": {
                 "future_storage_amount": 100,
+                "specific_reason_of_replenishment": "The current storage amount is 0",
             },
             "baguette": {
                 "future_storage_amount": 100,
+                "specific_reason_of_replenishment": "The current storage amount is 0",
             },
             "manchego_cheese": {
                 "future_storage_amount": 100,
+                "specific_reason_of_replenishment": "The current storage amount is 0",
             },
             "black_tea": {
                 "future_storage_amount": 100,
+                "specific_reason_of_replenishment": "The current storage amount is 0",
             }
         },
         "central_hub_inventory": {
