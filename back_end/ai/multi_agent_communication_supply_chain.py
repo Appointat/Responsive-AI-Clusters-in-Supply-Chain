@@ -187,6 +187,8 @@ While making decisions, the central hub should first consider the neccessary inf
             # role_playing_output_json = json.loads(output_text)
             try:
                 role_playing_output_json["transportation_duration"] = [int(s) for s in role_playing_output_json["transportation_duration"].split() if s.isdigit()][0]
+                if role_play_session["transportation_duration"] >= 7:
+                    role_playing_output_json["transportation_duration"] = 3
             except:
                 role_playing_output_json["transportation_duration"] = 1
             # Example of role_playing_output_json
