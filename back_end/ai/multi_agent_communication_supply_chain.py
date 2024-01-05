@@ -132,6 +132,8 @@ While making decisions, the central hub should first consider the neccessary inf
         extend_sys_msg_meta_dicts=sys_msg_meta_dicts,
     )
     print(Fore.YELLOW + f"Original task prompt:\n{task_prompt}\n")
+    print(Fore.CYAN + f"Assistant prompt:\n{role_play_session.assistant_sys_msg.content}\n")
+    print(Fore.MAGENTA + f"User prompt:\n{role_play_session.user_sys_msg.content}\n")
  
     n = 0
     input_assistant_msg, _ = role_play_session.init_chat()
@@ -155,7 +157,9 @@ While making decisions, the central hub should first consider the neccessary inf
         print(Fore.GREEN + f"{ai_assistant_role}:\n\n{assistant_response.msg.content}\n")
 
         # Output the msg to the markdown file: chat_record.md, and if the file does not exist, create it
-        with open(f"Chat Record {request_json['event']}.md", "a") as f:
+        event_name = request_json['event'].replace(" ", "_")  # Replace spaces with underscores for filename
+        file_path = f"\\chat_record\\Chat_Record_{event_name}.md"
+        with open(file_path, "a") as f:
             user_msg_md = user_response.msg.content.replace('\n', '\n\n')
             assistant_msg_md = assistant_response.msg.content.replace('\n', '\n\n')
             f.write(f"[{ai_user_role}]:\n\n{user_msg_md}\n\n\n")
