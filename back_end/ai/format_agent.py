@@ -75,6 +75,7 @@ The context of the conversation is about the anylysis and the calculation of the
             chat_record=chat_record,
             answer_template=answer_template)
         print(Fore.CYAN + f"Format agent prompt:\n{generation}")
+        print(Fore.RESET)
 
         insights_generation_msg = BaseMessage.make_user_message(
             role_name="Format Agent", content=generation)
