@@ -43,7 +43,7 @@ In our program, we instantiated four outlets and one central warehouse. The cent
 In this project, each supermarket outlet is an independent agent. The central warehouse is a special agent, although in this simulation it can be considered as an environment. However, in more complex simulations that may be developed later, the central warehouse should be regarded as an agent distinct from the supermarket outlets. Since the AI backend and the Go backend are independent, each time the Go backend sends a request to the AI backend, the AI backend distinguishes between different supermarkets based on the received supermarket outlet ID. The AI backend creates a separate Agent for the central warehouse and an Agent for each supermarket outlet. Therefore, in each interaction, only the Agent of the central warehouse is aware of the global information, while the information of the various supermarket Agents is unknown to each other.
 
 Suppose we have four supermarket outlets located in Lyon, Nice, Caen, and Amiens, and two central warehouses located in Paris and Marseille. In this case, each supermarket outlet, acting as an agent, needs to consider various practical factors such as estimated transportation time and cost to decide which central warehouse to prioritize for restocking requests. After receiving a request, the central warehouse analyzes the request information and sends back a response along with the goods information. This completes a full communication process, after which the central warehouse proceeds to handle the next request.
-![Agents](image/communication-ex-image.png)
+![Agents](image/communication-ex.png)
 ## Project Background and Prospects
 
 In the actual application process, customers in the location of each outlet have a unified preference. In this project, we have directly assigned a basic description to the local customer preferences of each outlet. Of course, in reality, these preferences can change over time. Theoretically, this aspect could also be managed by AI. If there are multiple central warehouses, then each outlet needs to consider its own inventory status, the distance to each warehouse, among other factors, to choose the most optimal central warehouse for restocking and other operations.
@@ -339,23 +339,9 @@ While making decisions, the central hub should first consider the neccessary inf
 
 <chat_record_of_the_Instructor_and_the_Assistant>
 
-========== ANSWER TEMPLATE =====
+===== ANSWER TEMPLATE =====
 {'outlet_inventory': {'baguette': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'black_tea': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'manchego_cheese': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'olive_oil': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}}, 'transportation_duration': '<NUM> day'}
-=====
 ```
-
-
-
-## Commercial Value
-
-The commercial implications of implementing such a system are vast:
-
-- **Cost Reduction**: Through efficient resource allocation and waste minimization.
-- **Increased Agility**: Enabling businesses to quickly adapt to market changes or disruptions.
-- **Enhanced Decision-Making**: Data-driven insights allow for more informed and strategic business decisions.
-- **Competitive Advantage**: Businesses equipped with responsive supply chains can outmaneuver competition and respond better to consumer needs.
-
-Certainly, here's the completed Markdown documentation for the Backend: GPT-4-turbo installation and getting started process:
 
 ## Installation
 Clone the repository. If you have already downloaded the whole project, you can skip this step.
@@ -371,13 +357,11 @@ git clone https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain.gi
    ```
 3. Activate the virtual environment.
    ```sh
-   source venv/bin/activate  # On Unix or macOS
    venv\Scripts\activate     # On Windows
    ```
 4. Configure the OpenAI API key.
    ```sh
-   export OPENAI_API_KEY="your-openai-api-key"  # On Unix or macOS
-   set OPENAI_API_KEY="your-openai-api-key"     # On Windows
+   $env:OPENAI_API_KEY="your-openai-api-key"     # On Windows
    ```
 
 
@@ -440,6 +424,9 @@ Aspects of the evaluation : Relevance and precision, Completeness, Practicality,
 2. If the stock in each supermarket is maintained in a normal state (Neither too big or too small).
 ![Evaluation](image/evaluation.png)
 
+## Potential Commercial Value and Future Prospects
+
+The application of AI multi-agent systems in industries like Amazon represents a frontier teeming with potential and promise for the future. While the current state of technology is still evolving, the anticipated benefits and transformative impacts of these systems are immense, particularly when considering their future integration into global retail and distribution networks.
 
 ## Future work
 1. Simulation based on data supplied by users, such as number of supermarkets, quantities stocked in supermarkets, types of products, distance, etc.
