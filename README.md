@@ -52,6 +52,8 @@ In conclusion, the architecture of the system/project is structured around a cen
 
 In this project, each supermarket outlet is an independent agent. The central warehouse is a special agent, although in this simulation it can be considered as an environment. However, in more complex simulations that may be developed later, the central warehouse should be regarded as an agent distinct from the supermarket outlets. Since the AI backend and the Go backend are independent, each time the Go backend sends a request to the AI backend, the AI backend distinguishes between different supermarkets based on the received supermarket outlet ID. The AI backend creates a separate Agent for the central warehouse and an Agent for each supermarket outlet. Therefore, in each interaction, only the Agent of the central warehouse is aware of the global information, while the information of the various supermarket Agents is unknown to each other.
 
+To ensure the successful operation of this project, we developers must establish a series of event schedules. Each schedule lists the dates of the events and their corresponding descriptions, such as Christmas on December 25th, or a fire that occurred on February 10th. These events are set in the future, yet we determine them in advance because we are merely conducting a simulation sandbox for goods distribution. Hence, the event schedules can be understood as the "thrust" that drives the system; that is, whenever an event occurs, both the retailer and the central warehouse should take appropriate measures. As you can see, different agents possess various characteristics (inventory, geographical location, ID, etc.), and events are also difficult to model quantitatively. Therefore, using large language models (LLMs) to handle these complex situations is indispensable. This is one of the significant advantages of our project.
+
 Suppose we have four supermarket outlets located in Lyon, Nice, Caen, and Amiens, and two central warehouses located in Paris and Marseille. In this case, each supermarket outlet, acting as an agent, needs to consider various practical factors such as estimated transportation time and cost to decide which central warehouse to prioritize for restocking requests. After receiving a request, the central warehouse analyzes the request information and sends back a response along with the goods information. This completes a full communication process, after which the central warehouse proceeds to handle the next request.
 ![Agents](image/communication-ex.png)
 ## Project Background and Prospects
@@ -403,12 +405,6 @@ To install the Vue.js frontend, follow these steps:
 
 ## Getting Started
 
-### Backend: GPT-4-turbo
-1. Run the application.
-   ```sh
-   python app.py
-   ```
-
 ### UI: Vue.js
 1. Start the web frontend.
     ```sh
@@ -419,6 +415,12 @@ To install the Vue.js frontend, follow these steps:
     - Local:   http://localhost:8080/
     - Network: http://192.168.1.101:8080/
     ```
+
+### Backend: GPT-4-turbo
+1. Run the application.
+   ```sh
+   python app.py
+   ```
 
 ### Backend: Go Routines
 1. Run the Go application.
