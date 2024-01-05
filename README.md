@@ -11,6 +11,8 @@ Welcome to "Responsive AI Clusters in Supply Chain" - a groundbreaking project a
 Our project mainly revolves around simulating a supply chain, where the entire supply chain system is roughly composed of a central warehouse and various offline outlets (mainly supermarkets). In reality, there may be multiple central warehouses, but in this program, for the sake of simplifying the simulation, we have implemented a singleton pattern for the central warehouse. All other outlets communicate daily with the central warehouse to receive restocks. Goods are a separate class containing information such as name and quantity. To simplify the simulation program, we have only instantiated four types of products: olive oil, baguette, manchego cheese, black tea.
 
 In our program, we instantiated four outlets and one central warehouse. The central warehouse is an independent AI Agent, whose inventory changes autonomously based on certain conditions (for example, when stock levels are low, the AI might increase the inventory of certain products through other events). Each outlet has its own independent event chain, which is stored in the event.go file. When the date of an event (such as an unexpected incident, holiday, celebration, etc.) matches the current clock date, the event's description will be sent to the AI side. Since each outlet has a unique ID, the AI side identifies which outlet sent the message through the ID and allocates it to the corresponding AI agent.
+
+In this project, each supermarket outlet is an independent agent. The central warehouse is a special agent, although in this simulation it can be considered as an environment. However, in more complex simulations that may be developed later, the central warehouse should be regarded as an agent distinct from the supermarket outlets.
 ## Project Background and Prospects
 
 In the actual application process, customers in the location of each outlet have a unified preference. In this project, we have directly assigned a basic description to the local customer preferences of each outlet. Of course, in reality, these preferences can change over time. Theoretically, this aspect could also be managed by AI. If there are multiple central warehouses, then each outlet needs to consider its own inventory status, the distance to each warehouse, among other factors, to choose the most optimal central warehouse for restocking and other operations.
@@ -391,6 +393,25 @@ To install the Vue.js frontend, follow these steps:
    ```sh
    python app.py
    ```
+
+## Evaluation of results
+**Response quality**
+
+We used ChatGPT4 to evaluate the generated responses.
+Aspects of the evaluation : Relevance and precision, Completeness, Practicality, Clarity of communication and Adaptability. 
+
+**System stability**
+
+1.If the system is capable of operating for a long period of time.
+
+2.If the stock in each supermarket is maintained in a normal state (Neither too big or too small).
+
+## Future work
+1.Simulation based on data supplied by users, such as number of supermarkets, quantities stocked in supermarkets, types of products, distance, etc.
+
+2.Add a more intelligent evaluation system, for example, the AI is both agent and evaluator.
+
+3.Solve other problems, such as intelligent electricity distribution and other resource allocation problems, in order to create smart cities.
 
 ## Contribution
 
