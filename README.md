@@ -43,7 +43,7 @@ In our program, we instantiated four outlets and one central warehouse. The cent
 In this project, each supermarket outlet is an independent agent. The central warehouse is a special agent, although in this simulation it can be considered as an environment. However, in more complex simulations that may be developed later, the central warehouse should be regarded as an agent distinct from the supermarket outlets.
 
 Suppose we have four supermarket outlets located in Lyon, Nice, Caen, and Amiens, and two central warehouses located in Paris and Marseille. In this case, each supermarket outlet, acting as an agent, needs to consider various practical factors such as estimated transportation time and cost to decide which central warehouse to prioritize for restocking requests. After receiving a request, the central warehouse analyzes the request information and sends back a response along with the goods information. This completes a full communication process, after which the central warehouse proceeds to handle the next request.
-![Agents](image/communication-ex-image.png)
+![Agents](image/communication-ex.png)
 ## Project Background and Prospects
 
 In the actual application process, customers in the location of each outlet have a unified preference. In this project, we have directly assigned a basic description to the local customer preferences of each outlet. Of course, in reality, these preferences can change over time. Theoretically, this aspect could also be managed by AI. If there are multiple central warehouses, then each outlet needs to consider its own inventory status, the distance to each warehouse, among other factors, to choose the most optimal central warehouse for restocking and other operations.
