@@ -402,16 +402,16 @@ Aspects of the evaluation : Relevance and precision, Completeness, Practicality,
 
 **System stability**
 
-1.If the system is capable of operating for a long period of time.
+1. If the system is capable of operating for a long period of time.
 
-2.If the stock in each supermarket is maintained in a normal state (Neither too big or too small).
+2. If the stock in each supermarket is maintained in a normal state (Neither too big or too small).
 
 ## Future work
-1.Simulation based on data supplied by users, such as number of supermarkets, quantities stocked in supermarkets, types of products, distance, etc.
+1. Simulation based on data supplied by users, such as number of supermarkets, quantities stocked in supermarkets, types of products, distance, etc.
 
-2.Add a more intelligent evaluation system, for example, the AI is both agent and evaluator.
+2. Add a more intelligent evaluation system, for example, the AI is both agent and evaluator.
 
-3.Solve other problems, such as intelligent electricity distribution and other resource allocation problems, in order to create smart cities.
+3. Solve other problems, such as intelligent electricity distribution and other resource allocation problems, in order to create smart cities.
 
 ## Contribution
 
@@ -420,19 +420,3 @@ We are open to contributions! Please read through `CONTRIBUTING.md` for guidelin
 ## License
 
 This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
-
-## Acknowledgments
-
-[List of contributors and acknowledgments]
-
-We thank everyone who contributes to the development and advancement of this project.
-
-## Contact
-
-[Your Name] - [Your Email]
-
-Project Link: [GitHub Project Link]
-
----
-
-We invite you to join us in shaping the future of supply chain management with Responsive AI Clusters. Let's build a smarter, more adaptive future together.
