@@ -405,6 +405,8 @@ Aspects of the evaluation : Relevance and precision, Completeness, Practicality,
 1. If the system is capable of operating for a long period of time.
 
 2. If the stock in each supermarket is maintained in a normal state (Neither too big or too small).
+![Evaluation](image/evaluation.png)
+
 
 ## Future work
 1. Simulation based on data supplied by users, such as number of supermarkets, quantities stocked in supermarkets, types of products, distance, etc.
