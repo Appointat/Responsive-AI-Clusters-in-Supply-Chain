@@ -306,7 +306,7 @@ The "specific_reason_of_replenishment" means the specific reason of replenishmen
 THe current storage amount of the outlet should be less than the maximum capacity of the warehouse of the outlet.
 While making decisions, the central hub should first consider the neccessary information in the context, and then predict what is the unknown demand of outlet in the event.
 
-<<insert the whole chat record of the Instructor and the Assistant>>
+<chat_record_of_the_Instructor_and_the_Assistant>
 
 ========== ANSWER TEMPLATE =====
 {'outlet_inventory': {'baguette': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'black_tea': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'manchego_cheese': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'olive_oil': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}}, 'transportation_duration': '<NUM> day'}
