@@ -14,6 +14,8 @@ Our project mainly revolves around simulating a supply chain, where the entire s
 
 In our program, we instantiated four outlets and one central warehouse. The central warehouse is an independent AI Agent, whose inventory changes autonomously based on certain conditions (for example, when stock levels are low, the AI might increase the inventory of certain products through other events). Each outlet has its own independent event chain, which is stored in the event.go file. When the date of an event (such as an unexpected incident, holiday, celebration, etc.) matches the current clock date, the event's description will be sent to the AI side. Since each outlet has a unique ID, the AI side identifies which outlet sent the message through the ID and allocates it to the corresponding AI agent.
 
+![Agents](image/agents.png)
+
 In this project, each supermarket outlet is an independent agent. The central warehouse is a special agent, although in this simulation it can be considered as an environment. However, in more complex simulations that may be developed later, the central warehouse should be regarded as an agent distinct from the supermarket outlets.
 ## Project Background and Prospects
 
