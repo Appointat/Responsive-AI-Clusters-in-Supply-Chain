@@ -68,9 +68,6 @@ Our approach is based on several key principles:
 - **Scalability and Flexibility**: Designing the system to be inherently scalable, handling the expansion seamlessly and adapting to various supply chain sizes and structures.
 - **Sustainability**: Focusing on long-term sustainability by optimizing resource allocation and reducing waste.
 
-## System Architecture
-
-[Insert a block diagram or flowchart]
 
 
 ## Prompt Engineering
