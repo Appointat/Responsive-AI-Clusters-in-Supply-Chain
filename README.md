@@ -329,6 +329,25 @@ To install the Vue.js frontend, follow these steps:
    python app.py
    ```
 
+## Evaluation of results
+**Response quality**
+
+We used ChatGPT4 to evaluate the generated responses.
+Aspects of the evaluation : Relevance and precision, Completeness, Practicality, Clarity of communication and Adaptability. 
+
+**System stability**
+
+1.If the system is capable of operating for a long period of time.
+
+2.If the stock in each supermarket is maintained in a normal state (Neither too big or too small).
+
+## Future work
+1.Simulation based on data supplied by users, such as number of supermarkets, quantities stocked in supermarkets, types of products, distance, etc.
+
+2.Add a more intelligent evaluation system, for example, the AI is both agent and evaluator.
+
+3.Solve other problems, such as intelligent electricity distribution and other resource allocation problems, in order to create smart cities.
+
 ## Contribution
 
 We are open to contributions! Please read through `CONTRIBUTING.md` for guidelines on how to make a pull request.
