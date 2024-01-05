@@ -362,17 +362,17 @@ git clone https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain.gi
 
 1. Create a new terminal.
 2. Navigate to the `backend/ai` directory.
-   ```sh
-   cd ./backend/ai
-   ```
+    ```sh
+    cd ./backend/ai
+    ```
 3. Activate the virtual environment.
-   ```sh
-   venv\Scripts\activate     # On Windows
-   ```
+    ```sh
+    venv\Scripts\activate     # On Windows
+    ```
 4. Configure the OpenAI API key.
-   ```sh
-   $env:OPENAI_API_KEY="your-openai-api-key"     # On Windows
-   ```
+    ```sh
+    $env:OPENAI_API_KEY="your-openai-api-key"     # On Windows
+    ```
 
 
 ### Backend: Go Routines
@@ -380,31 +380,42 @@ git clone https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain.gi
 To install the Go Routines backend, follow these steps:
 1. Create a new terminal.
 2. Navigate to the `backend/go_routine` directory.
-   ```sh
-   cd ./backend/go_routine
-   go get -u github.com/gorilla/websocket
-   ```
-If you already installed github.com/gorilla/websocket package, you can skip this step
+    ```sh
+    cd ./backend/go_routine
+    go get -u github.com/gorilla/websocket
+    ```
+    If you already installed github.com/gorilla/websocket package, you can skip this step
 
 ### UI: Vue.js
 
 To install the Vue.js frontend, follow these steps:
 1. Create a new terminal.
 2. Navigate to the `frontend` directory.
-   ```sh
-   cd ./frontend
-   ```
+    ```sh
+    cd ./frontend
+    ```
 3. Install the necessary modules.
-   ```sh
-   npm install
-   ```
-
+    ```sh
+    npm install
+    ```
 
 ## Getting Started
+
 ### UI: Vue.js
 1. Start the web frontend.
+    ```sh
+    npm run serve
+    ```
+2. Open the UI in webpage.
+    ``` sh
+    - Local:   http://localhost:8080/
+    - Network: http://192.168.1.101:8080/
+    ```
+
+### Backend: GPT-4-turbo
+1. Run the application.
    ```sh
-   npm run serve
+   python app.py
    ```
 
 ### Backend: Go Routines
@@ -413,18 +424,18 @@ To install the Vue.js frontend, follow these steps:
    go run main.go
    ```
 
-### Backend: GPT-4-turbo
-1. Run the application.
-   ```sh
-   python app.py
-   ```
-![Start-Button](image/Start-button.png)
+### Click the button
+    
+1. After the setup the goroutines, click the "Start" button in the UI webpage.
+   ![Start-Button](image/Start-button.png)
 
-The order of starting the AI backend, Go backend, and frontend is not strictly specified, but it is necessary to ensure that the Go backend waits for several seconds after starting, to ensure the program runs to a blocking point waiting for the start message from the frontend. After starting both the Go backend and the AI backend, both will enter a waiting state until the user clicks on the frontend (as shown in the diagram) to send a start message to the Go backend. Upon receiving the message, the Go backend will commence communication with the AI backend and activate the AI backend's data processing.<br> **Therefore, it is preferable to start the AI and Go backends first, and then the frontend.**
+The order of starting the AI (python), Go backend, and frontend (Vue.js) is not strictly specified, but it is necessary to ensure that the Go backend waits for several seconds after starting, to ensure the program runs to a blocking point waiting for the start message from the frontend. After starting both the Go backend and the AI backend, both will enter a waiting state until the user clicks on the frontend (as shown in the diagram) to send a start message to the Go backend. Upon receiving the message, the Go backend will commence communication with the AI backend and activate the AI backend's data processing.
+
+
 ## Evaluation of results
 **Response quality**
 
-We used ChatGPT4 to evaluate the generated responses.
+We used GPT-4 to evaluate the generated responses.
 Aspects of the evaluation : Relevance and precision, Completeness, Practicality, Clarity of communication and Adaptability. 
 
 **System stability**
