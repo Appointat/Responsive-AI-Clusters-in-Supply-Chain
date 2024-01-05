@@ -359,17 +359,23 @@ git clone https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain.gi
 1. Create a new terminal.
 2. Navigate to the `backend/ai` directory.
     ```sh
-    cd ./backend/ai
+    cd ./back_end/ai
     ```
 3. Activate the virtual environment.
     ```sh
+    python -m venv venv
     venv\Scripts\activate     # On Windows
     ```
 4. Configure the OpenAI API key.
     ```sh
     $env:OPENAI_API_KEY="your-openai-api-key"     # On Windows
     ```
-
+5. Install the dependencies
+    ``` sh
+    python.exe -m pip install --upgrade pip
+    poetry install
+    pip install flask websockets matplotlib
+    ```
 
 ### Backend: Go Routines
 
@@ -377,7 +383,7 @@ To install the Go Routines backend, follow these steps:
 1. Create a new terminal.
 2. Navigate to the `backend/go_routine` directory.
     ```sh
-    cd ./backend/go_routine
+    cd ./back_end/go_routine
     go get -u github.com/gorilla/websocket
     ```
     If you already installed github.com/gorilla/websocket package, you can skip this step
@@ -388,7 +394,7 @@ To install the Vue.js frontend, follow these steps:
 1. Create a new terminal.
 2. Navigate to the `frontend` directory.
     ```sh
-    cd ./frontend
+    cd ./front_end
     ```
 3. Install the necessary modules.
     ```sh
@@ -396,6 +402,12 @@ To install the Vue.js frontend, follow these steps:
     ```
 
 ## Getting Started
+
+### Backend: GPT-4-turbo
+1. Run the application.
+   ```sh
+   python app.py
+   ```
 
 ### UI: Vue.js
 1. Start the web frontend.
@@ -407,12 +419,6 @@ To install the Vue.js frontend, follow these steps:
     - Local:   http://localhost:8080/
     - Network: http://192.168.1.101:8080/
     ```
-
-### Backend: GPT-4-turbo
-1. Run the application.
-   ```sh
-   python app.py
-   ```
 
 ### Backend: Go Routines
 1. Run the Go application.
