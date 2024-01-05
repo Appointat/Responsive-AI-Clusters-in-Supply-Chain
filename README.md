@@ -4,6 +4,8 @@
 
 Welcome to "Responsive AI Clusters in Supply Chain" - a groundbreaking project aimed at revolutionizing supply chain management through the use of responsive, intelligent multi-agent systems.
 
+![Surface](image/surface.png)
+
 ![Responsive AI Clusters](https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/assets/65004114/02731b24-c7ad-41b5-8779-cf935a65b919)
 
 Our project mainly revolves around simulating a supply chain, where the entire supply chain system is roughly composed of a central warehouse and various offline outlets (mainly supermarkets). In reality, there may be multiple central warehouses, but in this program, for the sake of simplifying the simulation, we have implemented a singleton pattern for the central warehouse. All other outlets communicate daily with the central warehouse to receive restocks. Goods are a separate class containing information such as name and quantity. To simplify the simulation program, we have only instantiated four types of products: olive oil, baguette, manchego cheese, black tea.
@@ -41,22 +43,74 @@ The commercial implications of implementing such a system are vast:
 - **Enhanced Decision-Making**: Data-driven insights allow for more informed and strategic business decisions.
 - **Competitive Advantage**: Businesses equipped with responsive supply chains can outmaneuver competition and respond better to consumer needs.
 
-## Installation
+Certainly, here's the completed Markdown documentation for the Backend: GPT-4-turbo installation and getting started process:
 
-### UI: Vue
+## Installation
+Clone the repository. If you have already downloaded the whole project, you can skip this step.
+```sh
+git clone https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain.git
+```
+### Backend: GPT-4-turbo
+
+1. Create a new terminal.
+2. Navigate to the `backend/ai` directory.
+   ```sh
+   cd ./backend/ai
+   ```
+3. Activate the virtual environment.
+   ```sh
+   source venv/bin/activate  # On Unix or macOS
+   venv\Scripts\activate     # On Windows
+   ```
+4. Configure the OpenAI API key.
+   ```sh
+   export OPENAI_API_KEY="your-openai-api-key"  # On Unix or macOS
+   set OPENAI_API_KEY="your-openai-api-key"     # On Windows
+   ```
+
 
 ### Backend: Go Routines
 
-### Backend: GPT-4-turbo
+To install the Go Routines backend, follow these steps:
+1. Create a new terminal.
+2. Navigate to the `backend/go_routine` directory.
+   ```sh
+   cd ./backend/go_routine
+   ```
+
+
+### UI: Vue.js
+
+To install the Vue.js frontend, follow these steps:
+1. Create a new terminal.
+2. Navigate to the `frontend` directory.
+   ```sh
+   cd ./frontend
+   ```
+3. Install the necessary modules.
+   ```sh
+   npm install
+   ```
 
 
 ## Getting Started
-**Go backend startup**: By running 'go run main.go' in the back_end/go_routine directory, the Go backend program will be suspended and wait for a 'start' message from the frontend.  <br> **Frontend startup**: Execute the 'npm install' command in the front_end/ directory to install the necessary modules. Then, run 'npm run serve' in the same directory to start the web frontend. At this point, a local URL will appear, which you can click to enter the frontend program. <br> **AI backend startup**: ...
-### UI: Vue
+### UI: Vue.js
+1. Start the web frontend.
+   ```sh
+   npm run serve
+   ```
 
 ### Backend: Go Routines
+1. Run the Go application.
+   ```sh
+   go run main.go
+   ```
 
 ### Backend: GPT-4-turbo
+1. Run the application.
+   ```sh
+   python app.py
+   ```
 
 ## Contribution
 
