@@ -246,7 +246,70 @@ While making decisions, the central hub should first consider the neccessary inf
 ```
 
 ### Prompt of the format agent
+``` markdown
+You are a format agent. You are asked to generate the answer according to the CHAT RECORD and the ANSWER TEMPLATE. According to the chat record, you should analyze the chat record and extract the relevant information in order to fulfill the ANSWER TEMPLATE.
+Your answer MUST strictly adhere to the structure of ANSWER TEMPLATE, ONLY fill in the BLANKs, and DO NOT alter or modify any other part of the template.
+===== CHAT RECORD =====
+The chat record of two AIs is provided below, where one is the "user" Inventory Management Specialist of Central Hub and the other is the "assistant" Event Logistics Coordinator of Outlet.
+The context of the conversation is about the anylysis and the calculation of the "outlet_inventory" and the "central_hub_inventory" which including specific products, and also the "transportation_duration".
+===== CONTEXT =====
+{
+    "outlet_id": "4",
+    "outlet_location": "Nice",
+    "central_hub_location": "Paris",
+    "date": "2024-01-07T00:00:00Z",
+    "event": "No event",
+    "event_description": "No event",
+    "client_preferences": "Strong demand for Olive Oil and Baguette, moderate interest in Black Tea, minimal preference for Manchego Cheese.",
+    "outlet_inventory": {
+        "baguette": {
+            "current_storage_amount": 3090,
+            "daily_replenishment_without_envent_from_central_hub": 50,
+            "max_warehouse_capacity": 300
+        },
+        "black_tea": {
+            "current_storage_amount": 1271,
+            "daily_replenishment_without_envent_from_central_hub": 20,
+            "max_warehouse_capacity": 250
+        },
+        "manchego_cheese": {
+            "current_storage_amount": 2285,
+            "daily_replenishment_without_envent_from_central_hub": 40,
+            "max_warehouse_capacity": 400
+        },
+        "olive_oil": {
+            "current_storage_amount": 1105,
+            "daily_replenishment_without_envent_from_central_hub": 30,
+            "max_warehouse_capacity": 500
+        }
+    },
+    "central_hub_inventory": {
+        "baguette": {
+            "current_storage_amount": 480
+        },
+        "black_tea": {
+            "current_storage_amount": 344
+        },
+        "manchego_cheese": {
+            "current_storage_amount": 490
+        },
+        "olive_oil": {
+            "current_storage_amount": 150
+        }
+    }
+}
+The "historical_daily_replenishment_amount_from_central_hub" means the average daily replenishment amount from the central hub to the outlet in the past. So it could be used as a reference for the replenishment amount in the future.
+The "max_warehouse_capacity" means the maximum capacity of the warehouse of the outlet.
+The "specific_reason_of_replenishment" means the specific reason of replenishment for the outlet (the decisions made by the central hub) at present.
+THe current storage amount of the outlet should be less than the maximum capacity of the warehouse of the outlet.
+While making decisions, the central hub should first consider the neccessary information in the context, and then predict what is the unknown demand of outlet in the event.
 
+<<insert the whole chat record of the Instructor and the Assistant>>
+
+========== ANSWER TEMPLATE =====
+{'outlet_inventory': {'baguette': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'black_tea': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'manchego_cheese': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'olive_oil': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}}, 'transportation_duration': '<NUM> day'}
+=====
+```
 
 
 
