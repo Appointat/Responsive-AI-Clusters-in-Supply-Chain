@@ -159,8 +159,8 @@ While making decisions, the central hub should first consider the neccessary inf
 
         # Output the msg to the markdown file: chat_record.md, and if the file does not exist, create it
         event_name = request_json['event'].replace(" ", "_")  # Replace spaces with underscores for filename
-        # 'back_end/ai/chat_record_<event_name>.md'
-        file_path = os.path.join(os.path.dirname(__file__), f"chat_record_{event_name}.md")
+        # 'back_end/ai/chat_record/chat_record_<event_name>.md'
+        file_path = os.path.join(os.path.dirname(__file__), "chat_record", f"chat_record_{event_name}.md")
         with open(file_path, "a") as f:
             user_msg_md = user_response.msg.content.replace('\n', '\n\n')
             assistant_msg_md = assistant_response.msg.content.replace('\n', '\n\n')

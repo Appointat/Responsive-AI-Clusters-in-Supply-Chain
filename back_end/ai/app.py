@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import asyncio
 import functools
 import json
+import os
 import threading
 import time
 import websockets
@@ -105,6 +106,13 @@ def run_websocket_server():
     loop.run_until_complete(start_server)
     loop.run_forever()
 
+# Clenup the chat record, path 'back_end/ai/chat_record'
+def cleanup_chat_record():
+    directory_path = os.path.join(os.path.dirname(__file__), "chat_record")
+    for file_name in os.listdir(directory_path):
+        file_path = os.path.join(directory_path, file_name)
+        os.remove(file_path)
+
 websocket_server_thread = None
 current_messages_queue = None
 
@@ -130,6 +138,7 @@ def handle_ai_request():
     # Perform some AI-related processing with role_playing
     global central_hub_json
     try:
+        cleanup_chat_record()  # Cleanup the chat record
         response_json, updated_central_hub_json = role_playing(request_json=request_data, central_hub_json=central_hub_json)
     except:
         # If the role_playing function fails, return a default response
