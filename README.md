@@ -410,7 +410,7 @@ To install the Vue.js frontend, follow these steps:
     ```sh
     npm run serve
     ```
-2. Open the UI in webpage.
+2. Open the UI in webpage. (Please do not refresh, as this will cause the UI to clear the previously cached data.)
     ``` sh
     - Local:   http://localhost:8080/
     - Network: http://192.168.1.101:8080/
