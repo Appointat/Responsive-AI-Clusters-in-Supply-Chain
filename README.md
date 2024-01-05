@@ -357,13 +357,11 @@ git clone https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain.gi
    ```
 3. Activate the virtual environment.
    ```sh
-   source venv/bin/activate  # On Unix or macOS
    venv\Scripts\activate     # On Windows
    ```
 4. Configure the OpenAI API key.
    ```sh
-   export OPENAI_API_KEY="your-openai-api-key"  # On Unix or macOS
-   set OPENAI_API_KEY="your-openai-api-key"     # On Windows
+   $env:OPENAI_API_KEY="your-openai-api-key"     # On Windows
    ```
 
 
