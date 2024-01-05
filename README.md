@@ -42,9 +42,11 @@ The warehouse and its surrounding supermarkets can be considered as **a cluster*
 
 The utilization of AI multi-agent systems to address general problems has emerged as a popular topic in the industrial sector. Our exploration in this realm is driven by the desire to validate the practical feasibility of such technologies. This has been the primary impetus behind the implementation of our project.
 
-The project mainly revolves around simulating a supply chain, where the entire supply chain system is roughly composed of a central warehouse and various offline outlets (mainly supermarkets). In reality, there may be multiple central warehouses, but in the project, for the sake of simplifying the simulation, we have implemented for the central warehouse and each outlet as a singleton agent (5 agents in total). In the project, all other outlets communicate daily with the central warehouse to receive restocks. Goods are a separate class containing information such as name and quantity. To simplify the simulation program, we have only instantiated four types of products: `olive oil`, `baguette`, `manchego cheese`, `black tea`.
+The project mainly revolves around simulating the application of the supply chain, where the entire supply chain system is roughly composed of a central warehouse and various offline outlets (mainly supermarkets). In reality, there may be multiple central warehouses, but in the project, for the sake of simplifying the simulation, we have implemented for the central warehouse and each outlet as a singleton agent (5 agents in total). In the project, all other outlets communicate daily with the central warehouse to receive restocks. Goods are a separate class containing information such as name and quantity. To simplify the simulation program, we have only instantiated four types of products: `olive oil`, `baguette`, `manchego cheese`, `black tea`.
 
 In the program, we instantiated four outlets and one central warehouse. The central warehouse is an independent AI Agent, whose inventory changes autonomously based on certain conditions (for example, when stock levels are low, the AI might increase the inventory of certain products through other events). Each outlet has its own independent event table, which is stored in the event.go file. When the date of an event (such as an unexpected incident, holiday, celebration, etc.) matches the current clock date, the event's description will be sent to the AI side. Since each outlet has a unique ID, the warehouse identifies which outlet sent the message through the ID, and then start the AI role-playing (warehouse to outlet).
+
+In conclusion, the architecture of the system/project is structured around a central warehouse, surrounded by retail outlets, each equipped with AI agents. These agents communicate with the central hub to balance supply with demand, share resources, and optimize the overall network performance.
 
 ![Agents](image/agents.png)
 
@@ -56,7 +58,7 @@ Suppose we have four supermarket outlets located in Lyon, Nice, Caen, and Amiens
 
 In the actual application process, customers in the location of each outlet have a unified preference. In this project, we have directly assigned a basic description to the local customer preferences of each outlet. Of course, in reality, these preferences can change over time. Theoretically, this aspect could also be managed by AI. If there are multiple central warehouses, then each outlet needs to consider its own inventory status, the distance to each warehouse, among other factors, to choose the most optimal central warehouse for restocking and other operations.
 
-## Principles
+## Principles of AI Agents Implement
 
 Our approach is based on several key principles:
 
@@ -70,7 +72,6 @@ Our approach is based on several key principles:
 
 [Insert a block diagram or flowchart]
 
-The architecture of our system is structured around a central distribution hub, surrounded by retail outlets, each equipped with AI agents. These agents communicate with the central hub to balance supply with demand, share resources, and optimize the overall network performance.
 
 ## Prompt Engineering
 We have provided some key LLM prompts. In such prompts, we have defined a `TextPrompt` class so that we could enhance development efficiency by adding variables to the prompt. During the design and writing process of the prompts, we encountered many difficulties, such as how to make AI aware of concepts like "duration of transition", "clients' shopping preferences," etc., and requiring AI to consider these complex factors during processing, especially when the length of certain prompts exceeds 2k characters.
