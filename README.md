@@ -47,9 +47,6 @@ Suppose we have four supermarket outlets located in Lyon, Nice, Caen, and Amiens
 ## Project Background and Prospects
 
 In the actual application process, customers in the location of each outlet have a unified preference. In this project, we have directly assigned a basic description to the local customer preferences of each outlet. Of course, in reality, these preferences can change over time. Theoretically, this aspect could also be managed by AI. If there are multiple central warehouses, then each outlet needs to consider its own inventory status, the distance to each warehouse, among other factors, to choose the most optimal central warehouse for restocking and other operations.
-## Motivation
-
-The motivation behind this project stems from the increasing complexity of modern supply chains and the need for more dynamic, real-time decision-making processes. Traditional supply chain mechanisms are often static and can't adapt quickly to the ever-changing market demands or unforeseen disruptions. This project introduces a flexible, scalable solution that not only responds to current conditions but also anticipates future challenges, optimizing the supply chain for resilience and efficiency.
 
 ## Principles
 
