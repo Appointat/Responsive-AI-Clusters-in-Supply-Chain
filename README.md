@@ -8,29 +8,27 @@ In the era of accelerated digital transformation, the logistics and supply chain
 
 AI Agents, particularly those powered by large-scale models, offer advanced capabilities in data processing, pattern recognition, and decision-making. Their ability to learn and adapt makes them ideal for addressing the challenges of warehouse resource allocation. Moreover, the integration of multi-agent systems, where multiple AI Agents interact and collaborate, opens up new possibilities for intelligent warehouse management.
 
-**Motivation**:
+### Motivation:
 The motivation for incorporating AI Agents into warehouse resource allocation stems from several key factors:
-1. **Increasing Data Volumes**: Modern warehouses generate vast amounts of data. AI Agents can effectively process and analyze this data to extract actionable insights.
-2. **Need for Real-Time Decision Making**: The fast-paced nature of warehouse operations demands real-time decision-making. AI Agents can provide this, responding swiftly to changing conditions and requirements.
+1. **Increasing Data Volumes**: Modern warehouses generate vast amounts of data. For instance, geographic location, weather, user profiles, etc. AI Agents can effectively process and analyze this data to extract actionable insights.
+2. **Need for Real-Time Decision Making**: The fast-paced nature of warehouse operations demands real-time decision-making. AI Agents can provide this, responding swiftly to changing conditions and requirements. For instance, the outlets need to prepare more merchandise inventory before Christmas.
 3. **Scalability and Flexibility**: AI Agents can scale their operations according to the warehouse’s changing needs, ensuring flexibility and adaptability in resource allocation.
 
 **Necessity**:
 The necessity of AI Agents in this context is underscored by:
 1. **Complexity in Resource Management**: Modern warehouses deal with a wide range of variables in resource management. AI Agents can handle this complexity more effectively than traditional systems.
 2. **Optimizing Operational Efficiency**: There is a continuous need to improve operational efficiency to stay competitive. AI Agents can optimize resource allocation, reducing waste and increasing productivity.
-3. **Enhancing Accuracy and Reducing Errors**: AI Agents, with their advanced algorithms, minimize the likelihood of errors in resource allocation, enhancing overall accuracy.
 
 **Advantages**:
 The advantages of using AI Agents and multi-agent systems in warehouse resource allocation include:
-1. **Improved Resource Utilization**: AI Agents ensure optimal use of resources, thereby maximizing efficiency.
-2. **Enhanced Responsiveness to Market Demands**: AI Agents enable warehouses to be more responsive to market changes and consumer demands.
-3. **Facilitation of Predictive Analytics**: AI Agents can predict future trends and demands, allowing for proactive resource planning.
+1. **Enhanced Responsiveness to Market Demands**: AI Agents enable warehouses to be more responsive to market changes and consumer demands.
+2. **Facilitation of Predictive Analytics**: AI Agents can predict future trends and demands, allowing for proactive resource planning.
 
 **Why we choose multi-agent systems**
 
 Due to time constraints, only four outlets and one central warehouse were set up for this project. 
 However, the project can be flexibly extended to more supermarkets and warehouses (hundreds of agents). 
-The warehouse and its surrounding supermarkets can be considered as **a cluster**, which can be regional, national, global, etc.
+The warehouse and its surrounding supermarkets can be considered as **a cluster**, which can be regional, national, global, etc. (This blueprint has not yet been realized.)
 
 1. **Within clusters - Powerful decision-making and problem-solving capabilities**: each outlet is an agent, which can independently collect information and make decisions for different events.
 
@@ -44,9 +42,9 @@ The warehouse and its surrounding supermarkets can be considered as **a cluster*
 
 The utilization of AI multi-agent systems to address general problems has emerged as a popular topic in the industrial sector. Our exploration in this realm is driven by the desire to validate the practical feasibility of such technologies. This has been the primary impetus behind the implementation of our project.
 
-Our project mainly revolves around simulating a supply chain, where the entire supply chain system is roughly composed of a central warehouse and various offline outlets (mainly supermarkets). In reality, there may be multiple central warehouses, but in this program, for the sake of simplifying the simulation, we have implemented a singleton pattern for the central warehouse. All other outlets communicate daily with the central warehouse to receive restocks. Goods are a separate class containing information such as name and quantity. To simplify the simulation program, we have only instantiated four types of products: `olive oil`, `baguette`, `manchego cheese`, `black tea`.
+The project mainly revolves around simulating a supply chain, where the entire supply chain system is roughly composed of a central warehouse and various offline outlets (mainly supermarkets). In reality, there may be multiple central warehouses, but in the project, for the sake of simplifying the simulation, we have implemented for the central warehouse and each outlet as a singleton agent (5 agents in total). In the project, all other outlets communicate daily with the central warehouse to receive restocks. Goods are a separate class containing information such as name and quantity. To simplify the simulation program, we have only instantiated four types of products: `olive oil`, `baguette`, `manchego cheese`, `black tea`.
 
-In our program, we instantiated four outlets and one central warehouse. The central warehouse is an independent AI Agent, whose inventory changes autonomously based on certain conditions (for example, when stock levels are low, the AI might increase the inventory of certain products through other events). Each outlet has its own independent event chain, which is stored in the event.go file. When the date of an event (such as an unexpected incident, holiday, celebration, etc.) matches the current clock date, the event's description will be sent to the AI side. Since each outlet has a unique ID, the AI side identifies which outlet sent the message through the ID and allocates it to the corresponding AI agent.
+In the program, we instantiated four outlets and one central warehouse. The central warehouse is an independent AI Agent, whose inventory changes autonomously based on certain conditions (for example, when stock levels are low, the AI might increase the inventory of certain products through other events). Each outlet has its own independent event table, which is stored in the event.go file. When the date of an event (such as an unexpected incident, holiday, celebration, etc.) matches the current clock date, the event's description will be sent to the AI side. Since each outlet has a unique ID, the warehouse identifies which outlet sent the message through the ID, and then start the AI role-playing (warehouse to outlet).
 
 ![Agents](image/agents.png)
 
