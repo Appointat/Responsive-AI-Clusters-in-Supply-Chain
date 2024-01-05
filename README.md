@@ -26,6 +26,16 @@ The advantages of using AI Agents and multi-agent systems in warehouse resource 
 2. **Enhanced Responsiveness to Market Demands**: AI Agents enable warehouses to be more responsive to market changes and consumer demands.
 3. **Facilitation of Predictive Analytics**: AI Agents can predict future trends and demands, allowing for proactive resource planning.
 
+**Why we choose multi-agent systems**
+
+Due to time constraints, only four outlets and one central warehouse were set up for this project. 
+However, the project can be flexibly extended to more supermarkets and warehouses (hundreds of agents). 
+The warehouse and its surrounding supermarkets can be considered as **a cluster**, which can be regional, national, global, etc.
+
+1. **Within clusters - Powerful decision-making and problem-solving capabilities**: each outlet is an agent, which can independently collect information and make decisions for different events.
+
+2. **Between clusters - Real-time processing of large amounts of logistics data**: multi-agent systems can real-time handle a large amount of logistics data as well as synchronisation. For example, items are transferred from a warehouse in another country and arrive at the outlet via local warehouse transit. The amount of data from all the clusters will be huge.
+
 ![Surface](image/surface.png)
 
 ![Screenshot](image/screenshot.png)
