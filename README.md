@@ -344,19 +344,6 @@ While making decisions, the central hub should first consider the neccessary inf
 =====
 ```
 
-
-
-## Commercial Value
-
-The commercial implications of implementing such a system are vast:
-
-- **Cost Reduction**: Through efficient resource allocation and waste minimization.
-- **Increased Agility**: Enabling businesses to quickly adapt to market changes or disruptions.
-- **Enhanced Decision-Making**: Data-driven insights allow for more informed and strategic business decisions.
-- **Competitive Advantage**: Businesses equipped with responsive supply chains can outmaneuver competition and respond better to consumer needs.
-
-Certainly, here's the completed Markdown documentation for the Backend: GPT-4-turbo installation and getting started process:
-
 ## Installation
 Clone the repository. If you have already downloaded the whole project, you can skip this step.
 ```sh
@@ -438,6 +425,9 @@ Aspects of the evaluation : Relevance and precision, Completeness, Practicality,
 2. If the stock in each supermarket is maintained in a normal state (Neither too big or too small).
 ![Evaluation](image/evaluation.png)
 
+## Potential Commercial Value and Future Prospects
+
+The application of AI multi-agent systems in industries like Amazon represents a frontier teeming with potential and promise for the future. While the current state of technology is still evolving, the anticipated benefits and transformative impacts of these systems are immense, particularly when considering their future integration into global retail and distribution networks.
 
 ## Future work
 1. Simulation based on data supplied by users, such as number of supermarkets, quantities stocked in supermarkets, types of products, distance, etc.
