@@ -11,7 +11,7 @@ Our project mainly revolves around simulating a supply chain, where the entire s
 In our program, we instantiated four outlets and one central warehouse. The central warehouse is an independent AI Agent, whose inventory changes autonomously based on certain conditions (for example, when stock levels are low, the AI might increase the inventory of certain products through other events). Each outlet has its own independent event chain, which is stored in the event.go file. When the date of an event (such as an unexpected incident, holiday, celebration, etc.) matches the current clock date, the event's description will be sent to the AI side. Since each outlet has a unique ID, the AI side identifies which outlet sent the message through the ID and allocates it to the corresponding AI agent.
 ## Project Background and Prospects
 
-"In the actual application process, customers in the location of each outlet have a unified preference. In this project, we have directly assigned a basic description to the local customer preferences of each outlet. Of course, in reality, these preferences can change over time. Theoretically, this aspect could also be managed by AI. If there are multiple central warehouses, then each outlet needs to consider its own inventory status, the distance to each warehouse, among other factors, to choose the most optimal central warehouse for restocking and other operations.
+In the actual application process, customers in the location of each outlet have a unified preference. In this project, we have directly assigned a basic description to the local customer preferences of each outlet. Of course, in reality, these preferences can change over time. Theoretically, this aspect could also be managed by AI. If there are multiple central warehouses, then each outlet needs to consider its own inventory status, the distance to each warehouse, among other factors, to choose the most optimal central warehouse for restocking and other operations.
 ## Motivation
 
 The motivation behind this project stems from the increasing complexity of modern supply chains and the need for more dynamic, real-time decision-making processes. Traditional supply chain mechanisms are often static and can't adapt quickly to the ever-changing market demands or unforeseen disruptions. This project introduces a flexible, scalable solution that not only responds to current conditions but also anticipates future challenges, optimizing the supply chain for resilience and efficiency.
@@ -46,16 +46,17 @@ The commercial implications of implementing such a system are vast:
 ### UI: Vue
 
 ### Backend: Go Routines
+Please make sure you installed the websocket package "github.com/gorilla/websocket" before launching the program. Run the command `go get -u github.com/gorilla/websocket`
 
 ### Backend: GPT-4-turbo
 
 
 ## Getting Started
-**Go backend startup**: By running 'go run main.go' in the back_end/go_routine directory, the Go backend program will be suspended and wait for a 'start' message from the frontend.  <br> **Frontend startup**: Execute the 'npm install' command in the front_end/ directory to install the necessary modules. Then, run 'npm run serve' in the same directory to start the web frontend. At this point, a local URL will appear, which you can click to enter the frontend program. <br> **AI backend startup**: ...
+ <br> **Frontend startup**: Execute the 'npm install' command in the front_end/ directory to install the necessary modules. Then, run 'npm run serve' in the same directory to start the web frontend. At this point, a local URL will appear, which you can click to enter the frontend program. <br> **AI backend startup**: ...
 ### UI: Vue
 
 ### Backend: Go Routines
-
+**Go backend startup**: By running 'go run main.go' in the back_end/go_routine directory, the Go backend program will be suspended and wait for a 'start' message from the frontend. 
 ### Backend: GPT-4-turbo
 
 ## Contribution
