@@ -76,8 +76,9 @@ To install the Go Routines backend, follow these steps:
 2. Navigate to the `backend/go_routine` directory.
    ```sh
    cd ./backend/go_routine
+   go get -u github.com/gorilla/websocket
    ```
-
+If you already installed github.com/gorilla/websocket package, you can skip this step
 
 ### UI: Vue.js
 
