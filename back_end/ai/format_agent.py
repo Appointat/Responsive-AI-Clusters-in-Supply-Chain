@@ -1,5 +1,5 @@
-import re
-from typing import Any, Dict, Optional, Union
+from colorama import Fore
+from typing import Any, Optional, Union
 
 from camel.agents import ChatAgent
 from camel.messages import BaseMessage
@@ -47,7 +47,7 @@ class FormatAgent(ChatAgent):
                 the LLM.
 
         Returns:
-            Dict[str, Dict[str, str]]: The generated text in the format of
+            Union[str, TextPrompt]: The generated text in the format of
                 the answer template.
         """
         self.reset()
@@ -74,6 +74,7 @@ The context of the conversation is about the anylysis and the calculation of the
             assistant_role_name=assistant_role_name,
             chat_record=chat_record,
             answer_template=answer_template)
+        print(Fore.CYAN + f"Format agent prompt:\n{generation}")
 
         insights_generation_msg = BaseMessage.make_user_message(
             role_name="Format Agent", content=generation)
