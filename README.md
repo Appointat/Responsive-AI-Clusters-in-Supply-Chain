@@ -40,7 +40,7 @@ In our program, we instantiated four outlets and one central warehouse. The cent
 
 ![Agents](image/agents.png)
 
-In this project, each supermarket outlet is an independent agent. The central warehouse is a special agent, although in this simulation it can be considered as an environment. However, in more complex simulations that may be developed later, the central warehouse should be regarded as an agent distinct from the supermarket outlets.
+In this project, each supermarket outlet is an independent agent. The central warehouse is a special agent, although in this simulation it can be considered as an environment. However, in more complex simulations that may be developed later, the central warehouse should be regarded as an agent distinct from the supermarket outlets. Since the AI backend and the Go backend are independent, each time the Go backend sends a request to the AI backend, the AI backend distinguishes between different supermarkets based on the received supermarket outlet ID. The AI backend creates a separate Agent for the central warehouse and an Agent for each supermarket outlet. Therefore, in each interaction, only the Agent of the central warehouse is aware of the global information, while the information of the various supermarket Agents is unknown to each other.
 
 Suppose we have four supermarket outlets located in Lyon, Nice, Caen, and Amiens, and two central warehouses located in Paris and Marseille. In this case, each supermarket outlet, acting as an agent, needs to consider various practical factors such as estimated transportation time and cost to decide which central warehouse to prioritize for restocking requests. After receiving a request, the central warehouse analyzes the request information and sends back a response along with the goods information. This completes a full communication process, after which the central warehouse proceeds to handle the next request.
 ![Agents](image/communication-ex-image.png)
@@ -424,7 +424,9 @@ To install the Vue.js frontend, follow these steps:
    ```sh
    python app.py
    ```
+![Start-Button](image/Start-button.png)
 
+The order of starting the AI backend, Go backend, and frontend is not strictly specified, but it is necessary to ensure that the Go backend waits for several seconds after starting, to ensure the program runs to a blocking point waiting for the start message from the frontend. After starting both the Go backend and the AI backend, both will enter a waiting state until the user clicks on the frontend (as shown in the diagram) to send a start message to the Go backend. Upon receiving the message, the Go backend will commence communication with the AI backend and activate the AI backend's data processing.<br> Therefore, it is preferable to start the AI and Go backends first, and then the frontend.
 ## Evaluation of results
 **Response quality**
 
