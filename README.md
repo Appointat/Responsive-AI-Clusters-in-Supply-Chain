@@ -339,9 +339,8 @@ While making decisions, the central hub should first consider the neccessary inf
 
 <chat_record_of_the_Instructor_and_the_Assistant>
 
-========== ANSWER TEMPLATE =====
+===== ANSWER TEMPLATE =====
 {'outlet_inventory': {'baguette': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'black_tea': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'manchego_cheese': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}, 'olive_oil': {'future_storage_amount': '<NUM>', 'specific_reason_of_replenishment': '<STRING>'}}, 'transportation_duration': '<NUM> day'}
-=====
 ```
 
 ## Installation
