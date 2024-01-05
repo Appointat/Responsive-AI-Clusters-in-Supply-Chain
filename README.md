@@ -410,7 +410,7 @@ To install the Vue.js frontend, follow these steps:
    ```
 ![Start-Button](image/Start-button.png)
 
-The order of starting the AI backend, Go backend, and frontend is not strictly specified, but it is necessary to ensure that the Go backend waits for several seconds after starting, to ensure the program runs to a blocking point waiting for the start message from the frontend. After starting both the Go backend and the AI backend, both will enter a waiting state until the user clicks on the frontend (as shown in the diagram) to send a start message to the Go backend. Upon receiving the message, the Go backend will commence communication with the AI backend and activate the AI backend's data processing.<br> Therefore, it is preferable to start the AI and Go backends first, and then the frontend.
+The order of starting the AI backend, Go backend, and frontend is not strictly specified, but it is necessary to ensure that the Go backend waits for several seconds after starting, to ensure the program runs to a blocking point waiting for the start message from the frontend. After starting both the Go backend and the AI backend, both will enter a waiting state until the user clicks on the frontend (as shown in the diagram) to send a start message to the Go backend. Upon receiving the message, the Go backend will commence communication with the AI backend and activate the AI backend's data processing.<br> **Therefore, it is preferable to start the AI and Go backends first, and then the frontend.**
 ## Evaluation of results
 **Response quality**
 
