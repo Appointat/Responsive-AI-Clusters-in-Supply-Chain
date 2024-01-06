@@ -1,38 +1,38 @@
-# Responsive AI Clusters in Supply Chain
+# Agents IA Multiples :​ Vers une Supply Chain Évolutive​
 
 ## Introduction
 
-Welcome to "Responsive AI Clusters in Supply Chain" - a groundbreaking project aimed at revolutionizing supply chain management through the use of responsive, intelligent multi-agent systems.
+Bienvenue à "Agents IA Multiples :​ Vers une Supply Chain Évolutive​" - un projet novateur visant à révolutionner la gestion de la chaîne d'approvisionnement grâce à l'utilisation de systèmes multi-agents réactifs et intelligents.
 
-In the era of accelerated digital transformation, the logistics and supply chain industry faces mounting pressure to optimize operations and enhance efficiency. Traditional warehouse management systems, while functional, often struggle to keep pace with the increasing complexity and dynamism of modern supply chains. This is where the application of Artificial Intelligence (AI) and specifically, AI Agents, becomes pivotal.
+À l'ère de la transformation numérique accélérée, l'industrie de la logistique et de la chaîne d'approvisionnement est confrontée à une pression croissante pour optimiser les opérations et améliorer l'efficacité. Les systèmes traditionnels de gestion d'entrepôt, bien que fonctionnels, peinent souvent à suivre le rythme de la complexité et du dynamisme croissants des chaînes d'approvisionnement modernes. C'est là que l'application de l'intelligence artificielle (IA), et plus particulièrement des agents d'IA, devient cruciale.
 
-AI Agents, particularly those powered by large-scale models, offer advanced capabilities in data processing, pattern recognition, and decision-making. Their ability to learn and adapt makes them ideal for addressing the challenges of warehouse resource allocation. Moreover, the integration of multi-agent systems, where multiple AI Agents interact and collaborate, opens up new possibilities for intelligent warehouse management.
+Les agents d'IA, en particulier ceux qui sont alimentés par des modèles à grande échelle, offrent des capacités avancées en matière de traitement des données, de reconnaissance des formes et de prise de décision. Leur capacité d'apprentissage et d'adaptation les rend idéaux pour relever les défis de l'allocation des ressources dans les entrepôts. En outre, l'intégration de systèmes multi-agents, dans lesquels plusieurs agents d'intelligence artificielle interagissent et collaborent, ouvre de nouvelles possibilités pour la gestion intelligente des entrepôts.
 
 ### Motivation:
-The motivation for incorporating AI Agents into warehouse resource allocation stems from several key factors:
-1. **Increasing Data Volumes**: Modern warehouses generate vast amounts of data. For instance, geographic location, weather, user profiles, etc. AI Agents can effectively process and analyze this data to extract actionable insights.
-2. **Need for Real-Time Decision Making**: The fast-paced nature of warehouse operations demands real-time decision-making. AI Agents can provide this, responding swiftly to changing conditions and requirements. For instance, the outlets need to prepare more merchandise inventory before Christmas.
-3. **Scalability and Flexibility**: AI Agents can scale their operations according to the warehouse’s changing needs, ensuring flexibility and adaptability in resource allocation.
+La motivation pour incorporer des agents d'intelligence artificielle dans l'allocation des ressources d'un entrepôt provient de plusieurs facteurs clés :
+1. **Volumes de données croissants** : Les entrepôts modernes génèrent de grandes quantités de données. Par exemple, la localisation géographique, la météo, les profils des utilisateurs, etc. Les agents d'IA peuvent traiter et analyser efficacement ces données pour en extraire des informations exploitables.
+2. **Nécessité d'une prise de décision en temps réel** : La nature rapide des opérations d'entreposage exige une prise de décision en temps réel. Les agents d'intelligence artificielle peuvent y répondre, en réagissant rapidement à l'évolution des conditions et des exigences. Par exemple, les points de vente doivent préparer davantage de stocks de marchandises avant Noël.
+3. **Évolutivité et flexibilité** : Les agents d'intelligence artificielle peuvent adapter leurs opérations en fonction de l'évolution des besoins de l'entrepôt, ce qui garantit la flexibilité et l'adaptabilité de l'allocation des ressources.
 
-**Necessity**:
-The necessity of AI Agents in this context is underscored by:
-1. **Complexity in Resource Management**: Modern warehouses deal with a wide range of variables in resource management. AI Agents can handle this complexity more effectively than traditional systems.
-2. **Optimizing Operational Efficiency**: There is a continuous need to improve operational efficiency to stay competitive. AI Agents can optimize resource allocation, reducing waste and increasing productivity.
+**Nécessité**:
+La nécessité des agents d'intelligence artificielle dans ce contexte est soulignée par les éléments suivants
+1. **Complexité de la gestion des ressources** : Les entrepôts modernes gèrent un large éventail de variables dans la gestion des ressources. Les agents d'intelligence artificielle peuvent gérer cette complexité plus efficacement que les systèmes traditionnels.
+2. **Optimisation de l'efficacité opérationnelle** : Il est constamment nécessaire d'améliorer l'efficacité opérationnelle pour rester compétitif. Les agents d'intelligence artificielle peuvent optimiser l'allocation des ressources, en réduisant le gaspillage et en augmentant la productivité.
 
-**Advantages**:
-The advantages of using AI Agents and multi-agent systems in warehouse resource allocation include:
-1. **Enhanced Responsiveness to Market Demands**: AI Agents enable warehouses to be more responsive to market changes and consumer demands.
-2. **Facilitation of Predictive Analytics**: AI Agents can predict future trends and demands, allowing for proactive resource planning.
+**Avantages**:
+Les avantages de l'utilisation d'agents d'intelligence artificielle et de systèmes multi-agents dans l'affectation des ressources d'un entrepôt sont les suivants :
+1. **Réactivité accrue aux demandes du marché** : Les agents d'intelligence artificielle permettent aux entrepôts d'être plus réactifs aux changements du marché et aux demandes des consommateurs.
+2. **Facilitation de l'analyse prédictive** : Les agents d'intelligence artificielle peuvent prédire les tendances et les demandes futures, ce qui permet une planification proactive des ressources.
 
-**Why we choose multi-agent systems**
+**Pourquoi choisir les systèmes multi-agents**
 
-Due to time constraints, only four outlets and one central warehouse were set up for this project. 
-However, the project can be flexibly extended to more supermarkets and warehouses (hundreds of agents). 
-The warehouse and its surrounding supermarkets can be considered as **a cluster**, which can be regional, national, global, etc. (This blueprint has not yet been realized.)
+En raison de contraintes de temps, seuls quatre points de vente et un entrepôt central ont été mis en place dans le cadre de ce projet. 
+Toutefois, le projet peut être étendu de manière flexible à davantage de supermarchés et d'entrepôts (des centaines d'agents). 
+L'entrepôt et les supermarchés environnants peuvent être considérés comme **un cluster**, qui peut être régionale, nationale, mondiale, etc.
 
-1. **Within clusters - Powerful decision-making and problem-solving capabilities**: each outlet is an agent, which can independently collect information and make decisions for different events.
+1. **Au sein des clusters - De puissantes capacités de prise de décision et de résolution de problèmes** : chaque point de vente est un agent, qui peut indépendamment collecter des informations et prendre des décisions pour différents événements.
 
-2. **Between clusters - Real-time processing of large amounts of logistics data**: multi-agent systems can real-time handle a large amount of logistics data as well as synchronisation. For example, items are transferred from a warehouse in another country and arrive at the outlet via local warehouse transit. The amount of data from all the clusters will be huge.
+2. **Entre des clusters - Traitement en temps réel de grandes quantités de données logistiques** : les systèmes multi-agents peuvent traiter en temps réel une grande quantité de données logistiques ainsi que la synchronisation. Par exemple, des articles sont transférés d'un entrepôt situé dans un autre pays et arrivent au point de vente en passant par l'entrepôt local. La quantité de données provenant de tous les clusters sera énorme.
 
 ![Surface](image/surface.png)
 
@@ -40,42 +40,44 @@ The warehouse and its surrounding supermarkets can be considered as **a cluster*
 
 ![Responsive AI Clusters](https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/assets/65004114/02731b24-c7ad-41b5-8779-cf935a65b919)
 
-The utilization of AI multi-agent systems to address general problems has emerged as a popular topic in the industrial sector. Our exploration in this realm is driven by the desire to validate the practical feasibility of such technologies. This has been the primary impetus behind the implementation of our project.
+L'utilisation de systèmes multi-agents d'IA pour résoudre des problèmes généraux est devenue un sujet populaire dans le secteur industriel. Notre exploration dans ce domaine est motivée par le désir de valider la faisabilité pratique de ces technologies. C'est ce qui a motivé la mise en œuvre de notre projet.
 
-The project mainly revolves around simulating the application of the supply chain, where the entire supply chain system is roughly composed of a central warehouse and various offline outlets (mainly supermarkets). In reality, there may be multiple central warehouses, but in the project, for the sake of simplifying the simulation, we have implemented for the central warehouse and each outlet as a singleton agent (5 agents in total). In the project, all other outlets communicate daily with the central warehouse to receive restocks. Goods are a separate class containing information such as name and quantity. To simplify the simulation program, we have only instantiated four types of products: `olive oil`, `baguette`, `manchego cheese`, `black tea`.
+Le projet consiste principalement à simuler l'application de la chaîne d'approvisionnement, où le système entier de la chaîne d'approvisionnement est grosso modo composé d'un entrepôt central et de divers points de vente hors ligne (principalement des supermarchés). En réalité, il peut y avoir plusieurs entrepôts centraux, mais dans le projet, pour simplifier la simulation, nous avons mis en œuvre l'entrepôt central et chaque point de vente comme un agent unique (5 agents au total). Dans le projet, tous les autres points de vente communiquent quotidiennement avec l'entrepôt central pour recevoir des réapprovisionnements. Les marchandises sont une classe distincte contenant des informations telles que le nom et la quantité. Pour simplifier le programme de simulation, nous n'avons instancié que quatre types de produits : `olive oil`, `baguette`, `manchego cheese`, `black tea`.
 
-In the program, we instantiated four outlets and one central warehouse. The central warehouse is an independent AI Agent, whose inventory changes autonomously based on certain conditions (for example, when stock levels are low, the AI might increase the inventory of certain products through other events). Each outlet has its own independent event table, which is stored in the event.go file. When the date of an event (such as an unexpected incident, holiday, celebration, etc.) matches the current clock date, the event's description will be sent to the AI side. Since each outlet has a unique ID, the warehouse identifies which outlet sent the message through the ID, and then start the AI role-playing (warehouse to outlet).
+Dans le programme, nous avons instancié quatre points de vente et un entrepôt central. L'entrepôt central est un agent IA indépendant, dont l'inventaire change de manière autonome en fonction de certaines conditions (par exemple, lorsque les niveaux de stock sont bas, l'IA peut augmenter l'inventaire de certains produits par le biais d'autres événements). Chaque point de vente possède sa propre table d'événements, qui est stockée dans le fichier event.go. Lorsque la date d'un événement (incident inattendu, jour férié, célébration, etc.) correspond à la date de l'horloge, la description de l'événement est envoyée à l'IA. Étant donné que chaque point de vente possède un identifiant unique, l'entrepôt identifie le point de vente qui a envoyé le message grâce à l'identifiant, puis commence le jeu de rôle de l'IA (de l'entrepôt au point de vente).
 
-In conclusion, the architecture of the system/project is structured around a central warehouse, surrounded by retail outlets, each equipped with AI agents. These agents communicate with the central hub to balance supply with demand, share resources, and optimize the overall network performance.
+En conclusion, l'architecture du système/projet est structurée autour d'un entrepôt central, entouré de points de vente, chacun équipé d'agents d'intelligence artificielle. Ces agents communiquent avec le hub central pour équilibrer l'offre et la demande, partager les ressources et optimiser les performances globales du réseau.
 
 ![Agents](image/agents.png)
 
-In this project, each supermarket outlet is an independent agent. The central warehouse is a special agent, although in this simulation it can be considered as an environment. However, in more complex simulations that may be developed later, the central warehouse should be regarded as an agent distinct from the supermarket outlets. Since the AI backend and the Go backend are independent, each time the Go backend sends a request to the AI backend, the AI backend distinguishes between different supermarkets based on the received supermarket outlet ID. The AI backend creates a separate Agent for the central warehouse and an Agent for each supermarket outlet. Therefore, in each interaction, only the Agent of the central warehouse is aware of the global information, while the information of the various supermarket Agents is unknown to each other.
+Dans ce projet, chaque point de vente du supermarché est un agent indépendant. L'entrepôt central est un agent spécial, bien que dans cette simulation il puisse être considéré comme un environnement. Cependant, dans des simulations plus complexes qui pourraient être développées ultérieurement, l'entrepôt central devrait être considéré comme un agent distinct des points de vente des supermarchés. Le backend AI et le backend Go étant indépendants, chaque fois que le backend Go envoie une requête au backend AI, ce dernier fait la distinction entre les différents supermarchés sur la base de l'identifiant reçu du point de vente du supermarché. Le backend AI crée un agent distinct pour l'entrepôt central et un agent pour chaque point de vente de supermarché. Par conséquent, lors de chaque interaction, seul l'agent de l'entrepôt central est au courant des informations globales, tandis que les informations des différents agents des supermarchés sont inconnues les unes des autres.
 
-To ensure the successful operation of this project, we developers must establish a series of event schedules. Each schedule lists the dates of the events and their corresponding descriptions, such as Christmas on December 25th, or a fire that occurred on February 10th. These events are set in the future, yet we determine them in advance because we are merely conducting a simulation sandbox for goods distribution. Hence, the event schedules can be understood as the "thrust" that drives the system; that is, whenever an event occurs, both the retailer and the central warehouse should take appropriate measures. As you can see, different agents possess various characteristics (inventory, geographical location, ID, etc.), and events are also difficult to model quantitatively. Therefore, using large language models (LLMs) to handle these complex situations is indispensable. This is one of the significant advantages of our project.
+Pour assurer le bon fonctionnement de ce projet, nous, les développeurs, devons établir une série de calendriers d'événements. Chaque calendrier énumère les dates des événements et leurs descriptions correspondantes, comme Noël le 25 décembre ou un incendie qui s'est produit le 10 février. Ces événements se déroulent dans le futur, mais nous les déterminons à l'avance car nous ne faisons que simuler un bac à sable pour la distribution des marchandises. Par conséquent, les calendriers des événements peuvent être considérés comme la "poussée" qui anime le système, c'est-à-dire que lorsqu'un événement se produit, le détaillant et l'entrepôt central doivent prendre les mesures appropriées. Comme vous pouvez le constater, les agents possèdent des caractéristiques différentes (inventaire, emplacement géographique, ID, etc.), et les événements sont également difficiles à modéliser quantitativement. C'est pourquoi il est indispensable d'utiliser de grands modèles de langage (LLM) pour traiter ces situations complexes. C'est l'un des avantages significatifs de notre projet.
 
-Suppose we have four supermarket outlets located in Lyon, Nice, Caen, and Amiens, and two central warehouses located in Paris and Marseille. In this case, each supermarket outlet, acting as an agent, needs to consider various practical factors such as estimated transportation time and cost to decide which central warehouse to prioritize for restocking requests. After receiving a request, the central warehouse analyzes the request information and sends back a response along with the goods information. This completes a full communication process, after which the central warehouse proceeds to handle the next request.
+Supposons que nous ayons quatre supermarchés situés à Lyon, Nice, Caen et Amiens, et deux entrepôts centraux situés à Paris et à Marseille. Dans ce cas, chaque point de vente, agissant en tant qu'agent, doit tenir compte de divers facteurs pratiques tels que le temps de transport estimé et le coût pour décider quel entrepôt central doit recevoir en priorité les demandes de réapprovisionnement. Après avoir reçu une demande, l'entrepôt central analyse les informations de la demande et renvoie une réponse avec les informations sur les marchandises. Le processus de communication est alors complet, après quoi l'entrepôt central traite la demande suivante.
 ![Agents](image/communication-ex.png)
-## Project Background and Prospects
+## Contexte et perspectives du projet
 
-In the actual application process, customers in the location of each outlet have a unified preference. In this project, we have directly assigned a basic description to the local customer preferences of each outlet. Of course, in reality, these preferences can change over time. Theoretically, this aspect could also be managed by AI. If there are multiple central warehouses, then each outlet needs to consider its own inventory status, the distance to each warehouse, among other factors, to choose the most optimal central warehouse for restocking and other operations.
+Dans le processus d'application réel, les clients de chaque point de vente ont une préférence unifiée. Dans ce projet, nous avons directement attribué une description de base aux préférences des clients locaux de chaque point de vente. Bien entendu, dans la réalité, ces préférences peuvent changer au fil du temps. En théorie, cet aspect pourrait également être géré par l'IA. S'il existe plusieurs entrepôts centraux, chaque point de vente doit tenir compte de l'état de ses stocks, de la distance qui le sépare de chaque entrepôt, entre autres facteurs, afin de choisir l'entrepôt central le plus optimal pour le réapprovisionnement et d'autres opérations.
 
-## Principles of AI Agents Implement
+## Principes de mise en œuvre des agents d'intelligence artificielle
 
-Our approach is based on several key principles:
+Notre approche repose sur plusieurs principes clés :
 
-- **Multi-Agent Collaboration**: Harnessing the power of AI agents, each representing entities within the supply chain, enabling decentralized decision-making and fostering robust collaboration.
-- **Real-Time Responsiveness**: Ensuring the system is capable of adapting to new events and information, maintaining supply chain continuity and efficiency.
-- **Predictive Analytics**: Utilizing advanced data analytics to forecast demand and supply scenarios, allowing for preemptive strategy adjustments.
-- **Scalability and Flexibility**: Designing the system to be inherently scalable, handling the expansion seamlessly and adapting to various supply chain sizes and structures.
-- **Sustainability**: Focusing on long-term sustainability by optimizing resource allocation and reducing waste.
+- **Collaboration multi-agents** : Exploitation de la puissance des agents d'intelligence artificielle, chacun représentant des entités de la chaîne d'approvisionnement, permettant une prise de décision décentralisée et favorisant une collaboration solide.
+- **Réactivité en temps réel** : S'assurer que le système est capable de s'adapter à de nouveaux événements et informations, afin de maintenir la continuité et l'efficacité de la chaîne d'approvisionnement.
+- **Analyse prédictive** : L'utilisation d'analyses de données avancées pour prévoir les scénarios de demande et d'approvisionnement, permettant des ajustements stratégiques préventifs.
+- **Évolutivité et flexibilité** : Concevoir le système pour qu'il soit intrinsèquement évolutif, gérer l'expansion de manière transparente et s'adapter aux différentes tailles et structures de la chaîne d'approvisionnement.
+- **Durabilité** : Se concentrer sur la durabilité à long terme en optimisant l'allocation des ressources et en réduisant les déchets.
 
 
 
 ## Prompt Engineering
-We have provided some key LLM prompts. In such prompts, we have defined a `TextPrompt` class so that we could enhance development efficiency by adding variables to the prompt. During the design and writing process of the prompts, we encountered many difficulties, such as how to make AI aware of concepts like "duration of transition", "clients' shopping preferences," etc., and requiring AI to consider these complex factors during processing, especially when the length of certain prompts exceeds 2k characters.
+Nous avons fourni quelques invites LLM clés. Dans ces invites, nous avons défini une classe `TextPrompt` afin d'améliorer l'efficacité du développement en ajoutant des variables à l'invite. Au cours du processus de conception et d'écriture des messages-guides, nous avons rencontré de nombreuses difficultés, telles que la sensibilisation de l'IA à des concepts comme la "durée de la transition", les "préférences d'achat des clients", etc., et l'obligation pour l'IA de prendre en compte ces facteurs complexes au cours du traitement, en particulier lorsque la longueur de certains messages-guides dépasse 2 000 caractères.
 
 There are 3 prompts provided: `Instructor Prompt`, `Assistant Prompt`, and `Format Agent Prompt`. The first two will act as the warehouse center and outlet respectively; they will engage in one-on-one dialogue to negotiate the allocation of goods resources together. Then, the Format Agent will extract key information from the conversation and output it in JSON format to facilitate communication through APIs and goroutines.
+
+Il y a 3 invites fournies : `Instructor Prompt`, `Assistant Prompt`, et `Format Agent Prompt`. Les deux premiers vont jouer respectivement le rôle du centre de stockage et du point de vente ; ils vont engager un dialogue en tête-à-tête pour négocier ensemble l'allocation des ressources en marchandises. Ensuite, l'agent de formatage extrait les informations clés de la conversation et les restitue au format JSON pour faciliter la communication par le biais d'API et de goroutines.
 
 ### Prompt of AI Instructor in Role-playing
 ``` markdown
@@ -352,27 +354,27 @@ While making decisions, the central hub should first consider the neccessary inf
 ```
 
 ## Installation
-Clone the repository. If you have already downloaded the whole project, you can skip this step.
+Cloner le dépôt. Si vous avez déjà téléchargé l'ensemble du projet, vous pouvez sauter cette étape.
 ```sh
 git clone https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain.git
 ```
 ### Backend: GPT-4-turbo
 
-1. Create a new terminal.
-2. Navigate to the `backend/ai` directory.
+1. Créer un nouveau terminal.
+2. Naviguez vers le répertoire `back_end/ai`.
     ```sh
     cd ./back_end/ai
     ```
-3. Activate the virtual environment.
+3. Activer l'environnement virtuel.
     ```sh
     python -m venv venv
     venv\Scripts\activate     # On Windows
     ```
-4. Configure the OpenAI API key.
+4. Configurer la clé API OpenAI.
     ```sh
     $env:OPENAI_API_KEY="your-openai-api-key"     # On Windows
     ```
-5. Install the dependencies
+5. Installer les dépendances
     ``` sh
     python.exe -m pip install --upgrade pip
     poetry install
@@ -381,89 +383,89 @@ git clone https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain.gi
 
 ### Backend: Go Routines
 
-To install the Go Routines backend, follow these steps:
-1. Create a new terminal.
-2. Navigate to the `backend/go_routine` directory.
+Pour installer le backend Go Routines, suivez les étapes suivantes :
+1. Créer un nouveau terminal.
+2. Naviguez vers le répertoire `back_end/go_routine`.
     ```sh
     cd ./back_end/go_routine
     go get -u github.com/gorilla/websocket
     ```
-    If you already installed github.com/gorilla/websocket package, you can skip this step
+     Si vous avez déjà installé le paquet github.com/gorilla/websocket, vous pouvez sauter cette étape.
 
 ### UI: Vue.js
 
-To install the Vue.js frontend, follow these steps:
-1. Create a new terminal.
-2. Navigate to the `frontend` directory.
+Pour installer le frontend Vue.js, suivez ces étapes :
+1. Créer un nouveau terminal.
+2. Naviguez vers le répertoire `front_end`.
     ```sh
     cd ./front_end
     ```
-3. Install the necessary modules.
+3. Installer les modules nécessaires.
     ```sh
     npm install
     ```
 
-## Getting Started
+## Pour démarrer
 
 ### UI: Vue.js
-1. Start the web frontend.
+1. Démarrer l'interface web.
     ```sh
     npm run serve
     ```
-2. Open the UI in webpage. (Please do not refresh, as this will cause the UI to clear the previously cached data.)
+2. Ouvrez l'interface utilisateur dans la page web. (Ne rafraîchissez pas la page, car l'interface utilisateur effacerait alors les données précédemment mises en cache).
     ``` sh
     - Local:   http://localhost:8080/
     - Network: http://192.168.1.101:8080/
     ```
 
 ### Backend: GPT-4-turbo
-1. Run the application.
+1. Lancer l'application.
    ```sh
    python app.py
    ```
 
 ### Backend: Go Routines
-1. Run the Go application.
+1. Lancer l'application Go.
    ```sh
    go run main.go
    ```
 
-### Click the button
+### Cliquez sur le bouton
     
-1. After the setup the goroutines, click the "Start" button in the UI webpage.
+1. Après avoir configuré les goroutines, cliquez sur le bouton "Start" dans la page web de l'interface utilisateur.
    ![Start-Button](image/Start-button.png)
 
-The order of starting the AI (python), Go backend, and frontend (Vue.js) is not strictly specified, but it is necessary to ensure that the Go backend waits for several seconds after starting, to ensure the program runs to a blocking point waiting for the start message from the frontend. After starting both the Go backend and the AI backend, both will enter a waiting state until the user clicks on the frontend (as shown in the diagram) to send a start message to the Go backend. Upon receiving the message, the Go backend will commence communication with the AI backend and activate the AI backend's data processing.
+L'ordre de démarrage de l'IA (python), du backend Go et du frontend (Vue.js) n'est pas strictement spécifié, mais il est nécessaire de s'assurer que le backend Go attend plusieurs secondes après le démarrage, afin de garantir que le programme s'exécute jusqu'à un point de blocage en attendant le message de démarrage du frontend. Après avoir démarré le backend Go et le backend AI, les deux entreront dans un état d'attente jusqu'à ce que l'utilisateur clique sur le frontend (comme indiqué dans le diagramme) pour envoyer un message de démarrage au backend Go. Dès réception du message, le backend Go commence à communiquer avec le backend AI et active le traitement des données du backend AI.
 
 
-## Evaluation of results
-**Response quality**
+## Évaluation des résultats
+**Qualité des réponses
 
-We used GPT-4 to evaluate the generated responses.
-Aspects of the evaluation : Relevance and precision, Completeness, Practicality, Clarity of communication and Adaptability. 
+Nous avons utilisé le GPT-4 pour évaluer les réponses générées.
+Aspects de l'évaluation : Pertinence et précision, exhaustivité, praticité, clarté de la communication et adaptabilité. 
 
-**System stability**
+**Stabilité du système
 
-1. If the system is capable of operating for a long period of time.
+1. Si le système est capable de fonctionner pendant une longue période.
 
-2. If the stock in each supermarket is maintained in a normal state (Neither too big or too small).
+2. Si le stock de chaque supermarché est maintenu dans un état normal (ni trop grand, ni trop petit).
 ![Evaluation](image/evaluation.png)
 
-## Potential Commercial Value and Future Prospects
+## Valeur commerciale potentielle et perspectives d'avenir
 
-The application of AI multi-agent systems in industries like Amazon represents a frontier teeming with potential and promise for the future. While the current state of technology is still evolving, the anticipated benefits and transformative impacts of these systems are immense, particularly when considering their future integration into global retail and distribution networks.
+L'application de systèmes multi-agents d'IA dans des secteurs tels qu'Amazon représente une frontière pleine de potentiel et de promesses pour l'avenir. Bien que l'état actuel de la technologie soit encore en évolution, les avantages attendus et les effets transformateurs de ces systèmes sont immenses, en particulier si l'on considère leur intégration future dans les réseaux mondiaux de vente au détail et de distribution.
 
-## Future work
-1. Simulation based on data supplied by users, such as number of supermarkets, quantities stocked in supermarkets, types of products, distance, etc.
+## Travaux futurs
+1. Simulation basée sur les données fournies par les utilisateurs, telles que le nombre de supermarchés, les quantités stockées dans les supermarchés, les types de produits, la distance, etc.
 
-2. Add a more intelligent evaluation system, for example, the AI is both agent and evaluator.
+2. Ajouter un système d'évaluation plus intelligent, par exemple, l'IA est à la fois agent et évaluateur.
 
-3. Solve other problems, such as intelligent electricity distribution and other resource allocation problems, in order to create smart cities.
+3. Résoudre d'autres problèmes, tels que la distribution intelligente d'électricité et d'autres problèmes d'allocation des ressources, afin de créer des villes intelligentes.
 
 ## Contribution
 
-We are open to contributions! Please read through `CONTRIBUTING.md` for guidelines on how to make a pull request.
+Nous sommes ouverts aux contributions ! Veuillez lire `CONTRIBUTING.md` pour les directives sur la façon de faire une demande de contribution.
 
-## License
+## Licence
 
-This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
+Ce projet est sous licence [MIT License](LICENSE) - voir le fichier LICENSE pour plus de détails.
