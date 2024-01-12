@@ -36,7 +36,7 @@ The warehouse and its surrounding supermarkets can be considered as **a cluster*
 
 ![Surface](image/surface.png)
 
-![Screenshot](image/screenshot.png)
+![Screenshot](image/ui.png)
 
 ![Responsive AI Clusters](https://github.com/Appointat/Responsive-AI-Clusters-in-Supply-Chain/assets/65004114/02731b24-c7ad-41b5-8779-cf935a65b919)
 
