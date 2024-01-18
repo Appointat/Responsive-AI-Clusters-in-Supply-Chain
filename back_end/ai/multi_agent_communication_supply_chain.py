@@ -189,8 +189,6 @@ While making decisions, the central hub should first consider the neccessary inf
             # Extract the json format in the output_text, while the output_text is a string including the json format and other strings
             role_playing_output_json = json.loads(re.search(r'{.*}', output_text, re.DOTALL).group())
             print(Fore.BLUE + f"role_playing_output_json:\n{json.dumps(role_playing_output_json, indent=4)}\n")
-            # output_text = output_text[output_text.find("{"):output_text.rfind("}") + 1]
-            # role_playing_output_json = json.loads(output_text)
             try:
                 role_playing_output_json["transportation_duration"] = [int(s) for s in role_playing_output_json["transportation_duration"].split() if s.isdigit()][0]
                 if role_play_session["transportation_duration"] >= 7:
