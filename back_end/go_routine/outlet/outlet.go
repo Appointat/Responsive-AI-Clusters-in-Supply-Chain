@@ -22,9 +22,8 @@ type Outlet struct {
 	notifyCentralHub    func(string, string, string, string, *event.Event, map[string]*product.Product) *centralhub.Response
 	clientPreferences   string
 	scheduledDeliveries map[time.Time]map[string]int
-	//websocket connection
-	wsupgrader websocket.Upgrader
-	client     *websocket.Conn
+	wsupgrader          websocket.Upgrader
+	client              *websocket.Conn
 }
 
 func InstanceOutlets() {
@@ -36,16 +35,16 @@ func InstanceOutlets() {
 		{1, 2, 3},
 	}
 
-	// Define the locations for each outlet.
+	// Define 4 locations for each outlet.
 	outletLocations := []string{"Paris", "Lyon", "Marseille", "Nice"}
 
-	//clear the allOutlets
+	// Clear the allOutlets
 	allOutlets = []*Outlet{}
 	// Loop through the defined configurations and create outlets.
 	for i, indices := range outletProductIndices {
 		inventory := make(map[string]*product.Product)
 
-		//Initialize the items in the inventory to 0
+		// Initialize the items in the inventory to 0
 		for _, prod := range product.GlobalProducts {
 			inventory[prod.GetProductID()] = product.NewProduct(prod.GetProductID(), 0, prod.GetReplenishmentRate(), prod.GetMax_stock())
 		}
@@ -53,7 +52,8 @@ func InstanceOutlets() {
 		// Use the indices to add products to the outlet's inventory.
 		for _, idx := range indices {
 			productCopy := product.GlobalProducts[idx]
-			//because the Product type holds no reference type, so we can just copy the product
+			// Set the number of products in the outlet's inventory to x,
+			// where x is the number of products in the central hub's inventory.
 			inventory[productCopy.GetProductID()].SetNumber(productCopy.GetNumber())
 		}
 
@@ -81,14 +81,13 @@ func startHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer conn.Close()
 
-	// wait for the message of frontend
+	// Wait for the message of frontend
 	_, _, err = conn.ReadMessage()
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	//
 	close(startChan)
 }
 
@@ -106,7 +105,6 @@ func (o *Outlet) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	o.client = conn
-	// Need to hangup the connection in the main function "/centralhub"
 }
 
 var (
@@ -117,7 +115,7 @@ var (
 	allOutlets  []*Outlet
 )
 
-func INIT() { // Single Agent
+func INIT() { // the singleton pattern
 	centralhub.InitializeHub()
 	product.InstanceProducts()
 	InstanceOutlets()
@@ -129,7 +127,7 @@ func INIT() { // Single Agent
 		// Initialize the currentDate to 31st December 2023
 		currentDate = time.Date(2023, 12, 31, 0, 0, 0, 0, time.UTC)
 		ticker = time.NewTicker(time.Second * 60)
-		product.InstanceProducts() //Initialize the products
+		product.InstanceProducts() // initialize the products
 
 		immediate := time.After(0)
 		go func() {
@@ -159,7 +157,7 @@ func performDailyOperations() {
 	localWg := new(sync.WaitGroup)
 	localWg.Add(len(_allOutlets))
 
-	// Current date add 1 day
+	// current date add 1 day
 	currentDate = currentDate.AddDate(0, 0, 1)
 
 	for _, outlet := range _allOutlets {
@@ -209,13 +207,13 @@ func NewOutlet(outletID string, location string, numberOfEvents int, holidayEven
 	case "Nice":
 		o.clientPreferences = "Strong demand for Olive Oil and Baguette, moderate interest in Black Tea, minimal preference for Manchego Cheese."
 	}
-	//copy the inventory
+	// Copy the inventory
 	for name, prod := range *inventory {
 		o.inventory[name] = prod
 	}
 	allOutlets = append(allOutlets, o)
 
-	//attach the websocket connection to the outlet
+	// Attach the websocket connection to the outlet
 	route := fmt.Sprintf("/outlet%d", len(allOutlets))
 	http.HandleFunc(route, o.HandleWebSocket)
 	return o
@@ -237,7 +235,7 @@ func (o *Outlet) GetNumberOfProducts(productName string) int {
 }
 
 func (o *Outlet) IntegrateResponseToSupermarketInfo(eventName string, Response *centralhub.Response) *centralhub.SupermarketInfo {
-	//Extract the replenishment information from the response into the supermarketInfo
+	// Extract the replenishment information from the response into the supermarketInfo
 	var supermarketInfo centralhub.SupermarketInfo
 	supermarketInfo.ProductAdd = make(map[string]int)
 	for name, quantity := range Response.Replenishments {
@@ -246,7 +244,7 @@ func (o *Outlet) IntegrateResponseToSupermarketInfo(eventName string, Response *
 	supermarketInfo.DeliveryTime = Response.DeliveryTime
 	supermarketInfo.ID = o.outletID
 
-	//Extract the inventory information from the outlet into the supermarketInfo
+	// Extract the inventory information from the outlet into the supermarketInfo
 	supermarketInfo.ProductLeft = make(map[string]int)
 	for name, product := range o.inventory {
 		supermarketInfo.ProductLeft[name] = product.GetNumber()
@@ -256,8 +254,7 @@ func (o *Outlet) IntegrateResponseToSupermarketInfo(eventName string, Response *
 }
 
 func (o *Outlet) SendSupermarketInfoToFrontend(supermarketInfo *centralhub.SupermarketInfo) {
-
-	//check the o.client is nil or not
+	// Check the o.client is nil or not
 	if o.client == nil {
 		log.Println("Failed to send supermarket info to frontend: o.client is nil")
 		return
@@ -270,7 +267,6 @@ func (o *Outlet) SendSupermarketInfoToFrontend(supermarketInfo *centralhub.Super
 }
 
 func (o *Outlet) AddProduct(p *product.Product) {
-	// deepcopy
 	newProduct := *p
 	o.inventory[newProduct.GetProductID()] = &newProduct
 }
@@ -281,7 +277,7 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	var eventDetails *event.Event
 	for eventName, eventDetails = range o.events {
 		if eventDetails.EventDate.Month() == date.Month() && eventDetails.EventDate.Day() == date.Day() {
-			//if the matching event appears
+			// If the matching event appears
 			eventOccurred = true
 			break
 		}
@@ -299,10 +295,10 @@ func (o *Outlet) CheckAndNotify(date time.Time) {
 	}
 	o.ProcessScheduledDeliveries(date)
 	o.scheduleDeliveries(response, date)
-	//Send the json pack SupermarketInfo to frontend
+	// Send the json pack SupermarketInfo to frontend
 
 	o.SendSupermarketInfoToFrontend(o.IntegrateResponseToSupermarketInfo(eventName, response))
-	//Process the scheduled deliveries
+	// Process the scheduled deliveries
 	for deliveryDate, deliveries := range o.scheduledDeliveries {
 		for productName, quantity := range deliveries {
 			log.Printf("Scheduled Delivery - Date: %s, Product: %s, Quantity: %d\n", deliveryDate, productName, quantity)
@@ -322,7 +318,6 @@ func (o *Outlet) scheduleDeliveries(response *centralhub.Response, currentDate t
 				prod.SetNumber(prod.GetNumber() + quantity)
 			}
 		} else {
-			// else schedule the delivery
 			if _, exists := o.scheduledDeliveries[deliveryDate]; !exists {
 				o.scheduledDeliveries[deliveryDate] = make(map[string]int)
 			}
@@ -341,5 +336,3 @@ func (o *Outlet) ProcessScheduledDeliveries(currentDate time.Time) {
 		delete(o.scheduledDeliveries, currentDate)
 	}
 }
-
-//End of Various methods to deal with delayed delivery
