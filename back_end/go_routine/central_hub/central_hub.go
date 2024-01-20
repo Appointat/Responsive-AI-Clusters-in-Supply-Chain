@@ -56,8 +56,8 @@ type GeneralInfo struct {
 
 type SupermarketInfo struct {
 	ID           string         `json:"id"`
-	ProductLeft  map[string]int `json:"productLeft"` // The number of products left in the supermarket
-	ProductAdd   map[string]int `json:"productAdd"`  // The number of products added to the supermarket
+	ProductLeft  map[string]int `json:"productLeft"` // The number of products left in the outlet
+	ProductAdd   map[string]int `json:"productAdd"`  // The number of products added to the outlet
 	DeliveryTime int            `json:"deliveryTime"`
 	Event        string         `json:"event"`
 }
@@ -122,11 +122,6 @@ func InitializeHub() {
 	go http.ListenAndServe(":8001", nil)
 	// Add the inventory to the central hub
 	instance.SetInventory(inventory)
-}
-
-// Getters
-func (h *CentralHub) GetHubID() string {
-	return h.hubID
 }
 
 func (h *CentralHub) GetLocation() string {
