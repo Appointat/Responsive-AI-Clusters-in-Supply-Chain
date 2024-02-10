@@ -136,11 +136,8 @@ func (h *CentralHub) GetNumberOfProducts(productName string) int {
 }
 
 func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error) {
-	// Code as JSON
-
 	jsonData, _ := json.Marshal(requestData)
 
-	// Send Post Request to Python AI
 	resp, err := http.Post(h.aiServerURL, "application/json", bytes.NewBuffer(jsonData))
 	if err != nil || resp.StatusCode != 200 {
 		log.Printf("Error occurred in communication with AI: %v\n", err)
@@ -166,9 +163,6 @@ func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error)
 
 // Send the general information to the frontend
 func (h *CentralHub) IntegrateAIResponseToGeneralInfo(event string, date time.Time, aiResponseData *AIResponse) *GeneralInfo {
-	// Integrate the data from AI
-
-	// Extract the info from aiResponse
 	warehouseProduct := make(map[string]int)
 	for name, item := range aiResponseData.CentralhubStock {
 		switch name {
@@ -184,8 +178,7 @@ func (h *CentralHub) IntegrateAIResponseToGeneralInfo(event string, date time.Ti
 		warehouseProduct[name] = item.CurrentStorageAmount
 	}
 	generalInfo := GeneralInfo{
-		Date: date,
-		// Event:            event,
+		Date:             date,
 		WarehouseProduct: warehouseProduct,
 	}
 
@@ -195,7 +188,6 @@ func (h *CentralHub) IntegrateAIResponseToGeneralInfo(event string, date time.Ti
 func (h *CentralHub) sendGeneralInfoToFrontEnd(info *GeneralInfo) {
 	// Send the general information to the frontend
 
-	//check the h.client is nil or not
 	if h.client == nil {
 		fmt.Println("Error in sending general info to front end: h.client is nil")
 		return
@@ -211,7 +203,7 @@ func (h *CentralHub) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	h.wsupgrader.CheckOrigin = func(r *http.Request) bool {
 		// Here you should implement a more robust check to ensure that the
 		// request is coming from allowed origins.
-		return true // Be cautious with this, it allows all origins!
+		return true
 	}
 
 	// Upgrade the HTTP connection to a websocket connection
@@ -255,8 +247,8 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 	aiResponse, _ = h.SendRequestToAI(requestData)
 
 	h.sendGeneralInfoToFrontEnd(h.IntegrateAIResponseToGeneralInfo(eventName, event.EventDate, aiResponse))
-	//Extract the info from aiResponse
-	replenishments := make(map[string]int) // TODO: Extract the replenishment info from aiResponse
+	replenishments := make(map[string]int)
+
 	//Calculate the number of products that need to be replenished
 	for name, _ := range shopInventory {
 		//Switch name keys to _
@@ -295,9 +287,6 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 		}
 	}
 
-	/*********************************************************************************************************************
-	To be deleted after integration with AI
-	*********************************************************************************************************************/
 	if event != nil {
 		fmt.Printf("Central Hub %s at %s received notification of event %s\n", h.hubID, h.location, event)
 	}
