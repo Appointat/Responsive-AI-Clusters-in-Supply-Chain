@@ -146,7 +146,6 @@ func INIT() { // the singleton pattern
 					}
 				}
 			}
-
 		}()
 	})
 }
@@ -157,7 +156,7 @@ func performDailyOperations() {
 	localWg := new(sync.WaitGroup)
 	localWg.Add(len(_allOutlets))
 
-	// current date add 1 day
+	// Increment the currentDate by 1 day
 	currentDate = currentDate.AddDate(0, 0, 1)
 
 	for _, outlet := range _allOutlets {

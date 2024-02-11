@@ -230,7 +230,7 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 		}
 	}
 
-	// //Create Request
+	// Create Request
 	requestData := AIRequest{
 		OutletID:           outletID,
 		Outletlocation:     outletlocation,
@@ -242,16 +242,16 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 		ShopInventory:      inventoryInfo,
 	}
 
-	// //Send Request to AI
+	// Send Request to AI
 	var aiResponse *AIResponse
 	aiResponse, _ = h.SendRequestToAI(requestData)
 
 	h.sendGeneralInfoToFrontEnd(h.IntegrateAIResponseToGeneralInfo(eventName, event.EventDate, aiResponse))
 	replenishments := make(map[string]int)
 
-	//Calculate the number of products that need to be replenished
+	// Calculate the number of products that need to be replenished
 	for name, _ := range shopInventory {
-		//Switch name keys to _
+		// Switch name keys to _
 		switch name {
 		case "Baguette":
 			name = "baguette"
@@ -264,7 +264,7 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 		}
 
 		if ReplenishmentData, exists := aiResponse.ReplenishmentData[name]; exists {
-			//change back
+			// Switch name keys to _
 			switch name {
 			case "baguette":
 				name = "Baguette"
@@ -279,7 +279,7 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 			quantityNeeded := ReplenishmentData.ChangedReplenishmentAmount
 			if quantityNeeded != 0 {
 				replenishments[name] = quantityNeeded
-				//Directly change the number of products in the central hub according to the AI response
+				// Directly change the number of products in the central hub according to the AI response
 				h.resources[name].SetNumber(aiResponse.CentralhubStock[name].CurrentStorageAmount)
 			} else {
 				replenishments[name] = 0
