@@ -1,13 +1,13 @@
 package product
 
-//This package realizes the class of Product, which is used to store the information of each detail of the product
-//And it's included by outlet.go and central_hub.go
+// This package realizes the class of Product, which is used to store the information of each detail of the product
+// and it's included by outlet.go and central_hub.go
 
 type Product struct {
 	productID         string
 	quantity          int
-	replenishmentRate int //the number of products that can be replenished per day
-	max_stock         int //the maximum number of products that can be stored
+	replenishmentRate int // the number of products that can be replenished per day
+	max_stock         int // the maximum number of products that can be stored
 }
 
 var GlobalProducts []Product
@@ -66,5 +66,3 @@ func (p *Product) SetReplenishmentRate(replenishment_rate int) {
 func (p *Product) SetMaxStock(max_stock int) {
 	p.max_stock = max_stock
 }
-
-//TODO: Add a method to inform the central hub of the number of products that need to be replenished per day
