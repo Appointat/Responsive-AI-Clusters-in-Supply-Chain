@@ -1,3 +1,6 @@
+# Description: A simple Flask app that listens for AI requests and returns a response.
+# The app is run in a separate thread to avoid blocking the main thread.
+
 from flask import Flask, request, jsonify
 import threading
 
