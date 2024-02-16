@@ -421,25 +421,6 @@ export default {
       var month = date0.getUTCMonth() + 1; // the month starts from 0, so add 1
       var day = date0.getUTCDate();
       this.date = this.pad(day) + "/" + this.pad(month) + "/" + year;
-      // set events for different markets
-      // Object.entries(generalInfo.event).forEach((table) => {
-      //   let key = table[0];
-      //   let value = table[1];
-      //   switch (key) {
-      //     case "1":
-      //       this.event1 = value;
-      //       break;
-      //     case "2":
-      //       this.event2 = value;
-      //       break;
-      //     case "3":
-      //       this.event3 = value;
-      //       break;
-      //     case "4":
-      //       this.event4 = value;
-      //       break;
-      //   }
-      // });
       this.stock0 = new Map(Object.entries(generalInfo.warehouseProduct));
     },
 
