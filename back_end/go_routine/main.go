@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	// Test the initialization of the outlet
 	outlet.INIT()
-	time.Sleep(6000 * time.Second) // TODO: Keep main function running
+	time.Sleep(6000 * time.Second)
 }
