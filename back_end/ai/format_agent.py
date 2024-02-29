@@ -92,4 +92,3 @@ The context of the conversation is about the anylysis and the calculation of the
                                f"{response.info}")
 
         return msg.content
-
