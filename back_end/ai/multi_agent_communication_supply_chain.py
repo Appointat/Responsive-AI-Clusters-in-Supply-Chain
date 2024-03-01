@@ -87,7 +87,7 @@ While making decisions, the central hub should first consider the neccessary inf
     task_prompt = "In order to help the outlet to handle the upcoming events well, " + \
         "please make decisions based on the known information (you need to show the basis and the thoughts specifically). " + \
         "The standard of the task completion is that the AI assistant (Event Logistics Coordinator of Outlet) MUST make sure every BLANKs in the JSON template are filled with sertain values or strings."
-    # assistant_answer_template = "Even if some BLANKs/NUMs/STRINGs are not moentioned (for example, \"specific_reason_of_replenishment\": \"<BLANCK>\") by the instruction of the AI assistant, you must fill them with sertain values or strings.\n"
+
     answer_template = "===== JSON TEMPLATE =====\n"
     answer_template += json.dumps(response_json, indent=4)
     assistant_answer_template = answer_template
@@ -105,7 +105,7 @@ While making decisions, the central hub should first consider the neccessary inf
         function_list=function_list,
         kwargs=dict(temperature=0.7),
     )
-    # assistant_model_config = ChatGPTConfig(temperature=0.7)
+    assistant_model_config = ChatGPTConfig(temperature=0.7)
     user_model_config = ChatGPTConfig(temperature=0.7)
     sys_msg_meta_dicts = [
         dict(
