@@ -118,8 +118,11 @@ func InitializeHub() {
 	inventory["Baguette"] = product.NewProduct("Baguette", 2000, 50, 300)
 	inventory["Manchego Cheese"] = product.NewProduct("Manchego Cheese", 1500, 40, 400)
 	inventory["Black Tea"] = product.NewProduct("Black Tea", 800, 20, 250)
+
+	// Start the WebSocket server
 	http.HandleFunc("/centralhub", instance.HandleWebSocket)
 	go http.ListenAndServe(":8001", nil)
+
 	// Add the inventory to the central hub
 	instance.SetInventory(inventory)
 }
@@ -152,7 +155,6 @@ func (h *CentralHub) SendRequestToAI(requestData AIRequest) (*AIResponse, error)
 	// If the AI response is nil, return an error
 	if aiResponse.CentralhubStock == nil || aiResponse.ReplenishmentData == nil {
 		log.Printf("AI Response is nil\n")
-		log.Printf("AI Response: %v\n", aiResponse)
 		return nil, fmt.Errorf("AI Response is nil")
 	}
 
@@ -187,11 +189,11 @@ func (h *CentralHub) IntegrateAIResponseToGeneralInfo(event string, date time.Ti
 
 func (h *CentralHub) sendGeneralInfoToFrontEnd(info *GeneralInfo) {
 	// Send the general information to the frontend
-
 	if h.client == nil {
 		fmt.Println("Error in sending general info to front end: h.client is nil")
 		return
 	}
+
 	// Send Post Request to Frontend
 	err := h.client.WriteJSON(info)
 	if err != nil {
