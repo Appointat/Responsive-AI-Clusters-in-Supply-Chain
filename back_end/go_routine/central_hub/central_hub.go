@@ -290,7 +290,8 @@ func (h *CentralHub) HandleEventNotification(outletID string, outletlocation str
 	}
 
 	if event != nil {
-		fmt.Printf("Central Hub %s at %s received notification of event %s\n", h.hubID, h.location, event)
+		fmt.Printf("Central Hub %s at %s received the notification of the event %s\n",
+			h.hubID, h.location, event)
 	}
 
 	return &Response{
