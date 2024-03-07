@@ -14,11 +14,6 @@ The motivation for incorporating AI Agents into warehouse resource allocation st
 2. **Need for Real-Time Decision Making**: The fast-paced nature of warehouse operations demands real-time decision-making. AI Agents can provide this, responding swiftly to changing conditions and requirements. For instance, the outlets need to prepare more merchandise inventory before Christmas.
 3. **Scalability and Flexibility**: AI Agents can scale their operations according to the warehouse’s changing needs, ensuring flexibility and adaptability in resource allocation.
 
-**Necessity**:
-The necessity of AI Agents in this context is underscored by:
-1. **Complexity in Resource Management**: Modern warehouses deal with a wide range of variables in resource management. AI Agents can handle this complexity more effectively than traditional systems.
-2. **Optimizing Operational Efficiency**: There is a continuous need to improve operational efficiency to stay competitive. AI Agents can optimize resource allocation, reducing waste and increasing productivity.
-
 **Advantages**:
 The advantages of using AI Agents and multi-agent systems in warehouse resource allocation include:
 1. **Enhanced Responsiveness to Market Demands**: AI Agents enable warehouses to be more responsive to market changes and consumer demands.
