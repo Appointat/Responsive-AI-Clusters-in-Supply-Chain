@@ -457,7 +457,7 @@ The application of AI multi-agent systems in industries like Amazon represents a
 
 ## Contribution
 
-We are open to contributions! Please read through `CONTRIBUTING.md` for guidelines on how to make a pull request.
+We are open to contributions!
 
 ## License
 
